@@ -1,9 +1,9 @@
-import Image from "next/image";
-
+import ThreeDObject from "@/app/ui/ThreeDObject"
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <h1>Misscoteque</h1>
-    </div>
+    <main className="relative flex min-h-screen flex-col items-center bg-zinc-50 font-sans">
+      <ThreeDObject />
+      <h1 className="absolute top-3/5 left-1/2 -translate-x-1/2 -translate-y-1/2 text-5xl font-bold" >Misscoteque</h1>
+    </main>
   );
 }
