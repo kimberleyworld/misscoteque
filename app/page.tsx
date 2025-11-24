@@ -8,7 +8,7 @@ export default function Home() {
     <main className="relative flex min-h-screen flex-col items-center bg-zinc-50">
       <ThreeDObject />
       <ComingSoon/>
-      <h1 className="absolute top-107 left-1/2 -translate-x-1/2 text-5xl text-black font-bold" >Misscoteque</h1>
+      <h1 className="absolute top-107 left-1/2 -translate-x-1/2 text-5xl text-orange-500 font-bold" >Misscoteque</h1>
       <MusicPlayer />
       <MailerLiteForm />
     </main>
