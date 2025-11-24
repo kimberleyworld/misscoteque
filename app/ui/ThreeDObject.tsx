@@ -2,7 +2,6 @@
 
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF, Environment } from "@react-three/drei";
-import { Suspense } from "react";
 
 function RecordModel() {
   const { scene } = useGLTF("/models/disco_ball.glb");
@@ -15,16 +14,6 @@ function RecordModel() {
     />
   );
 }
-
-function TestCube() {
-  return (
-    <mesh position={[0, 0, 0]}>
-      <sphereGeometry args={[0.5, 32, 32]} />
-      <meshStandardMaterial color="silver" metalness={1} roughness={0.2} />
-    </mesh>
-  );
-}
-
 export default function SpinningRecord() {
   return (
     <div className="w-full h-[700px]">
