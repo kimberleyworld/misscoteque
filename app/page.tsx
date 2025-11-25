@@ -1,14 +1,14 @@
-import ThreeDObject from "@/app/ui/ThreeDObject"
-import ComingSoon from "@/app/ui/ComingSoon";
-import MailerLiteForm from "./ui/MailerLiteForm";
-import MusicPlayer from "./ui/MusicPlayer";
+import ThreeDObject from "@/app/components/ThreeDObject"
+import ComingSoon from "@/app/components/ComingSoon";
+import MailerLiteForm from "./components/MailerLiteForm";
+import MusicPlayer from "./components/MusicPlayer";
 
 export default function Home() {
   return (
     <main className="relative flex min-h-screen flex-col items-center bg-zinc-50">
       <ThreeDObject />
       <ComingSoon/>
-      <h1 className="absolute top-107 left-1/2 -translate-x-1/2 text-5xl text-orange-500 font-bold" >Misscoteque</h1>
+      <h1 className="absolute top-15 left-1/2 -translate-x-1/2 text-6xl text-black font-bold font-[family-name:var(--impact)]">Misscoteque</h1>
       <MusicPlayer />
       <MailerLiteForm />
     </main>
