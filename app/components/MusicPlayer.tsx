@@ -4,8 +4,13 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import SongMarquee from "../components/SongMarquee";
 
+interface MusicPlayerProps {
+  title: string;
+  artist: string;
+  audioUrl: string;
+}
 
-export default function MusicPlayer() {
+export default function MusicPlayer({ title, artist, audioUrl }: MusicPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -33,7 +38,7 @@ export default function MusicPlayer() {
 
   return (
     <div className="">
-      <SongMarquee />
+      <SongMarquee title={title} artist={artist} />
       <div className="absolute top-32 right-5 md:right-40 md:top-45  cursor-pointer" onClick={togglePlay}>
         <div className="relative inline-block">
           <Image
@@ -56,7 +61,7 @@ export default function MusicPlayer() {
           </div>
         </div>
       </div>
-      <audio ref={audioRef} src="/song.mp3" loop />
+      <audio ref={audioRef} src={audioUrl} loop />
     </div>
   );
 }
