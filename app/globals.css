@@ -5,6 +5,7 @@
   --color-orange: #EF7627;
   --color-pink: #F49CBB;
   --color-red: #D52D00;
+  --color-black: #1e1e1e;
   --color-background: #D52D00;
   --color-foreground: #171717;
 }
@@ -16,6 +17,7 @@
   --orange: #EF7627;
   --pink: #F49CBB;
   --red: #D52D00;
+  --black: #1e1e1e;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,4 +31,17 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--code), Helvetica, sans-serif;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
 }
