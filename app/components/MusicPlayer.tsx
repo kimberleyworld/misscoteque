@@ -15,11 +15,12 @@ export default function MusicPlayer({ title, artist, audioUrl }: MusicPlayerProp
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
+    // Try autoplay, but don't show error if blocked
     if (audioRef.current) {
       audioRef.current.play().then(() => {
         setIsPlaying(true);
-      }).catch((error) => {
-        console.log("Autoplay prevented:", error);
+      }).catch(() => {
+        // Autoplay blocked - user will need to click play button
         setIsPlaying(false);
       });
     }
