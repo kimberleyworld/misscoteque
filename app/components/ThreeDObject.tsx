@@ -19,6 +19,8 @@ export default function SpinningRecord() {
     <div className="w-full h-[700px] md:mt-20">
       <Canvas
         camera={{ position: [0, 0, 0.75], fov: 50 }}
+        gl={{ antialias: false }}
+        dpr={[1, 1.5]}
       >
         <color attach="background" args={["#D52D00"]} />
         
@@ -27,7 +29,7 @@ export default function SpinningRecord() {
         <directionalLight position={[-10, 10, 10]} intensity={2} />
         <pointLight position={[0, 0, 5]} intensity={3} />
         
-        <Environment preset="sunset" />
+        <Environment preset="city" resolution={256} />
         <RecordModel />
 
         {/* Auto-rotate camera */}

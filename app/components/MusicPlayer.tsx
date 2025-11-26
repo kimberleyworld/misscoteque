@@ -39,16 +39,23 @@ export default function MusicPlayer({ title, artist, audioUrl }: MusicPlayerProp
   return (
     <div className="">
       <SongMarquee title={title} artist={artist} />
-      <div className="absolute top-32 right-5 md:right-40 md:top-45  cursor-pointer" onClick={togglePlay}>
+      <button 
+        className="absolute top-32 right-5 md:right-40 md:top-45 cursor-pointer focus:outline-none focus:ring-4 focus:ring-cream focus:ring-offset-2 focus:ring-offset-red rounded-full"
+        onClick={togglePlay}
+        aria-label={isPlaying ? `Pause ${title} by ${artist}` : `Play ${title} by ${artist}`}
+        aria-pressed={isPlaying}
+        type="button"
+      >
         <div className="relative inline-block">
           <Image
             src="/star.png"
-            alt="Star"
+            alt=""
             width={100}
             height={100}
             className="transition-opacity hover:opacity-50"
+            aria-hidden="true"
           />
-          <div className="absolute top-15 left-11 -translate-x-1/2 -translate-y-1/2">
+          <div className="absolute top-15 left-11 -translate-x-1/2 -translate-y-1/2" aria-hidden="true">
             {isPlaying ? (
               <svg className="w-6 h-6 text-cream" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
@@ -60,8 +67,9 @@ export default function MusicPlayer({ title, artist, audioUrl }: MusicPlayerProp
             )}
           </div>
         </div>
-      </div>
-      <audio ref={audioRef} src={audioUrl} loop />
+        <span className="sr-only">{isPlaying ? 'Pause' : 'Play'} music</span>
+      </button>
+      <audio ref={audioRef} src={audioUrl} loop aria-label={`Now playing: ${title} by ${artist}`} />
     </div>
   );
 }
