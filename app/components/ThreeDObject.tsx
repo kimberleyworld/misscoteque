@@ -27,7 +27,7 @@ function RecordModel() {
 }
 export default function SpinningRecord() {
   return (
-    <div className="w-full h-[700px] md:mt-20 pointer-events-none">
+    <div className="w-full h-[700px] tall-screen:h-[800px] mt-[5vh] md:mt-[10vh] tall-screen:mt-[14vh] pointer-events-none">
       <Canvas
         camera={{ position: [0, 0, 0.75], fov: 50 }}
         gl={{ antialias: false }}

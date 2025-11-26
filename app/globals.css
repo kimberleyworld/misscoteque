@@ -58,3 +58,13 @@ body {
   white-space: nowrap;
   border-width: 0;
 }
+
+/* Tall screen breakpoint */
+@media (min-height: 700px) {
+  .tall-screen\:h-\[800px\] {
+    height: 800px;
+  }
+  .tall-screen\:mt-\[14vh\] {
+    margin-top: 14vh;
+  }
+}
