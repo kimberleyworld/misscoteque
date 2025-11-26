@@ -1,13 +1,24 @@
 "use client";
 
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, useGLTF, Environment } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { useGLTF, Environment } from "@react-three/drei";
+import { useRef } from "react";
+import * as THREE from "three";
 
 function RecordModel() {
   const { scene } = useGLTF("/models/disco_ball.glb");
+  const meshRef = useRef<THREE.Group>(null);
+
+  // Auto-rotate the model itself instead of camera
+  useFrame(() => {
+    if (meshRef.current) {
+      meshRef.current.rotation.y += 0.01;
+    }
+  });
 
   return (
     <primitive
+      ref={meshRef}
       object={scene}
       position={[0, 0, 0]}
       scale={0.02}
@@ -16,7 +27,7 @@ function RecordModel() {
 }
 export default function SpinningRecord() {
   return (
-    <div className="w-full h-[700px] md:mt-20">
+    <div className="w-full h-[700px] md:mt-20 pointer-events-none">
       <Canvas
         camera={{ position: [0, 0, 0.75], fov: 50 }}
         gl={{ antialias: false }}
@@ -31,15 +42,6 @@ export default function SpinningRecord() {
         
         <Environment preset="city" resolution={256} />
         <RecordModel />
-
-        {/* Auto-rotate camera */}
-        <OrbitControls 
-          enableZoom={false} 
-          autoRotate 
-          autoRotateSpeed={1}
-          minDistance={1}
-          maxDistance={20}
-        />
       </Canvas>
     </div>
   );
