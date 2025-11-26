@@ -15,11 +15,12 @@ export default function MusicPlayer({ title, artist, audioUrl }: MusicPlayerProp
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
+    // Try autoplay, but don't show error if blocked
     if (audioRef.current) {
       audioRef.current.play().then(() => {
         setIsPlaying(true);
-      }).catch((error) => {
-        console.log("Autoplay prevented:", error);
+      }).catch(() => {
+        // Autoplay blocked - user will need to click play button
         setIsPlaying(false);
       });
     }
@@ -40,7 +41,7 @@ export default function MusicPlayer({ title, artist, audioUrl }: MusicPlayerProp
     <div className="">
       <SongMarquee title={title} artist={artist} />
       <button 
-        className="absolute top-32 right-5 md:right-40 md:top-45 cursor-pointer focus:outline-none focus:ring-4 focus:ring-cream focus:ring-offset-2 focus:ring-offset-red rounded-full"
+        className="absolute top-32 right-5 md:right-40 md:top-45 cursor-pointer focus:outline-none focus-visible:ring-4 focus-visible:ring-cream focus-visible:ring-offset-2 focus-visible:ring-offset-red rounded-full"
         onClick={togglePlay}
         aria-label={isPlaying ? `Pause ${title} by ${artist}` : `Play ${title} by ${artist}`}
         aria-pressed={isPlaying}
