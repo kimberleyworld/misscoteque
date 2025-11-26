@@ -12,7 +12,7 @@ function RecordModel() {
   // Auto-rotate the model itself instead of camera
   useFrame(() => {
     if (meshRef.current) {
-      meshRef.current.rotation.y += 0.01;
+      meshRef.current.rotation.y += 0.003;
     }
   });
 
@@ -21,7 +21,7 @@ function RecordModel() {
       ref={meshRef}
       object={scene}
       position={[0, 0, 0]}
-      scale={0.02}
+      scale={0.015}
     />
   );
 }
