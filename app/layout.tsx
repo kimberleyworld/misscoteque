@@ -5,10 +5,10 @@ import { sourceCodePro, racing_sans_one, tinos } from "./ui/fonts";
 
 export const metadata: Metadata = {
   title: "Misscoteque",
-  description: "A new home for queer connection: community noticeboard, archive and more….GAY STUFF.",
+  description: "Archive, community Notice board and more... GAY STUFF",
   openGraph: {
     title: "Misscoteque",
-    description: "A new home for queer connection: community noticeboard, archive and more….GAY STUFF.",
+    description: "Archive, community Notice board and more... GAY STUFF.",
     url: "https:misscoteque.world",
     siteName: "Misscoteque Archive",
     images: [
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Misscoteque",
-    description: "A new home for queer connection: community noticeboard, archive and more….GAY STUFF.",
+    description: "Archive, community Notice board and more... GAY STUFF.",
     images: ["/social-preview.png"],
   },
 };
