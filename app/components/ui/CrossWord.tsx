@@ -1,10 +1,3 @@
-// if i were to creat a browser based crossword, would I create a grid, give each 
-// square an ID. 
-// Users input there letters based on clues 
-// i have a load of conditionals that ontype, checks that squars associated word array
-// if all other letters are there it changes colour 
-// and becomes nclickable
-
 "use client";
 
 import { useState, useRef, useMemo } from "react";
@@ -17,7 +10,7 @@ interface Cell {
   answer: string;
   number?: number;
   belongsTo: string[];
-  isBlack: boolean;
+  isTransparent: boolean;
 }
 
 interface Word {
@@ -37,14 +30,23 @@ interface CrosswordData {
 
 // Sample crossword puzzle data
 const PUZZLE_DATA: CrosswordData = {
-  size: 7,
+  size: 16,
   words: [
-    { id: "1a", clue: "Disco classic venue", answer: "CLUB", direction: "across", startX: 0, startY: 0, number: 1 },
-    { id: "2a", clue: "Dance all night", answer: "PARTY", direction: "across", startX: 2, startY: 2, number: 2 },
-    { id: "3a", clue: "Glitter sphere", answer: "BALL", direction: "across", startX: 0, startY: 4, number: 3 },
-    { id: "1d", clue: "Beat provider", answer: "DJ", direction: "down", startX: 0, startY: 0, number: 1 },
-    { id: "4d", clue: "Groove", answer: "VIBE", direction: "down", startX: 3, startY: 1, number: 4 },
-    { id: "5d", clue: "Sound system", answer: "AUDIO", direction: "down", startX: 5, startY: 2, number: 5 },
+    // Across
+    { id: "6a", clue: "Gay clip for securing things", answer: "CARABINER", direction: "across", startX: 0, startY: 6, number: 6 },
+    { id: "3a", clue: "Masc presenting Lesbian", answer: "BUTCH", direction: "across", startX: 4, startY: 2, number: 3 },
+    { id: "4a", clue: "A strong affinity to femininity", answer: "FEMME", direction: "across", startX: 6, startY: 4, number: 4 },
+    { id: "9a", clue: "BA place to store and record things", answer: "ARCHIVE", direction: "across", startX: 8, startY: 7, number: 9 },
+    { id: "8a", clue: "Typically girl on girl", answer: "LESBIAN", direction: "across", startX: 8, startY: 12, number: 8 },
+    // Down
+    { id: "1d", clue: "Working with wood", answer: "WOODWORK", direction: "down", startX: 2, startY: 0, number: 1 },
+    { id: "2d", clue: "Academic study of identity", answer: "EPHEMERA", direction: "down", startX: 8, startY: 0, number: 2 },
+    { id: "7d", clue: "Doing stuff to change stuff", answer: "ACTIVISM", direction: "down", startX: 10, startY: 6, number: 7},
+    { id: "8d", clue: "Neck decor", answer: "TIES", direction: "down", startX: 12, startY: 6, number: 8 },
+    { id: "5d", clue: "Lesbian slur", answer: "DYKE", direction: "down", startX: 14, startY: 4, number: 5 },
+    { id: "10d", clue: "Gender assigned at birth does not match true gender", answer: "TRANS", direction: "down", startX: 14, startY: 9, number: 10 },
+    { id: "11d", clue: "Not a CD but a...", answer: "VINYL", direction: "down", startX: 12, startY: 11, number: 11 },
+
   ],
 };
 
@@ -61,7 +63,7 @@ const initializeGrid = (): Cell[][] => {
           value: "",
           answer: "",
           belongsTo: [],
-          isBlack: true,
+          isTransparent: true,
         }))
     );
 
@@ -73,7 +75,7 @@ const initializeGrid = (): Cell[][] => {
 
       if (newGrid[y] && newGrid[y][x]) {
         newGrid[y][x].answer = letter;
-        newGrid[y][x].isBlack = false;
+        newGrid[y][x].isTransparent = false;
         newGrid[y][x].belongsTo.push(word.id);
 
         // Add number to starting cell
@@ -90,29 +92,35 @@ const initializeGrid = (): Cell[][] => {
 export default function CrossWord() {
   const [grid, setGrid] = useState<Cell[][]>(initializeGrid);
   const [focusedCell, setFocusedCell] = useState<{ x: number; y: number } | null>(null);
-  const [selectedDirection, setSelectedDirection] = useState<"across" | "down">("across");
+  const [crossedOutClues, setCrossedOutClues] = useState<Set<string>>(new Set());
   const inputRefs = useRef<Map<string, HTMLInputElement>>(new Map());
 
-  // Compute completed words during render
-  const completedWords = useMemo(() => {
-    if (grid.length === 0) return new Set<string>();
+  // Toggle clue strikethrough
+  const toggleClueStrikethrough = (wordId: string) => {
+    setCrossedOutClues(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(wordId)) {
+        newSet.delete(wordId);
+      } else {
+        newSet.add(wordId);
+      }
+      return newSet;
+    });
+  };
 
-    const completed = new Set<string>();
+  // Check if all words are completed
+  const allWordsComplete = useMemo(() => {
+    if (grid.length === 0) return false;
 
-    PUZZLE_DATA.words.forEach((word) => {
+    return PUZZLE_DATA.words.every((word) => {
       const cells = word.answer.split("").map((_, index) => {
         const x = word.direction === "across" ? word.startX + index : word.startX;
         const y = word.direction === "down" ? word.startY + index : word.startY;
         return grid[y]?.[x];
       });
 
-      const isComplete = cells.every((cell) => cell?.value.toUpperCase() === cell?.answer);
-      if (isComplete) {
-        completed.add(word.id);
-      }
+      return cells.every((cell) => cell?.value.toUpperCase() === cell?.answer);
     });
-
-    return completed;
   }, [grid]);
 
   // Handle input
@@ -124,29 +132,6 @@ export default function CrossWord() {
       newGrid[y][x].value = letter;
       return newGrid;
     });
-
-    // Auto-advance to next cell
-    if (letter) {
-      moveToNextCell(x, y);
-    }
-  };
-
-  // Move to next cell based on selected direction
-  const moveToNextCell = (x: number, y: number) => {
-    let nextX = x;
-    let nextY = y;
-
-    if (selectedDirection === "across") {
-      nextX = x + 1;
-    } else {
-      nextY = y + 1;
-    }
-
-    if (grid[nextY]?.[nextX] && !grid[nextY][nextX].isBlack) {
-      setFocusedCell({ x: nextX, y: nextY });
-      const key = `${nextX}-${nextY}`;
-      inputRefs.current.get(key)?.focus();
-    }
   };
 
   // Handle arrow key navigation
@@ -172,66 +157,55 @@ export default function CrossWord() {
         e.preventDefault();
         break;
       case "Backspace":
-        if (!grid[y][x].value) {
-          // Move back if current cell is empty
-          if (selectedDirection === "across") {
-            nextX = x - 1;
-          } else {
-            nextY = y - 1;
-          }
-        }
-        break;
+        // Don't auto-navigate on backspace
+        return;
       default:
         return;
     }
 
-    if (grid[nextY]?.[nextX] && !grid[nextY][nextX].isBlack) {
+    if (grid[nextY]?.[nextX] && !grid[nextY][nextX].isTransparent) {
       setFocusedCell({ x: nextX, y: nextY });
       const key = `${nextX}-${nextY}`;
       inputRefs.current.get(key)?.focus();
     }
   };
 
-  const isCellInCompletedWord = (x: number, y: number) => {
-    if (!grid[y] || !grid[y][x]) return false;
-    return grid[y][x].belongsTo.some((wordId) => completedWords.has(wordId));
-  };
+
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 md:p-8 font-[family-name:var(--code)]">
-      <h2 className="text-4xl md:text-5xl font-[family-name:var(--impact)] text-cream mb-6 text-center">
-        Misscoteque Crossword
-      </h2>
-
-      <div className="flex flex-col md:flex-row gap-8">
-        {/* Crossword Grid */}
-        <div className="flex-1">
+    <div className="max-w-3xl p-4 md:p-8">
+        <div className="flex flex-col gap-8">
+        {/* Crossword Background */}
+        <div className="flex-shrink-0 mx-auto">
           <div
-            className="inline-grid gap-[2px] bg-black p-1 rounded-lg"
+            className="inline-grid gap-[2px] p-15"
             style={{
               gridTemplateColumns: `repeat(${PUZZLE_DATA.size}, 1fr)`,
+              backgroundImage: "url('/images/cw-bg.png')",
+              backgroundSize: "85%",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
             }}
           >
             {grid.map((row, y) =>
               row.map((cell, x) => {
                 const key = `${x}-${y}`;
-                const isCompleted = isCellInCompletedWord(x, y);
                 const isFocused = focusedCell?.x === x && focusedCell?.y === y;
 
-                if (cell.isBlack) {
+                if (cell.isTransparent) {
                   return (
                     <div
                       key={key}
-                      className="w-10 h-10 md:w-12 md:h-12 bg-black"
+                      className="w-0.5 h-0.5 bg-transparent"
                       aria-hidden="true"
                     />
                   );
                 }
 
                 return (
-                  <div key={key} className="relative w-10 h-10 md:w-12 md:h-12">
+                  <div key={key} className="relative w-4 h-4 md:w-6 md:h-6">
                     {cell.number && (
-                      <span className="absolute top-0 left-1 text-[10px] font-bold text-black z-10">
+                      <span className="absolute top-0 left-0.5 text-[8px] md:text-[10px] font-bold text-black z-10">
                         {cell.number}
                       </span>
                     )}
@@ -246,13 +220,13 @@ export default function CrossWord() {
                       onChange={(e) => handleInput(x, y, e.target.value)}
                       onKeyDown={(e) => handleKeyDown(e, x, y)}
                       onFocus={() => setFocusedCell({ x, y })}
-                      className={`w-full h-full text-center text-lg md:text-xl font-bold uppercase border-2 transition-colors ${
-                        isCompleted
+                      className={`w-full h-full text-center text-xs md:text-sm uppercase border-2 transition-colors ${
+                        allWordsComplete
                           ? "bg-pink text-black border-pink"
                           : isFocused
-                          ? "bg-cream text-black border-orange"
-                          : "bg-cream text-black border-cream hover:border-orange"
-                      } focus:outline-none focus:ring-2 focus:ring-orange`}
+                          ? "bg-cream text-black border-red"
+                          : "bg-cream text-black border-cream hover:border-red"
+                      } focus:outline-none focus:ring-2 focus:ring-red`}
                       aria-label={`Cell ${x + 1}, ${y + 1}`}
                     />
                   </div>
@@ -260,48 +234,25 @@ export default function CrossWord() {
               })
             )}
           </div>
-
-          {/* Direction Toggle */}
-          <div className="mt-4 flex gap-2 justify-center">
-            <button
-              onClick={() => setSelectedDirection("across")}
-              className={`px-4 py-2 rounded font-bold transition-colors ${
-                selectedDirection === "across"
-                  ? "bg-orange text-black"
-                  : "bg-cream text-black hover:bg-pink"
-              }`}
-            >
-              Across
-            </button>
-            <button
-              onClick={() => setSelectedDirection("down")}
-              className={`px-4 py-2 rounded font-bold transition-colors ${
-                selectedDirection === "down"
-                  ? "bg-orange text-black"
-                  : "bg-cream text-black hover:bg-pink"
-              }`}
-            >
-              Down
-            </button>
-          </div>
         </div>
 
         {/* Clues */}
-        <div className="flex-1 space-y-6">
-          <div>
-            <h3 className="text-2xl font-[family-name:var(--impact)] text-cream mb-3">
+        <div className="flex flex-col md:flex-row gap-8">
+          <div className="flex-1">
+            <h3 className="text-xl text-black font-bold">
               Across
             </h3>
-            <ul className="space-y-2">
+            <ul className="">
               {PUZZLE_DATA.words
                 .filter((w) => w.direction === "across")
                 .map((word) => (
                   <li
                     key={word.id}
-                    className={`${
-                      completedWords.has(word.id)
+                    onClick={() => toggleClueStrikethrough(word.id)}
+                    className={`cursor-pointer hover:text-red transition-colors ${
+                      crossedOutClues.has(word.id)
                         ? "text-pink line-through"
-                        : "text-cream"
+                        : "text-black"
                     }`}
                   >
                     <span className="font-bold">{word.number}.</span> {word.clue}
@@ -310,20 +261,21 @@ export default function CrossWord() {
             </ul>
           </div>
 
-          <div>
-            <h3 className="text-2xl font-[family-name:var(--impact)] text-cream mb-3">
+          <div className="flex-1">
+            <h3 className="text-xl text-black font-bold">
               Down
             </h3>
-            <ul className="space-y-2">
+            <ul className="">
               {PUZZLE_DATA.words
                 .filter((w) => w.direction === "down")
                 .map((word) => (
                   <li
                     key={word.id}
-                    className={`${
-                      completedWords.has(word.id)
+                    onClick={() => toggleClueStrikethrough(word.id)}
+                    className={`cursor-pointer hover:text-red transition-colors ${
+                      crossedOutClues.has(word.id)
                         ? "text-pink line-through"
-                        : "text-cream"
+                        : "text-black"
                     }`}
                   >
                     <span className="font-bold">{word.number}.</span> {word.clue}
@@ -332,14 +284,6 @@ export default function CrossWord() {
             </ul>
           </div>
         </div>
-      </div>
-
-      {/* Progress */}
-      <div className="mt-6 text-center">
-        <p className="text-cream text-lg">
-          Completed: <span className="font-bold text-pink">{completedWords.size}</span> /{" "}
-          {PUZZLE_DATA.words.length}
-        </p>
       </div>
     </div>
   );
