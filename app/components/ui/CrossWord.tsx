@@ -173,16 +173,16 @@ export default function CrossWord() {
 
 
   return (
-    <div className="max-w-3xl p-4 md:p-8">
-        <div className="flex flex-col gap-8">
+    <div className="max-w-3xl mx-auto mt-10">
+        <div className="flex flex-col md:flex-row items-start">
         {/* Crossword Background */}
-        <div className="flex-shrink-0 mx-auto">
+        <div className="">
           <div
-            className="inline-grid gap-[2px] p-15"
+            className="inline-grid gap-[1px] p-10"
             style={{
               gridTemplateColumns: `repeat(${PUZZLE_DATA.size}, 1fr)`,
               backgroundImage: "url('/images/cw-bg.png')",
-              backgroundSize: "85%",
+              backgroundSize: "100%",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
             }}
@@ -196,16 +196,16 @@ export default function CrossWord() {
                   return (
                     <div
                       key={key}
-                      className="w-0.5 h-0.5 bg-transparent"
+                      className="w-1 h-1 md:w-0.5 md:h-0.5 bg-transparent"
                       aria-hidden="true"
                     />
                   );
                 }
 
                 return (
-                  <div key={key} className="relative w-4 h-4 md:w-6 md:h-6">
+                  <div key={key} className="relative w-6 h-6 md:w-6 md:h-6">
                     {cell.number && (
-                      <span className="absolute top-0 left-0.5 text-[8px] md:text-[10px] font-bold text-black z-10">
+                      <span className="absolute top-0 left-0.5 text-[10px] md:text-[10px] font-bold text-black z-10">
                         {cell.number}
                       </span>
                     )}
@@ -220,7 +220,7 @@ export default function CrossWord() {
                       onChange={(e) => handleInput(x, y, e.target.value)}
                       onKeyDown={(e) => handleKeyDown(e, x, y)}
                       onFocus={() => setFocusedCell({ x, y })}
-                      className={`w-full h-full text-center text-xs md:text-sm uppercase border-2 transition-colors ${
+                      className={`w-full h-full text-center text-sm md:text-sm uppercase border-2 transition-colors ${
                         allWordsComplete
                           ? "bg-pink text-black border-pink"
                           : isFocused
@@ -237,8 +237,8 @@ export default function CrossWord() {
         </div>
 
         {/* Clues */}
-        <div className="flex flex-col md:flex-row gap-8">
-          <div className="flex-1">
+        <div className="flex flex-col gap-2 ml-4">
+          <div>
             <h3 className="text-xl text-black font-bold">
               Across
             </h3>
@@ -261,7 +261,7 @@ export default function CrossWord() {
             </ul>
           </div>
 
-          <div className="flex-1">
+          <div>
             <h3 className="text-xl text-black font-bold">
               Down
             </h3>
