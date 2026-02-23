@@ -173,7 +173,7 @@ export default function CrossWord() {
 
 
   return (
-    <div className="max-w-3xl mx-auto mt-10">
+    <div className="">
         <div className="flex flex-col md:flex-row items-start">
         {/* Crossword Background */}
         <div className="">

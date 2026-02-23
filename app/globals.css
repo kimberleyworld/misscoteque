@@ -1,9 +1,16 @@
 @import "tailwindcss";
 
+@layer base {
+  h1 {
+    @apply text-4xl md:text-6xl font-bold uppercase;
+  }
+}
+
 @theme {
   --color-cream: #F0D6B4;
   --color-orange: #EF7627;
   --color-pink: #F49CBB;
+  --color-purple: #795bff;
   --color-red: #D52D00;
   --color-black: #1e1e1e;
   --color-background: #D52D00;
@@ -18,6 +25,7 @@
   --pink: #F49CBB;
   --red: #D52D00;
   --black: #1e1e1e;
+  --purple: #795bff;
 }
 
 @media (prefers-color-scheme: dark) {

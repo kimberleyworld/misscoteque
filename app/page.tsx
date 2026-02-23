@@ -1,9 +1,13 @@
-import CrossWord from "./components/ui/CrossWord";
 import NavStars from "./components/layout/nav-stars";
 import Image from "next/image";
-import NextEvent from "./components/layout/next-event";
+import EventCard from "./components/ui/event-card";
+import { getNextEvent } from "@/lib/getNextEvent";
+import CrosswordSection from "./components/layout/crossword-section";
+import CommunityNoticeBoard from "./components/layout/community-notice-board";
 
 export default async function Home() {
+  const nextEvent = await getNextEvent()
+
   return (
     <main className="relative flex min-h-screen flex-col items-center">
       <div className="bg-red w-full">
@@ -18,11 +22,16 @@ export default async function Home() {
         className="w-full md:w-2/3 h-auto max-w-md md:max-w-3xl absolute -translate-y-6 md:-translate-y-12"
       />
       </div>
-      <div className="w-full bg-cream text-black pt-40 md:pt-54 pb-10 md:pb-20 px-4 flex justify-center flex-col">
-        <NextEvent />
-        <CrossWord />
+      <div className="w-full bg-cream text-black pt-40 md:pt-54 pb-10 md:pb-20 px-4 flex justify-center flex-col items-center gap-8">
+        <EventCard 
+        eventDate={nextEvent.eventDate}
+        eventTime={nextEvent.eventTime}
+        ticketUrl={nextEvent.ticketUrl}
+        eventDescription={nextEvent.eventDescription}
+      />
+        <CrosswordSection/>
+        <CommunityNoticeBoard />
       </div>
-      <div className="w-full bg-red h-64 md:h-96"></div>
     </main>
   );
 }
