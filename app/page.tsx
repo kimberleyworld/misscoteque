@@ -4,6 +4,7 @@ import EventCard from "./components/ui/event-card";
 import { getNextEvent } from "@/lib/getNextEvent";
 import CrosswordSection from "./components/layout/crossword-section";
 import CommunityNoticeBoard from "./components/layout/community-notice-board";
+import {ArchiveForm} from "@/app/components//layout/archive-form";
 
 export default async function Home() {
   const nextEvent = await getNextEvent()
@@ -31,6 +32,7 @@ export default async function Home() {
       />
         <CrosswordSection/>
         <CommunityNoticeBoard />
+        <ArchiveForm />
       </div>
     </main>
   );

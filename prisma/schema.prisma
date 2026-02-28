@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Archive {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String?  @unique
+  description String?  @db.Text
+  content     String?  @db.Text
+  imageUrl    String?
+  eventDate   DateTime?
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("archive")
+}
+
+model CommunityNotice {
+  id        String   @id @default(cuid())
+  title     String
+  message   String   @db.Text
+  category  String?
+  startAt   DateTime?
+  endAt     DateTime?
+  isPinned  Boolean  @default(false)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("community_notice_board")
+}
