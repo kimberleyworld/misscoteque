@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Script from "next/script";
 import { sourceCodePro, racing_sans_one, tinos } from "./ui/fonts";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Misscoteque",
@@ -49,8 +50,19 @@ export default function RootLayout({
     ml('account', '1936013');`}
         </Script>
       </head>
-      <body>
+      <body suppressHydrationWarning={true}>
         {children}
+        <Toaster 
+          theme="dark" 
+          position="bottom-right"
+          toastOptions={{
+            style: {
+              background: 'hsl(var(--color-cream) / 0.1)',
+              border: '1px solid hsl(var(--color-pink) / 0.3)',
+              color: 'hsl(var(--color-cream))',
+            },
+          }}
+        />
       </body>
     </html>
   );

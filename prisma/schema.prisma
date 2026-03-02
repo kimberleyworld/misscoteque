@@ -12,7 +12,11 @@ model Archive {
   slug        String?  @unique
   description String?  @db.Text
   content     String?  @db.Text
-  imageUrl    String?
+  URL         String?
+  fileData    Bytes?
+  fileName    String?
+  fileMimeType String?
+  fileSize    Int?
   eventDate   DateTime?
   isPublished Boolean  @default(true)
   createdAt   DateTime @default(now())
