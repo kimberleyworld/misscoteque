@@ -53,10 +53,11 @@ export async function POST(request: NextRequest) {
     if (file) {
       const maxImageSize = 2 * 1024 * 1024
       const maxAudioSize = 5 * 1024 * 1024
+      const maxPdfSize = 10 * 1024 * 1024
 
       const mimeType = file.type.toLowerCase()
       let maxSize: number
-      let subfolder: "images" | "audio"
+      let subfolder: "images" | "audio" | "pdfs"
 
       if (mimeType.startsWith("image/")) {
         maxSize = maxImageSize
@@ -64,9 +65,12 @@ export async function POST(request: NextRequest) {
       } else if (mimeType.startsWith("audio/")) {
         maxSize = maxAudioSize
         subfolder = "audio"
+      } else if (mimeType === "application/pdf") {
+        maxSize = maxPdfSize
+        subfolder = "pdfs"
       } else {
         return NextResponse.json(
-          { error: "Unsupported file type. Allowed: image/*, audio/*" },
+          { error: "Unsupported file type. Allowed: image/*, audio/*, .pdf" },
           { status: 400 }
         )
       }

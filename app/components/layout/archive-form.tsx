@@ -31,11 +31,11 @@ import {
 const formSchema = z.object({
   title: z
     .string()
-    .min(5, "Title must be at least 5 characters.")
+    .min(1, "Title must be at least 1 character.")
     .max(100, "Title must be at most 100 characters."),
   description: z
     .string()
-    .min(20, "Description must be at least 20 characters.")
+    .min(1, "Description must be at least 1 character.")
     .max(500, "Description must be at most 500 characters."),
   content: z
     .string()
@@ -54,6 +54,7 @@ const formSchema = z.object({
 export function ArchiveForm() {
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null)
+  const fileInputRef = React.useRef<HTMLInputElement>(null)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -232,15 +233,15 @@ export function ArchiveForm() {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="archive-form-image" className="text-black">
-                    URL (Optional)
+                  <FieldLabel htmlFor="archive-form-url" className="text-black">
+                    URL
                   </FieldLabel>
                   <Input
                     {...field}
-                    id="archive-form-image"
+                    id="archive-form-url"
                     type="url"
                     aria-invalid={fieldState.invalid}
-                    placeholder="https://example.com/your-image.jpg"
+                    placeholder="https://example.com"
                     className="bg-cream/5 border-orange/30 text-black placeholder:text-black/50"
                     disabled={isSubmitting}
                   />
@@ -248,7 +249,7 @@ export function ArchiveForm() {
                     <FieldError errors={[fieldState.error]} />
                   )}
                   <FieldDescription>
-                    Optional manual URL. If a file is uploaded below, the uploaded file URL is used.
+                    If your entry is hosted elsewhere (e.g. a SoundCloud, YouTube, or a webpage), you can provide the URL here.
                   </FieldDescription>
                 </Field>
               )}
@@ -256,21 +257,30 @@ export function ArchiveForm() {
 
             <Field>
               <FieldLabel htmlFor="archive-form-file" className="text-black">
-                Upload Image or Audio (Optional)
+                Upload a file
               </FieldLabel>
-              <Input
+              <input
                 id="archive-form-file"
                 type="file"
-                accept="image/*,audio/*"
-                className="bg-cream/5 border-orange/30 text-black file:text-black"
+                accept="image/*,audio/*,.pdf"
+                ref={fileInputRef}
+                className="hidden"
                 disabled={isSubmitting}
                 onChange={(event) => {
                   const nextFile = event.target.files?.[0] ?? null
                   setSelectedFile(nextFile)
                 }}
               />
+              <Button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                className="bg-orange/10 border-orange/30 border text-black hover:bg-orange/20"
+                disabled={isSubmitting}
+              >
+                {selectedFile ? `Selected: ${selectedFile.name}` : "Choose File"}
+              </Button>
               <FieldDescription>
-                Max size: 2MB for images, 5MB for audio. If selected, this upload URL is used instead of the manual URL field.
+                Max size: 2MB for images, 5MB for audio, 10MB for PDFs. Supported formats: JPEG, PNG, GIF for images; MP3, WAV for audio; PDF documents.
               </FieldDescription>
             </Field>
 
@@ -280,7 +290,7 @@ export function ArchiveForm() {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="archive-form-date" className="text-black">
-                    Date of publish (Optional)
+                    Date of publish
                   </FieldLabel>
                   <Input
                     {...field}
