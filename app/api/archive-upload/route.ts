@@ -36,9 +36,9 @@ export async function POST(request: NextRequest) {
     const fileEntry = data.get("file")
     const file = fileEntry instanceof File && fileEntry.size > 0 ? fileEntry : null
 
-    if (!title || !description || !content) {
+    if (!title || !description) {
       return NextResponse.json(
-        { error: "Title, description, and content are required" },
+        { error: "Title and description are required" },
         { status: 400 }
       )
     }

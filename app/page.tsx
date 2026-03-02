@@ -5,6 +5,8 @@ import { getNextEvent } from "@/lib/getNextEvent";
 import CrosswordSection from "./components/layout/crossword-section";
 import CommunityNoticeBoard from "./components/layout/community-notice-board";
 import {ArchiveForm} from "@/app/components//layout/archive-form";
+import { Button } from "./components/ui/button";
+import Link from "next/link";
 
 export default async function Home() {
   const nextEvent = await getNextEvent()
@@ -24,6 +26,11 @@ export default async function Home() {
       />
       </div>
       <div className="w-full bg-cream text-black pt-40 md:pt-54 pb-10 md:pb-20 px-4 flex justify-center flex-col items-center gap-8">
+        <Link href="/artifacts" className="inline-block">
+          <Button className="bg-pink hover:bg-pink/90 text-black font-impact rounded-none">
+            View the Archive →
+          </Button>
+        </Link>
         <EventCard 
         eventDate={nextEvent.eventDate}
         eventTime={nextEvent.eventTime}

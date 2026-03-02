@@ -39,8 +39,9 @@ const formSchema = z.object({
     .max(500, "Description must be at most 500 characters."),
   content: z
     .string()
-    .min(50, "Content must be at least 50 characters.")
-    .max(2000, "Content must be at most 2000 characters."),
+    .max(2000, "Content must be at most 2000 characters.")
+    .optional()
+    .or(z.literal("")),
   URL: z
     .string()
     .url("Please enter a valid URL.")
@@ -74,7 +75,7 @@ export function ArchiveForm() {
       const payload = new FormData()
       payload.append("title", data.title)
       payload.append("description", data.description)
-      payload.append("content", data.content)
+      payload.append("content", data.content || "")
       payload.append("URL", data.URL || "")
       payload.append("eventDate", data.eventDate || "")
 
@@ -109,7 +110,8 @@ export function ArchiveForm() {
       
       toast("Submitted to the archive! ✨", {
         description: "Your piece has been submitted, it will be reviewed and then added to the archive usually within a week. We will email you when it is published if you opted in for notifications.",
-        position: "bottom-right",
+        position: "top-center",
+        duration: 7000,
         classNames: {
           content: "flex flex-col gap-2",
         },
@@ -203,7 +205,7 @@ export function ArchiveForm() {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="archive-form-content" className="text-black">
-                    Content
+                    Content (Optional)
                   </FieldLabel>
                   <InputGroup className="border-orange/30">
                     <InputGroupTextarea
@@ -217,7 +219,7 @@ export function ArchiveForm() {
                     />
                     <InputGroupAddon align="block-end">
                       <InputGroupText className="tabular-nums text-black/60 bg-cream/5 border-orange/30">
-                        {field.value.length}/2000
+                        {(field.value ?? "").length}/2000
                       </InputGroupText>
                     </InputGroupAddon>
                   </InputGroup>
