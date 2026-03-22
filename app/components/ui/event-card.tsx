@@ -1,5 +1,3 @@
-"use client"
-
 import { Button } from "@/app/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -18,10 +16,6 @@ function EventCard({
   ticketUrl = "https://www.headfirstbristol.co.uk/whats-on/bridge-farm/tue-7-oct-soft-spot-138665#e138665",
   className = ""
 }: EventCardProps) {
-  const handleGetTickets = () => {
-    window.open(ticketUrl, "_blank", "noopener,noreferrer")
-  }
-
   return (
     <div
       className={cn(
@@ -38,9 +32,11 @@ function EventCard({
         <p>{eventDescription}</p>
       </div>
       <div>
-        <Button type="button" onClick={handleGetTickets}>
-          Get tickets
-        </Button>
+        <a href={ticketUrl} target="_blank" rel="noopener noreferrer">
+          <Button type="button" asChild>
+            Get tickets
+          </Button>
+        </a>
       </div>
     </div>
   )

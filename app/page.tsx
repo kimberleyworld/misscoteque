@@ -7,6 +7,7 @@ import CommunityNoticeBoard from "./components/layout/community-notice-board";
 import {ArchiveForm} from "@/app/components//layout/archive-form";
 import { Button } from "./components/ui/button";
 import Link from "next/link";
+import { CommunityNoticeForm } from "./components/layout/notice-form";
 
 export default async function Home() {
   const nextEvent = await getNextEvent()
@@ -39,6 +40,7 @@ export default async function Home() {
       />
         <CrosswordSection/>
         <CommunityNoticeBoard />
+        <CommunityNoticeForm />
         <ArchiveForm />
       </div>
     </main>
