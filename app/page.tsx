@@ -1,19 +1,20 @@
 import NavStars from "./components/layout/nav-stars";
 import Image from "next/image";
 import EventCard from "./components/ui/event-card";
-import { getNextEvent } from "@/lib/getNextEvent";
+import { getUpcomingEvents } from "@/lib/getUpcomingEvents";
 import { getRecentNotices } from "@/lib/getRecentNotices";
 import CrosswordSection from "./components/layout/crossword-section";
-import CommunityNoticeBoard from "./components/layout/community-notice-board";
 import {ArchiveForm} from "@/app/components//layout/archive-form";
 import { Button } from "./components/ui/button";
 import Link from "next/link";
 import { CommunityNoticeForm } from "./components/layout/notice-form";
 import { NoticesCarousel } from "./components/layout/notices-carousel";
+import { EventsCarousel } from "./components/layout/events-carousel";
 
 export default async function Home() {
-  const nextEvent = await getNextEvent()
+  const upcomingEvents = await getUpcomingEvents()
   const recentNotices = await getRecentNotices()
+  const nextEvent = upcomingEvents[0]
 
   return (
     <main className="relative flex min-h-screen flex-col items-center">
@@ -36,14 +37,16 @@ export default async function Home() {
           </Button>
         </Link>
         <EventCard 
-        eventDate={nextEvent.eventDate}
-        eventTime={nextEvent.eventTime}
-        ticketUrl={nextEvent.ticketUrl}
-        eventDescription={nextEvent.eventDescription}
+        eventDate={nextEvent?.eventDate}
+        eventTime={nextEvent?.eventTime}
+        ticketUrl={nextEvent?.ticketUrl}
+        eventDescription={nextEvent?.eventDescription}
+        imageUrl={nextEvent?.imageUrl}
+        imageAlt={nextEvent?.imageAlt}
       />
+        {upcomingEvents.length > 1 && <EventsCarousel events={upcomingEvents} />}
         {recentNotices.length > 0 && <NoticesCarousel notices={recentNotices} />}
         <CrosswordSection/>
-        <CommunityNoticeBoard />
         <CommunityNoticeForm />
         <ArchiveForm />
       </div>

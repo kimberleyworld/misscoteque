@@ -1,11 +1,15 @@
 import { Button } from "@/app/components/ui/button"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
 
 interface EventCardProps {
   eventDate?: string
   eventTime?: string
   eventDescription?: string
   ticketUrl?: string
+  imageUrl?: string
+  imageAlt?: string
+  variant?: "banner" | "carousel"
   className?: string
 }
 
@@ -13,28 +17,45 @@ function EventCard({
   eventDate = "Tuesday 7th October",
   eventTime = "19:00",
   eventDescription = "No description written yet, hold tight.",
-  ticketUrl = "https://www.headfirstbristol.co.uk/whats-on/bridge-farm/tue-7-oct-soft-spot-138665#e138665",
+  ticketUrl = "https://www.headfirstbristol.co.uk/",
+  imageUrl,
+  imageAlt = "Event image",
+  variant = "banner",
   className = ""
 }: EventCardProps) {
+  const isBanner = variant === "banner"
+  
   return (
     <div
       className={cn(
-        "border-4 border-orange w-3xl px-8 py-4 flex flex-row justify-between items-center",
+        "w-full max-w-3xl px-8 py-4 flex flex-col md:flex-row justify-between items-stretch gap-4",
+        isBanner ? "border-4 border-orange" : "border-b-4 border-black",
         className
       )}
     >
-      <div>
+      {imageUrl && (
+        <div className="w-full md:w-1/4 flex-shrink-0 relative h-40 md:h-auto">
+          <Image
+            src={imageUrl}
+            alt={imageAlt}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 25vw"
+          />
+        </div>
+      )}
+      <div className={imageUrl ? "md:w-1/3" : "flex-1"}>
         <h1 className="text-2xl font-bold">next event</h1>
-        <p>{eventDate}</p>
-        <p>{eventTime}</p>
+        <p className="font-semibold">{eventDate}</p>
+        <p className="text-sm">{eventTime}</p>
       </div>
-      <div className="w-1/3">
-        <p>{eventDescription}</p>
+      <div className={imageUrl ? "md:w-1/4" : "flex-1"}>
+        <p className="text-sm">{eventDescription}</p>
       </div>
-      <div>
+      <div className="flex items-center">
         <a href={ticketUrl} target="_blank" rel="noopener noreferrer">
           <Button type="button" asChild>
-            Get tickets
+            {isBanner ? "Get tickets" : "More Info"}
           </Button>
         </a>
       </div>
