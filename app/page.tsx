@@ -2,15 +2,18 @@ import NavStars from "./components/layout/nav-stars";
 import Image from "next/image";
 import EventCard from "./components/ui/event-card";
 import { getNextEvent } from "@/lib/getNextEvent";
+import { getRecentNotices } from "@/lib/getRecentNotices";
 import CrosswordSection from "./components/layout/crossword-section";
 import CommunityNoticeBoard from "./components/layout/community-notice-board";
 import {ArchiveForm} from "@/app/components//layout/archive-form";
 import { Button } from "./components/ui/button";
 import Link from "next/link";
 import { CommunityNoticeForm } from "./components/layout/notice-form";
+import { NoticesCarousel } from "./components/layout/notices-carousel";
 
 export default async function Home() {
   const nextEvent = await getNextEvent()
+  const recentNotices = await getRecentNotices()
 
   return (
     <main className="relative flex min-h-screen flex-col items-center">
@@ -38,6 +41,7 @@ export default async function Home() {
         ticketUrl={nextEvent.ticketUrl}
         eventDescription={nextEvent.eventDescription}
       />
+        {recentNotices.length > 0 && <NoticesCarousel notices={recentNotices} />}
         <CrosswordSection/>
         <CommunityNoticeBoard />
         <CommunityNoticeForm />
