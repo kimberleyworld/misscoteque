@@ -6,6 +6,48 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 const BUCKET_NAME = "archive-assets"
 
+// In-memory rate limiting store (IP address -> last submission timestamp)
+const submissionStore = new Map<string, number>()
+const RATE_LIMIT_WINDOW = 24 * 60 * 60 * 1000 // 24 hours in milliseconds (stricter for uploads)
+
+// Sanitize input to prevent XSS attacks (remove HTML tags and scripts)
+function sanitizeInput(input: string): string {
+  return input
+    .replace(/<[^>]*>/g, "") // Remove HTML tags
+    .replace(/javascript:/gi, "") // Remove javascript: protocol
+    .trim()
+}
+
+// Get client IP address
+function getClientIp(request: NextRequest): string {
+  return (
+    request.headers.get("x-forwarded-for")?.split(",")[0] ||
+    request.headers.get("x-real-ip") ||
+    "unknown"
+  )
+}
+
+// Check rate limit
+function checkRateLimit(ip: string): { allowed: boolean; remainingMs?: number } {
+  const now = Date.now()
+  const lastSubmission = submissionStore.get(ip)
+
+  if (!lastSubmission) {
+    submissionStore.set(ip, now)
+    return { allowed: true }
+  }
+
+  const timeSinceLastSubmission = now - lastSubmission
+  if (timeSinceLastSubmission < RATE_LIMIT_WINDOW) {
+    const remainingMs = RATE_LIMIT_WINDOW - timeSinceLastSubmission
+    return { allowed: false, remainingMs }
+  }
+
+  // Update the timestamp for this IP
+  submissionStore.set(ip, now)
+  return { allowed: true }
+}
+
 function getSupabaseClient() {
   if (!supabaseUrl || !supabaseServiceRoleKey) {
     throw new Error(
@@ -27,14 +69,52 @@ function generateSlug(title: string): string {
 
 export async function POST(request: NextRequest) {
   try {
+    // Check rate limit first
+    const clientIp = getClientIp(request)
+    const rateLimitCheck = checkRateLimit(clientIp)
+
+    if (!rateLimitCheck.allowed) {
+      const hoursRemaining = Math.ceil((rateLimitCheck.remainingMs || 0) / (60 * 60 * 1000))
+      return NextResponse.json(
+        { error: `Too many uploads. Please try again in ${hoursRemaining} hour(s).` },
+        { status: 429 }
+      )
+    }
+
     const data = await request.formData()
-    const title = data.get("title")?.toString().trim() ?? ""
-    const description = data.get("description")?.toString().trim() ?? ""
-    const content = data.get("content")?.toString().trim() ?? ""
-    const manualUrl = data.get("URL")?.toString().trim() ?? ""
+    let title = data.get("title")?.toString().trim() ?? ""
+    let description = data.get("description")?.toString().trim() ?? ""
+    let content = data.get("content")?.toString().trim() ?? ""
+    let manualUrl = data.get("URL")?.toString().trim() ?? ""
     const eventDateRaw = data.get("eventDate")?.toString().trim() ?? ""
     const fileEntry = data.get("file")
     const file = fileEntry instanceof File && fileEntry.size > 0 ? fileEntry : null
+
+    // Sanitize all inputs
+    title = sanitizeInput(title)
+    description = sanitizeInput(description)
+    content = sanitizeInput(content)
+    manualUrl = sanitizeInput(manualUrl)
+
+    // Validate input lengths to prevent abuse
+    if (title.length > 200) {
+      return NextResponse.json(
+        { error: "Title must be less than 200 characters" },
+        { status: 400 }
+      )
+    }
+    if (description.length > 2000) {
+      return NextResponse.json(
+        { error: "Description must be less than 2000 characters" },
+        { status: 400 }
+      )
+    }
+    if (content.length > 5000) {
+      return NextResponse.json(
+        { error: "Content must be less than 5000 characters" },
+        { status: 400 }
+      )
+    }
 
     if (!title || !description) {
       return NextResponse.json(
@@ -171,9 +251,7 @@ export async function POST(request: NextRequest) {
     console.error("Archive upload error:", error)
 
     return NextResponse.json(
-      {
-        error: error instanceof Error ? error.message : "Failed to upload file",
-      },
+      { error: "Failed to upload archive entry. Please try again later." },
       { status: 500 }
     )
   }
