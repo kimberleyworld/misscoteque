@@ -19,3 +19,16 @@ export interface DatoCMSEvent {
 export interface DatoCMSEventsResponse {
   allEvents: DatoCMSEvent[]
 }
+
+export interface DatoCMSSong {
+  id: string
+  title: string
+  artist: string
+  song: {
+    url: string
+  }
+}
+
+export interface DatoCMSMarqueSongResponse {
+  marqueSong: DatoCMSSong
+}

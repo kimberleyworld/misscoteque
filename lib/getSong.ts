@@ -1,10 +1,5 @@
-import { Entry } from "contentful";
-import { contentfulClient } from "./contentful";
-import { GlobalSettingsSkeleton } from "@/types/contentful";
-
-const DEFAULT_AUDIO_URL = "./public/song.mp3";
-const DEFAULT_TITLE = "CHECK Automatic Lover";
-const DEFAULT_ARTIST = "Dee D.Jackson";
+import { datocmsClient } from "./datocms";
+import { DatoCMSMarqueSongResponse } from "@/types/datocms";
 
 type SongData = {
   title: string;
@@ -12,32 +7,41 @@ type SongData = {
   audioUrl: string;
 };
 
-export async function getSong(): Promise<SongData> {
-  const response = await contentfulClient.getEntries<GlobalSettingsSkeleton>({
-    content_type: "globalSettings",
-    limit: 1,
-  });
-
-  const entry: Entry<GlobalSettingsSkeleton> | undefined = response.items[0];
-
-  if (!entry) {
-    return {
-      title: DEFAULT_TITLE,
-      artist: DEFAULT_ARTIST,
-      audioUrl: DEFAULT_AUDIO_URL,
-    };
+const SONG_QUERY = `
+  query {
+    marqueSong {
+      id
+      title
+      artist
+      song {
+        url
+      }
+    }
   }
+`;
 
-  const { fields } = entry;
+export async function getSong(): Promise<SongData | null> {
+  try {
+    const response = await datocmsClient.request<DatoCMSMarqueSongResponse>(SONG_QUERY);
 
-  // runtime check: ensure songFile exists
-  const songFile = fields.songFile as unknown as { fields?: { file?: { url?: string } } };
-  const audioUrl =
-    songFile?.fields?.file?.url ?? DEFAULT_AUDIO_URL;
+    if (!response?.marqueSong) {
+      return null;
+    }
 
-  return {
-    title: String(fields.songTitle || DEFAULT_TITLE),
-    artist: String(fields.songArtist || DEFAULT_ARTIST),
-    audioUrl: audioUrl.startsWith("http") ? audioUrl : `https:${audioUrl}`,
-  };
+    const { title, artist, song } = response.marqueSong;
+
+    // Only return if we have all required data
+    if (!title || !artist || !song?.url) {
+      return null;
+    }
+
+    return {
+      title,
+      artist,
+      audioUrl: song.url,
+    };
+  } catch (error) {
+    console.warn("Failed to fetch song from DatoCMS:", error);
+    return null;
+  }
 }

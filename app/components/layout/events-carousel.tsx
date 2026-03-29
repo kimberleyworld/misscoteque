@@ -20,13 +20,13 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
     (currentPage + 1) * EVENTS_PER_PAGE
   )
 
-  // Auto-scroll every 5 seconds
+  // Auto-scroll every 3 seconds
   useEffect(() => {
     if (!isAutoPlaying || totalPages <= 1) return
 
     const interval = setInterval(() => {
       setCurrentPage((prev) => (prev + 1) % totalPages)
-    }, 5000)
+    }, 3000)
 
     return () => clearInterval(interval)
   }, [isAutoPlaying, totalPages])
@@ -55,7 +55,7 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
       onMouseLeave={() => setIsAutoPlaying(true)}
     >
       {/* 3 Events Grid */}
-      <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="w-full max-w-3xl grid grid-cols-1 md:grid-cols-3 gap-4">
         {visibleEvents.map((event) => (
           <EventCard
             key={event.id}

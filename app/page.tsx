@@ -3,6 +3,7 @@ import Image from "next/image";
 import EventCard from "./components/ui/event-card";
 import { getUpcomingEvents } from "@/lib/getUpcomingEvents";
 import { getRecentNotices } from "@/lib/getRecentNotices";
+import { getSong } from "@/lib/getSong";
 import CrosswordSection from "./components/layout/crossword-section";
 import {ArchiveForm} from "@/app/components//layout/archive-form";
 import { Button } from "./components/ui/button";
@@ -10,14 +11,20 @@ import Link from "next/link";
 import { CommunityNoticeForm } from "./components/layout/notice-form";
 import { NoticesCarousel } from "./components/layout/notices-carousel";
 import { EventsCarousel } from "./components/layout/events-carousel";
+import SongMarquee from "./components/SongMarquee";
+import MusicPlayer from "./components/MusicPlayer";
+
 
 export default async function Home() {
   const upcomingEvents = await getUpcomingEvents()
   const recentNotices = await getRecentNotices()
+  const song = await getSong()
   const nextEvent = upcomingEvents[0]
 
   return (
     <main className="relative flex min-h-screen flex-col items-center">
+      {song && <SongMarquee title={song.title} artist={song.artist} />}
+      {song && <MusicPlayer title={song.title} artist={song.artist} audioUrl={song.audioUrl} />}
       <div className="bg-red w-full">
         <NavStars />
       </div>
@@ -44,11 +51,11 @@ export default async function Home() {
         imageUrl={nextEvent?.imageUrl}
         imageAlt={nextEvent?.imageAlt}
       />
-        {upcomingEvents.length > 1 && <EventsCarousel events={upcomingEvents} />}
         {recentNotices.length > 0 && <NoticesCarousel notices={recentNotices} />}
         <CrosswordSection/>
         <CommunityNoticeForm />
         <ArchiveForm />
+        {upcomingEvents.length > 1 && <EventsCarousel events={upcomingEvents} />}
       </div>
     </main>
   );

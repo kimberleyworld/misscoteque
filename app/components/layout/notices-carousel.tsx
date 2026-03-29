@@ -55,11 +55,12 @@ export function NoticesCarousel({ notices }: NoticesCarouselProps) {
 
   return (
     <div
-      className="w-full md:w-2/3 h-auto max-w-md md:max-w-3xl"
+      className="w-full md:w-2/3 h-auto max-w-md md:max-w-3xl gap-6 flex flex-col"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      <h2 className="text-pink font-impact text-2xl mb-6">Recent Notices</h2>
+      <h2 className="text-pink font-impact text-2xl">Community Notice Board</h2>
+      <p>Bringing the community closer together, this community notice board keeps everyone informed about who needs help, whats happening and even lost connections. If you want to add a notice use this form.</p>
 
       {/* Carousel Grid */}
       <div className="flex items-stretch gap-4 mb-6">
