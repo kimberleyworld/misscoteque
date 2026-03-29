@@ -13,7 +13,17 @@ import { NoticesCarousel } from "./components/layout/notices-carousel";
 import { EventsCarousel } from "./components/layout/events-carousel";
 import SongMarquee from "./components/SongMarquee";
 import MusicPlayer from "./components/MusicPlayer";
+import { AboutSection } from "./components/layout/about-section";
+import { Timeline } from "./components/layout/timeline";
+import MailerLiteForm from "./components/MailerLiteForm";
+import { EthosSection } from "./components/layout/ethos";
 
+const timelineSteps = [
+  { id: 1, label: "Step 1", imageUrl: "/path/to/image1.jpg", imageAlt: "Step 1", description: "This is the first step of the process, where you will do X, Y, and Z." },
+  { id: 2, label: "Step 2", imageUrl: "/path/to/image2.jpg", imageAlt: "Step 2", description: "This is the second step of the process, where you will do A, B, and C." },
+  { id: 3, label: "Step 3", imageUrl: "/path/to/image3.jpg", imageAlt: "Step 3", description: "This is the third step of the process, where you will do D, E, and F." },
+  { id: 4, label: "Step 4", imageUrl: "/path/to/image4.jpg", imageAlt: "Step 4", description: "This is the fourth step of the process, where you will do G, H, and I." },
+]
 
 export default async function Home() {
   const upcomingEvents = await getUpcomingEvents()
@@ -43,6 +53,8 @@ export default async function Home() {
             View the Archive →
           </Button>
         </Link>
+        <AboutSection />
+        <MailerLiteForm />
         <EventCard 
         eventDate={nextEvent?.eventDate}
         eventTime={nextEvent?.eventTime}
@@ -53,9 +65,12 @@ export default async function Home() {
       />
         {recentNotices.length > 0 && <NoticesCarousel notices={recentNotices} />}
         <CrosswordSection/>
+        <EthosSection />
         <CommunityNoticeForm />
         <ArchiveForm />
         {upcomingEvents.length > 1 && <EventsCarousel events={upcomingEvents} />}
+
+<Timeline steps={timelineSteps} />
       </div>
     </main>
   );
