@@ -173,10 +173,10 @@ export default function CrossWord() {
 
 
   return (
-    <div className="">
-        <div className="flex flex-col md:flex-row items-start">
+    <div className="px-4">
+        <div className="flex flex-col md:flex-row items-start justify-center md:justify-start">
         {/* Crossword Background */}
-        <div className="">
+        <div className="w-full md:w-auto">
           <div
             className="inline-grid gap-[1px] p-10"
             style={{
@@ -237,8 +237,8 @@ export default function CrossWord() {
         </div>
 
         {/* Clues */}
-        <div className="flex flex-col gap-2 ml-4">
-          <div>
+        <div className="flex flex-col gap-2 w-full md:w-auto md:ml-6">
+          <div className="px-4 md:px-0">
             <h3 className="text-xl text-black font-bold">
               Across
             </h3>
@@ -249,7 +249,7 @@ export default function CrossWord() {
                   <li
                     key={word.id}
                     onClick={() => toggleClueStrikethrough(word.id)}
-                    className={`cursor-pointer hover:text-red transition-colors ${
+                    className={`cursor-pointer hover:text-red transition-colors max-w-xs md:max-w-none ${
                       crossedOutClues.has(word.id)
                         ? "text-pink line-through"
                         : "text-black"
@@ -261,7 +261,7 @@ export default function CrossWord() {
             </ul>
           </div>
 
-          <div>
+          <div className="px-4 md:px-0">
             <h3 className="text-xl text-black font-bold">
               Down
             </h3>
@@ -272,7 +272,7 @@ export default function CrossWord() {
                   <li
                     key={word.id}
                     onClick={() => toggleClueStrikethrough(word.id)}
-                    className={`cursor-pointer hover:text-red transition-colors ${
+                    className={`cursor-pointer hover:text-red transition-colors max-w-xs md:max-w-none ${
                       crossedOutClues.has(word.id)
                         ? "text-pink line-through"
                         : "text-black"

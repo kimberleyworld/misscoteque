@@ -5,10 +5,10 @@ import { getUpcomingEvents } from "@/lib/getUpcomingEvents";
 import { getRecentNotices } from "@/lib/getRecentNotices";
 import { getSong } from "@/lib/getSong";
 import CrosswordSection from "./components/layout/crossword-section";
-import {ArchiveForm} from "@/app/components//layout/archive-form";
 import { Button } from "./components/ui/button";
 import Link from "next/link";
-import { CommunityNoticeForm } from "./components/layout/notice-form";
+import { FormsModal } from "./components/layout/forms-modal";
+import { SectionDivider } from "./components/layout/section-divider";
 import { NoticesCarousel } from "./components/layout/notices-carousel";
 import { EventsCarousel } from "./components/layout/events-carousel";
 import SongMarquee from "./components/SongMarquee";
@@ -63,14 +63,25 @@ export default async function Home() {
         imageUrl={nextEvent?.imageUrl}
         imageAlt={nextEvent?.imageAlt}
       />
-        {recentNotices.length > 0 && <NoticesCarousel notices={recentNotices} />}
+        {recentNotices.length > 0 && (
+          <>
+            <SectionDivider heading="Notices" />
+            <NoticesCarousel notices={recentNotices} />
+          </>
+        )}
+        <SectionDivider heading="Crossword" />
         <CrosswordSection/>
+        <SectionDivider heading="Our Ethos" />
         <EthosSection />
-        <CommunityNoticeForm />
-        <ArchiveForm />
-        {upcomingEvents.length > 1 && <EventsCarousel events={upcomingEvents} />}
-
-<Timeline steps={timelineSteps} />
+        <FormsModal />
+        {upcomingEvents.length > 1 && (
+          <>
+            <SectionDivider heading="All Events" />
+            <EventsCarousel events={upcomingEvents} />
+          </>
+        )}
+        <SectionDivider heading="Our Journey" />
+        <Timeline steps={timelineSteps} />
       </div>
     </main>
   );
