@@ -1,4 +1,5 @@
 import NavStars from "./components/layout/nav-stars";
+import NavBar from "./components/layout/nav-bar";
 import Image from "next/image";
 import EventCard from "./components/ui/event-card";
 import { getUpcomingEvents } from "@/lib/getUpcomingEvents";
@@ -11,8 +12,6 @@ import { FormsModal } from "./components/layout/forms-modal";
 import { SectionDivider } from "./components/layout/section-divider";
 import { NoticesCarousel } from "./components/layout/notices-carousel";
 import { EventsCarousel } from "./components/layout/events-carousel";
-import SongMarquee from "./components/SongMarquee";
-import MusicPlayer from "./components/MusicPlayer";
 import { AboutSection } from "./components/layout/about-section";
 import { Timeline } from "./components/layout/timeline";
 import MailerLiteForm from "./components/MailerLiteForm";
@@ -33,8 +32,7 @@ export default async function Home() {
 
   return (
     <main className="relative flex min-h-screen flex-col items-center">
-      {song && <SongMarquee title={song.title} artist={song.artist} />}
-      {song && <MusicPlayer title={song.title} artist={song.artist} audioUrl={song.audioUrl} />}
+      <NavBar song={song} />
       <div className="bg-red w-full">
         <NavStars />
       </div>
