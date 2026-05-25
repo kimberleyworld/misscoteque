@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma"
+import { getMockRecentNotices } from "@/lib/mockCommunityNotices"
 
 export async function getRecentNotices() {
   try {
@@ -17,9 +18,15 @@ export async function getRecentNotices() {
       },
     })
 
+    // If no notices found, return mock data
+    if (notices.length === 0) {
+      return getMockRecentNotices()
+    }
+
     return notices
   } catch (error) {
     console.error("Error fetching recent notices:", error)
-    return []
+    console.log("Using mock notices as fallback")
+    return getMockRecentNotices()
   }
 }

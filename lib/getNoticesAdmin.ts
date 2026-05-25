@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/prisma"
+import { getMockArchives } from "@/lib/mockArchiveData"
+import { getMockCommunityNotices } from "@/lib/mockCommunityNotices"
 
 export async function getPendingNotices() {
   try {
@@ -14,6 +16,7 @@ export async function getPendingNotices() {
     return notices
   } catch (error) {
     console.error("Error fetching pending notices:", error)
+    // Return empty for pending since mock data is all approved
     return []
   }
 }
@@ -29,10 +32,16 @@ export async function getApprovedNotices() {
       },
     })
 
+    // If no notices found, return mock data
+    if (notices.length === 0) {
+      return getMockCommunityNotices()
+    }
+
     return notices
   } catch (error) {
     console.error("Error fetching approved notices:", error)
-    return []
+    // Return mock data when database is unavailable
+    return getMockCommunityNotices()
   }
 }
 
@@ -50,6 +59,7 @@ export async function getPendingArchive() {
     return archives
   } catch (error) {
     console.error("Error fetching pending archive:", error)
+    // Return empty for pending since mock data is approved
     return []
   }
 }
@@ -68,6 +78,7 @@ export async function getApprovedArchive() {
     return archives
   } catch (error) {
     console.error("Error fetching approved archive:", error)
-    return []
+    // Return mock data when database is unavailable
+    return getMockArchives()
   }
 }

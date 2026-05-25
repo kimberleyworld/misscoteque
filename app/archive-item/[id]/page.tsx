@@ -5,6 +5,7 @@ import { Button } from '@/app/components/ui/button';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { extractVideoUrl } from '@/lib/extractVideoUrl';
+import { getMockArchiveById } from '@/lib/mockArchiveData';
 
 interface ArchiveItemPageProps {
   params: Promise<{
@@ -19,11 +20,17 @@ export default async function ArchiveItemPage({ params }: ArchiveItemPageProps) 
     notFound();
   }
   
-  const archive = await prisma.archive.findUnique({
-    where: {
-      id: resolvedParams.id,
-    },
-  });
+  let archive;
+  try {
+    archive = await prisma.archive.findUnique({
+      where: {
+        id: resolvedParams.id,
+      },
+    });
+  } catch (error) {
+    console.log('Database unavailable, using mock data');
+    archive = getMockArchiveById(resolvedParams.id);
+  }
 
   if (!archive || !archive.isPublished) {
     notFound();

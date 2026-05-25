@@ -15,7 +15,7 @@ export default function NavStars() {
           />
           <span className="font-bold text-sm md:text-lg">DANCE</span>
         </div>
-        <div className="text-3xl md:text-5xl font-bold rotate-30">
+        <div className="text-3xl md:text-5xl font-bold outline-text text-pink/80">
             <h1>misscoteque.world</h1>
         </div> 
             
