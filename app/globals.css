@@ -5,6 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @layer base {
+  html, body {
+    @apply overflow-x-hidden;
+  }
   h1 {
     @apply text-4xl md:text-6xl font-bold uppercase;
   }
@@ -86,6 +89,14 @@ body {
 
 .animate-marquee {
   animation: marquee 20s linear infinite;
+}
+
+@layer utilities {
+  .text-red-outline {
+    color: #D52D00;
+    -webkit-text-stroke: 0.5px #000;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  }
 }
 
 /* Screen reader only text */
