@@ -2,8 +2,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import DiscoBall from "../DiscoBall";
+import { getHomePageContent } from "@/lib/getHomePageContent";
 
-export default function Hero() {
+export default async function Hero() {
+  const content = await getHomePageContent()
+
   return (
     <div className="w-full relative max-w-6xl h-screen flex flex-col items-center bg-red">
 
@@ -27,7 +30,7 @@ export default function Hero() {
 
       {/* Flexbox with heading */}
       <div className="flex w-full h-full items-center justify-start md:justify-end md:items-end">
-        <h1 className="text-black -rotate-90 md:rotate-0 md:translate-x-0 z-50 text-5xl -translate-x-[40%] text-red-outline md:pb-16 md:text-8xl">MISSCOTEQUE.WORLD</h1>
+        <h1 className="text-black -rotate-90 md:rotate-0 md:translate-x-0 z-50 text-5xl -translate-x-[40%] text-red-outline md:pb-16 md:text-8xl">{content.pageHeading}</h1>
       </div>
 
       {/* Disco Ball */}

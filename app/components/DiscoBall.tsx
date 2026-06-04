@@ -5,8 +5,10 @@ import { useGLTF, Environment } from "@react-three/drei";
 import { useRef } from "react";
 import * as THREE from "three";
 
+const DISCO_BALL_URL = "https://www.datocms-assets.com/197817/1780567707-disco_ball.glb";
+
 function RecordModel() {
-  const { scene } = useGLTF("/models/disco_ball.glb");
+  const { scene } = useGLTF(DISCO_BALL_URL);
   const meshRef = useRef<THREE.Group>(null);
 
   // Auto-rotate the model itself instead of camera
