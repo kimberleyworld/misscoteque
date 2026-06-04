@@ -21,13 +21,13 @@ export default function ArchiveTile({ archive }: ArchiveTileProps) {
 
   return (
     <Link href={`/archive-item/${archive.id}`}>
-      <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full border-pink/20 bg-cream/5 rounded-none">
+      <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full border-orange/20 bg-cream/5 rounded-none">
         <CardHeader>
-          <CardTitle className='text-pink font-impact'>{archive.title}</CardTitle>
+          <p className="text-sm text-cream/60 pr-4 border-r border-cream/20">{formattedDate}</p>
+          <CardTitle className='text-cream font-impact pl-4'>{archive.title}</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-black/60 mb-2">{formattedDate}</p>
-          <p className="overflow-hidden text-ellipsis text-black text-sm" style={{ 
+          <p className="overflow-hidden text-ellipsis text-cream text-sm" style={{ 
             display: '-webkit-box', 
             WebkitLineClamp: 3, 
             WebkitBoxOrient: 'vertical' 

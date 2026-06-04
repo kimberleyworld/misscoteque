@@ -51,10 +51,10 @@ export default async function ArchiveItemPage({ params }: ArchiveItemPageProps) 
   const videoData = archive.URL ? extractVideoUrl(archive.URL) : null;
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto p-6 bg-black">
       <div className="mb-6">
         <Link href="/artifacts">
-          <Button variant="outline" className="flex items-center gap-2 border-pink/20 bg-cream/5 text-black hover:bg-pink/10 rounded-none">
+          <Button variant="outline" className="flex items-center gap-2 border-pink/20 bg-cream/5 text-cream hover:bg-pink/10 rounded-none">
             <ArrowLeft className="h-4 w-4" />
             Back to Archive
           </Button>
@@ -63,8 +63,8 @@ export default async function ArchiveItemPage({ params }: ArchiveItemPageProps) 
 
       <Card className="border-pink/20 bg-cream/5 rounded-none">
         <CardHeader>
-          <CardTitle className="text-3xl text-pink font-impact">{archive.title}</CardTitle>
-          <p className="text-black/60 text-sm mt-2">{formattedDate}</p>
+          <CardTitle className="text-3xl text-cream font-impact">{archive.title}</CardTitle>
+          <p className="text-cream/60 text-sm mt-2">{formattedDate}</p>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Display URL/video if available */}
@@ -100,7 +100,7 @@ export default async function ArchiveItemPage({ params }: ArchiveItemPageProps) 
 
           {!videoData && archive.URL && (
             <div className="p-4 bg-orange/10 border border-orange/20 rounded">
-              <p className="text-black text-sm mb-2">External Link:</p>
+              <p className="text-cream text-sm mb-2">External Link:</p>
               <a
                 href={archive.URL}
                 target="_blank"
@@ -135,11 +135,11 @@ export default async function ArchiveItemPage({ params }: ArchiveItemPageProps) 
               )}
               {archive.fileMimeType === 'application/pdf' && (
                 <div>
-                  <p className="text-black text-sm mb-2">PDF Document: {archive.fileName}</p>
+                  <p className="text-cream text-sm mb-2">PDF Document: {archive.fileName}</p>
                   <a
                     href={`data:application/pdf;base64,${Buffer.from(archive.fileData).toString('base64')}`}
                     download={archive.fileName}
-                    className="inline-block px-4 py-2 bg-pink text-black font-impact rounded hover:bg-pink/90"
+                    className="inline-block px-4 py-2 bg-pink text-cream font-impact rounded hover:bg-pink/90"
                   >
                     Download PDF
                   </a>
@@ -150,14 +150,14 @@ export default async function ArchiveItemPage({ params }: ArchiveItemPageProps) 
 
           {/* Display main content */}
           <div className="prose prose-invert max-w-none">
-            <p className="text-black whitespace-pre-line leading-relaxed">{archive.content}</p>
+            <p className="text-cream whitespace-pre-line leading-relaxed">{archive.content}</p>
           </div>
 
           {/* Show description if it exists and differs from content */}
           {archive.description && archive.description !== archive.content && (
             <div className="pt-6 border-t border-orange/20">
-              <h3 className="text-lg font-impact text-pink mb-2">About</h3>
-              <p className="text-black leading-relaxed">{archive.description}</p>
+              <h3 className="text-lg font-impact text-cream mb-2">About</h3>
+              <p className="text-cream leading-relaxed">{archive.description}</p>
             </div>
           )}
         </CardContent>
