@@ -15,7 +15,7 @@ interface TimelineProps {
 export function Timeline({ steps }: TimelineProps) {
   return (
     <div className="w-full py-12 px-4 md:w-2/3 h-auto max-w-md md:max-w-3xl ">
-      <div className="relative flex items-start justify-between gap-4">
+      <div className="relative flex flex-col md:flex-row items-start justify-between gap-8 md:gap-4">
         {/* Timeline steps */}
         {steps.map((step, index) => {
           return (

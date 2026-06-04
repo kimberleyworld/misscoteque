@@ -63,7 +63,7 @@ export function NoticesCarousel({ notices }: NoticesCarouselProps) {
       <p>Bringing the community closer together, this community notice board keeps everyone informed about who needs help, whats happening and even lost connections. If you want to add a notice use this form.</p>
 
       {/* Carousel Grid */}
-      <div className="flex items-stretch gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         {visibleNotices.map((notice) => (
           <Card
             key={notice.id}

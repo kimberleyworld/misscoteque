@@ -31,12 +31,30 @@ export default async function Home() {
   const nextEvent = upcomingEvents[0]
 
   return (
-    <main className="w-full min-h-screen bg-black overflow-x-hidden">
-      <div className="mx-auto max-w-6xl flex flex-col items-center w-full">
-        <Hero />
-        <div className="w-full bg-cream text-black flex justify-center flex-col items-center gap-1">
-          <NavBar />
-          <EventCard 
+    <>
+  <Hero />
+
+  <div
+    style={{
+      position: "sticky",
+      top: 0,
+      background: "lime",
+      height: 80,
+      zIndex: 500,
+    }}
+  >
+    STICKY TEST
+  </div>
+
+  <main className="mx-auto max-w-6xl flex flex-col items-center w-full">
+    <div className="w-full bg-cream text-black flex justify-center flex-col items-center gap-1">
+          <AboutSection />
+          <Link href="/artifacts" className="inline-block">
+             <Button className="bg-pink hover:bg-pink/90 text-black font-impact rounded-none">
+               View the Archive →
+             </Button>
+           </Link>
+            <EventCard 
             eventDate={nextEvent?.eventDate}
             eventTime={nextEvent?.eventTime}
             ticketUrl={nextEvent?.ticketUrl}
@@ -44,16 +62,8 @@ export default async function Home() {
             imageUrl={nextEvent?.imageUrl}
             imageAlt={nextEvent?.imageAlt}
           />
-        <AboutSection />
-          <Link href="/artifacts" className="inline-block">
-            <Button className="bg-pink hover:bg-pink/90 text-black font-impact rounded-none">
-              View the Archive →
-            </Button>
-          </Link>
-       
-        <MailerLiteForm />
-   
-        {recentNotices.length > 0 && (
+          <MailerLiteForm />
+            {recentNotices.length > 0 && (    
           <>
             <SectionDivider heading="Notices" />
             <NoticesCarousel notices={recentNotices} />
@@ -61,10 +71,10 @@ export default async function Home() {
         )}
         <SectionDivider heading="Crossword" />
         <CrosswordSection/>
-        <SectionDivider heading="Our Ethos" />
+       <SectionDivider heading="Our Ethos" />
         <EthosSection />
         <FormsModal />
-        {upcomingEvents.length > 1 && (
+         {upcomingEvents.length > 1 && (
           <>
             <SectionDivider heading="All Events" />
             <EventsCarousel events={upcomingEvents} />
@@ -72,9 +82,55 @@ export default async function Home() {
         )}
         <SectionDivider heading="Our Journey" />
         <Timeline steps={timelineSteps} />
-      </div>
-      </div>
-      <MusicBar song={song} />
-    </main>
-  );
+    </div>
+     <MusicBar song={song} />
+  </main>
+</>
+)
+    // <main className="min-h-screen bg-black">
+    //    <Hero />
+    //     <NavBar />
+    //   <div className="mx-auto max-w-6xl flex flex-col items-center w-full">
+    //     <div className="w-full bg-cream text-black flex justify-center flex-col items-center gap-1">
+    //       <EventCard 
+    //         eventDate={nextEvent?.eventDate}
+    //         eventTime={nextEvent?.eventTime}
+    //         ticketUrl={nextEvent?.ticketUrl}
+    //         eventDescription={nextEvent?.eventDescription}
+    //         imageUrl={nextEvent?.imageUrl}
+    //         imageAlt={nextEvent?.imageAlt}
+    //       />
+    //     <AboutSection />
+    //       <Link href="/artifacts" className="inline-block">
+    //         <Button className="bg-pink hover:bg-pink/90 text-black font-impact rounded-none">
+    //           View the Archive →
+    //         </Button>
+    //       </Link>
+       
+    //     <MailerLiteForm />
+   
+    //     {recentNotices.length > 0 && (
+    //       <>
+    //         <SectionDivider heading="Notices" />
+    //         <NoticesCarousel notices={recentNotices} />
+    //       </>
+    //     )}
+    //     <SectionDivider heading="Crossword" />
+    //     <CrosswordSection/>
+    //     <SectionDivider heading="Our Ethos" />
+    //     <EthosSection />
+    //     <FormsModal />
+    //     {upcomingEvents.length > 1 && (
+    //       <>
+    //         <SectionDivider heading="All Events" />
+    //         <EventsCarousel events={upcomingEvents} />
+    //       </>
+    //     )}
+    //     <SectionDivider heading="Our Journey" />
+    //     <Timeline steps={timelineSteps} />
+    //   </div>
+    //   </div>
+    //   <MusicBar song={song} />
+    // </main>
+  // );
 }

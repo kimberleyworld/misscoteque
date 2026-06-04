@@ -29,7 +29,7 @@ export function FormsModal() {
       {/* Modal Backdrop and Content */}
       {activeModal && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/50 z-[600] flex items-center justify-center p-4"
           onClick={() => setActiveModal(null)}
         >
           <div
@@ -39,7 +39,7 @@ export function FormsModal() {
             {/* Close Button */}
             <button
               onClick={() => setActiveModal(null)}
-              className="absolute top-4 right-4 text-black hover:text-gray-700 text-2xl z-50"
+              className="absolute top-4 right-4 text-black hover:text-gray-700 text-2xl z-[601]"
               aria-label="Close modal"
             >
               ✕

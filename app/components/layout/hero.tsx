@@ -5,53 +5,8 @@ import DiscoBall from "../DiscoBall";
 
 export default function Hero() {
   return (
-    <div className="w-full max-w-6xl h-screen flex flex-col overflow-hidden items-center bg-red">
-      {/* Stars background */}
-      {/* <div className="bg-red w-full flex flex-col items-center justify-start pt-8"> */}
-        {/* Four stars in a row */}
-        {/* <div className="flex justify-center items-end gap-4 md:gap-8 px-4">
-          <div className="flex flex-col items-center">
-            <Image 
-              src="/images/nav-star-one.png"
-              alt="An star shaped image of co-founders Amaia and Georgia laughing behind the decks."
-              width={300}
-              height={300}
-              className="w-auto h-[100px] object-contain transition-all duration-300 hover:drop-shadow-[0_0_30px_var(--color-pink)] cursor-pointer"
-            />
-            <span className="font-bold text-xs md:text-sm mt-2">DANCE</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <Image 
-              src="/images/nav-star-two.png"
-              alt="Sad sugar behind the Decs"
-              width={300}
-              height={200}
-              className="w-auto h-[100px] object-contain transition-all duration-300 hover:drop-shadow-[0_0_30px_var(--color-pink)] cursor-pointer"
-            />
-            <span className="font-bold text-xs md:text-sm mt-2">ABOUT</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <Image 
-              src="/images/nav-star-five.png"
-              alt="People dancing in the crowd"
-              width={300}
-              height={300}
-              className="w-auto h-[100px] object-contain transition-all duration-300 hover:drop-shadow-[0_0_30px_var(--color-pink)] cursor-pointer"
-            />
-            <span className="font-bold text-xs md:text-sm mt-2">EVENTS</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <Image 
-              src="/images/nav-star-three.png"
-              alt="Sad sugar behind the Decs"
-              width={300}
-              height={200}
-              className="w-auto h-[100px] object-contain transition-all duration-300 hover:drop-shadow-[0_0_30px_var(--color-pink)] cursor-pointer"
-            />
-            <span className="font-bold text-xs md:text-sm mt-2">ARCHIVE</span>
-          </div>
-        </div>
-      </div> */}
+    <div className="w-full relative max-w-6xl h-screen flex flex-col items-center bg-red">
+
 
       {/* Scroll to see - positioned at top right */}
       <div className="absolute top-1 right-2 md:top-6 md:right-6 z-50 text-black flex flex-col items-end text-right">

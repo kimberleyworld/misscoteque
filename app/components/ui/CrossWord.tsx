@@ -173,12 +173,12 @@ export default function CrossWord() {
 
 
   return (
-    <div className="px-4">
+    <div className="w-full overflow-x-hidden">
         <div className="flex flex-col md:flex-row items-start justify-center md:justify-start">
         {/* Crossword Background */}
-        <div className="w-full md:w-auto">
-          <div
-            className="inline-grid gap-[1px] p-10"
+        <div className="w-full flex justify-center py-4 md:py-8">
+  <div
+    className="inline-grid gap-[1px] p-4 "
             style={{
               gridTemplateColumns: `repeat(${PUZZLE_DATA.size}, 1fr)`,
               backgroundImage: "url('/images/cw-bg.png')",
@@ -203,7 +203,7 @@ export default function CrossWord() {
                 }
 
                 return (
-                  <div key={key} className="relative w-6 h-6 md:w-6 md:h-6">
+                  <div key={key} className="relative w-[19px] h-[19px] md:w-6 md:h-6">
                     {cell.number && (
                       <span className="absolute top-0 left-0.5 text-[10px] md:text-[10px] font-bold text-black z-10">
                         {cell.number}
