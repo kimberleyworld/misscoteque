@@ -17,15 +17,17 @@ interface Notice {
 interface CommunityNoticeGridProps {
   notices: Notice[]
   description?: string
+  submitNoticeTitle?: string
+  submitNoticeDescription?: string
 }
 
-export function CommunityNoticeGrid({ notices, description }: CommunityNoticeGridProps) {
+export function CommunityNoticeGrid({ notices, description, submitNoticeTitle, submitNoticeDescription }: CommunityNoticeGridProps) {
   if (notices.length === 0) {
     return null
   }
 
   return (
-    <div className="w-full flex flex-col gap-6 px-4">
+    <div className="w-full flex flex-col gap-6  px-4 sm:px-0">
       <p>{description}</p>
 
       {/* Grid */}
@@ -41,28 +43,28 @@ export function CommunityNoticeGrid({ notices, description }: CommunityNoticeGri
               alt="corner star"
               width={24}
               height={24}
-              className="w-6 h-6 absolute top-2 left-2 object-cover"
+              className="w-6 h-6 absolute top-2 left-2 object-cover sm:hidden"
             />
             <Image
               src="/images/star.png"
               alt="corner star"
               width={24}
               height={24}
-              className="w-6 h-6 absolute top-2 right-2 object-cover"
+              className="w-6 h-6 absolute top-2 right-2 object-cover sm:hidden"
             />
             <Image
               src="/images/star.png"
               alt="corner star"
               width={24}
               height={24}
-              className="w-6 h-6 absolute bottom-2 left-2 object-cover"
+              className="w-6 h-6 absolute bottom-2 left-2 object-cover sm:hidden"
             />
             <Image
               src="/images/star.png"
               alt="corner star"
               width={24}
               height={24}
-              className="w-6 h-6 absolute bottom-2 right-2 object-cover"
+              className="w-6 h-6 absolute bottom-2 right-2 object-cover sm:hidden"
             />
             <CardContent className="flex flex-col h-full">
               <div className="flex-1">
@@ -98,14 +100,9 @@ export function CommunityNoticeGrid({ notices, description }: CommunityNoticeGri
         ))}
         
         {/* Submit Notice Card */}
-        <div className="flex flex-col items-center justify-center p-4 border-2 border-black rounded-none bg-cream gap-4">
-          <Image
-            src="/images/star.png"
-            alt="star"
-            width={100}
-            height={100}
-            className="w-40 h-40 object-cover"
-          />
+        <div className="flex flex-col items-center justify-center p-4 px-8 border-2 border-black rounded-none bg-cream gap-4">
+          <h2 className="text-3xl font-bold">{submitNoticeTitle}</h2>
+          <p className="text-sm">{submitNoticeDescription}</p>
           <FormsModal showNotice={true} showArchive={false} />
         </div>
       </div>

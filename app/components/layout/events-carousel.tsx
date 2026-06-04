@@ -55,7 +55,7 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
       onMouseLeave={() => setIsAutoPlaying(true)}
     >
       {/* 3 Events Grid */}
-      <div className="w-full max-w-3xl grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 px-4 sm:px-0">
         {visibleEvents.map((event) => (
           <EventCard
             key={event.id}

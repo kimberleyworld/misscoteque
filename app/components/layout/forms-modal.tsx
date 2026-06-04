@@ -16,7 +16,7 @@ export function FormsModal({ showNotice = true, showArchive = true }: FormsModal
   return (
     <>
       {/* Buttons */}
-      <div className="flex flex-col gap-4 justify-center items-center mb-12 w-full">
+      <div className="flex flex-col gap-4 justify-center items-center w-full">
         {showNotice && (
           <Button
             onClick={() => setActiveModal("notice")}

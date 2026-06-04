@@ -6,6 +6,11 @@ export interface DatoCMSImage {
   }
 }
 
+export interface DatoCMSAsset {
+  url: string
+  alt?: string
+}
+
 export interface DatoCMSEvent {
   id: string
   title: string
@@ -33,11 +38,22 @@ export interface DatoCMSMarqueSongResponse {
   marqueSong: DatoCMSSong
 }
 
+export interface DatoCMSCollection {
+  id: string
+  posters: DatoCMSAsset[]
+}
+
+export interface DatoCMSCollectionResponse {
+  postercollection: DatoCMSCollection
+}
+
 export interface HomePageContent {
   pageheading: string
   abouttitle: string
   aboutcopy: string
   communitynoticeboarddescription: string
+  submitcommunitynoticetitle: string
+  submitcommunitynoticedescription: string
 }
 
 export interface HomePageResponse {
