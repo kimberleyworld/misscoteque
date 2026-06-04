@@ -21,7 +21,7 @@ export default function VerticalNav() {
     md:flex-col
     md:items-center
     md:sticky
-    md:top-20
+    md:top-4
     self-start
     py-6
     px-4

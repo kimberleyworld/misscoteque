@@ -40,17 +40,19 @@ export default async function Home() {
       <main className="mx-auto max-w-6xl flex flex-col items-center w-full bg-cream">
         <div className="w-full flex justify-between">
           <VerticalNav />
-          <div className="flex-1 bg-cream text-black flex justify-center flex-col items-end gap-4 pt-4 mr-4">
-                    {upcomingEvents.length > 0 ? (
-                      <EventCard 
-                        eventTitle={nextEvent?.eventTitle}
-                        eventDate={nextEvent?.eventDate}
-                        eventTime={nextEvent?.eventTime}
-                        ticketUrl={nextEvent?.ticketUrl}
-                        eventDescription={nextEvent?.eventDescription}
-                        imageUrl={nextEvent?.imageUrl}
-                        imageAlt={nextEvent?.imageAlt}
-                      />
+<div className="flex-1 bg-cream text-black flex flex-col gap-4 pt-4 sm:mr-4">     
+                 {upcomingEvents.length > 0 ? (
+                      <div className="w-full px-2 md:px-0">
+                        <EventCard
+                          eventTitle={nextEvent?.eventTitle}
+                          eventDate={nextEvent?.eventDate}
+                          eventTime={nextEvent?.eventTime}
+                          ticketUrl={nextEvent?.ticketUrl}
+                          eventDescription={nextEvent?.eventDescription}
+                          imageUrl={nextEvent?.imageUrl}
+                          imageAlt={nextEvent?.imageAlt}
+                        />
+                      </div>
                     ) : (
                       <div className="w-full flex flex-col md:flex-row justify-between items-stretch gap-4 border-2 border-red">
                         <div className="flex-1">

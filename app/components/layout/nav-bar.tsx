@@ -9,8 +9,6 @@ export default function NavBar() {
   const navItems = [
     { href: "/", label: "Home" },
     { href: "/artifacts", label: "Archive" },
-    { href: "/#community-notice", label: "Community Notice Board" },
-    { href: "/#crossword", label: "Crossword" },
   ];
 
   return (
