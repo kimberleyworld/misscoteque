@@ -28,11 +28,11 @@ function EventCard({
         className
       )}
     >
-      <div className={!isBanner && imageUrl ? "md:w-1/3" : "flex-1"}>
-        <h1 className="text-2xl font-bold px-4">next event</h1>
-        <p className="font-semibold px-4">{eventDate}</p>
-        <p className="text-sm px-4">{eventTime}</p>
-        <p className="text-sm px-4">{eventDescription}</p>
+      <div className={!isBanner && imageUrl ? "md:w-1/3" : "flex-1 px-10 md:px-4"}>
+        <h1 className="text-2xl font-bold">next event</h1>
+        <p className="font-semibold">{eventDate}</p>
+        <p className="text-sm">{eventTime}</p>
+        <p className="text-sm">{eventDescription}</p>
       </div>
       {!isBanner && (
         <div
