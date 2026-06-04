@@ -30,7 +30,7 @@ export default async function Hero() {
 
       {/* Flexbox with heading */}
       <div className="flex w-full h-full items-center justify-start md:justify-end md:items-end">
-        <h1 className="text-black -rotate-90 md:rotate-0 md:translate-x-0 z-50 text-5xl -translate-x-[40%] text-red-outline md:pb-16 md:text-8xl">{content.pageHeading}</h1>
+        <h1 className="text-black -rotate-90 md:rotate-0 md:translate-x-0 z-50 text-5xl -translate-x-[40%] text-red-outline md:pb-16 md:text-8xl">{content.pageheading}</h1>
       </div>
 
       {/* Disco Ball */}
