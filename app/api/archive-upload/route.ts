@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { createClient } from "@supabase/supabase-js"
 import { prisma } from "@/lib/prisma"
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-const BUCKET_NAME = "archive-assets"
 
 // In-memory rate limiting store (IP address -> last submission timestamp)
 const submissionStore = new Map<string, number>()
@@ -46,16 +41,6 @@ function checkRateLimit(ip: string): { allowed: boolean; remainingMs?: number } 
   // Update the timestamp for this IP
   submissionStore.set(ip, now)
   return { allowed: true }
-}
-
-function getSupabaseClient() {
-  if (!supabaseUrl || !supabaseServiceRoleKey) {
-    throw new Error(
-      "Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY in environment variables"
-    )
-  }
-
-  return createClient(supabaseUrl, supabaseServiceRoleKey)
 }
 
 function generateSlug(title: string): string {
@@ -123,12 +108,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    let uploadedUrl: string | null = null
     let fileData: Buffer | null = null
     let fileName: string | null = null
     let fileMimeType: string | null = null
     let fileSize: number | null = null
-    let uploadWarning: string | null = null
 
     if (file) {
       const maxImageSize = 2 * 1024 * 1024
@@ -171,34 +154,7 @@ export async function POST(request: NextRequest) {
       fileMimeType = mimeType
       fileSize = file.size
 
-      if (supabaseUrl && supabaseServiceRoleKey) {
-        const extension = file.name.split(".").pop()?.toLowerCase() ?? "bin"
-        const uniquePart = Math.random().toString(36).slice(2, 8)
-        const filename = `${subfolder}/${Date.now()}_${uniquePart}.${extension}`
-
-        const supabase = getSupabaseClient()
-
-        const { error: uploadError } = await supabase.storage
-          .from(BUCKET_NAME)
-          .upload(filename, file, {
-            cacheControl: "3600",
-            upsert: false,
-            contentType: mimeType,
-          })
-
-        if (uploadError) {
-          uploadWarning = `Storage upload failed: ${uploadError.message}`
-        } else {
-          const {
-            data: { publicUrl },
-          } = supabase.storage.from(BUCKET_NAME).getPublicUrl(filename)
-
-          uploadedUrl = publicUrl
-        }
-      } else {
-        uploadWarning =
-          "Supabase storage env vars missing; file saved in database only."
-      }
+      // Files are stored in the database
     }
 
     const baseSlug = generateSlug(title)
@@ -215,7 +171,7 @@ export async function POST(request: NextRequest) {
       description,
       content,
       slug,
-      URL: uploadedUrl ?? (manualUrl || null),
+      URL: manualUrl || null,
       fileData,
       fileName,
       fileMimeType,
@@ -243,7 +199,6 @@ export async function POST(request: NextRequest) {
         slug: archiveEntry.slug,
         URL: archiveEntry.URL,
         storedInDatabase: Boolean(fileData),
-        uploadWarning,
       },
       { status: 201 }
     )
