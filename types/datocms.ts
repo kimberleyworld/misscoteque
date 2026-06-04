@@ -32,3 +32,13 @@ export interface DatoCMSSong {
 export interface DatoCMSMarqueSongResponse {
   marqueSong: DatoCMSSong
 }
+
+export interface HomePageContent {
+  pageheading: string
+  abouttitle: string
+  aboutcopy: string
+}
+
+export interface HomePageResponse {
+  homepage: HomePageContent
+}

@@ -5,6 +5,7 @@ import Hero from "./components/layout/hero";
 import { getUpcomingEvents } from "@/lib/getUpcomingEvents";
 import { getRecentNotices } from "@/lib/getRecentNotices";
 import { getSong } from "@/lib/getSong";
+import { getHomePageContent } from "@/lib/getHomePageContent";
 import CrosswordSection from "./components/layout/crossword-section";
 import { Button } from "./components/ui/button";
 import Link from "next/link";
@@ -25,6 +26,7 @@ const timelineSteps = [
 ]
 
 export default async function Home() {
+  const content = await getHomePageContent()
   const upcomingEvents = await getUpcomingEvents()
   const recentNotices = await getRecentNotices()
   const song = await getSong()
@@ -32,11 +34,11 @@ export default async function Home() {
 
   return (
     <>
-      <Hero />
+      <Hero pageheading={content.pageheading} />
       <NavBar />
       <main className="mx-auto max-w-6xl flex flex-col items-center w-full">
         <div className="w-full bg-cream text-black flex justify-center flex-col items-center gap-1">
-              <AboutSection />
+              <AboutSection title={content.abouttitle} copy={content.aboutcopy} />
               <Link href="/artifacts" className="inline-block">
                 <Button className="bg-pink hover:bg-pink/90 text-black font-impact rounded-none">
                   View the Archive →
