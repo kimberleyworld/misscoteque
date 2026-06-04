@@ -9,7 +9,7 @@ interface HeroProps {
 
 export default function Hero({ pageheading }: HeroProps) {
   return (
-    <div className="w-full relative max-w-6xl h-screen flex flex-col items-center bg-red">
+    <div className="w-full relative max-w-6xl h-screen flex flex-col items-center bg-red mx-auto">
 
 
       {/* Scroll to see - positioned at top right */}
