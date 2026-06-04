@@ -34,29 +34,31 @@ function EventCard({
         <p className="text-sm px-4">{eventTime}</p>
         <p className="text-sm px-4">{eventDescription}</p>
       </div>
-      <div
-        className={
-          !isBanner && imageUrl
-            ? "md:w-1/4 flex-shrink-0"
-            : "flex-1"
-        }
-      >
-        {!isBanner && imageUrl && (
-        <Image
-          src={imageUrl}
-          alt={imageAlt || "Event image"}
-          width={400}
-          height={300}
-          className="w-full h-40 object-cover"
-        />
-        )}
-      </div>
-      <div className="flex items-center px-4">
-        <a href={ticketUrl} target="_blank" rel="noopener noreferrer">
-          <Button type="button" asChild>
+      {!isBanner && (
+        <div
+          className={
+            imageUrl
+              ? "md:w-1/4 flex-shrink-0"
+              : "flex-1"
+          }
+        >
+          {imageUrl && (
+          <Image
+            src={imageUrl}
+            alt={imageAlt || "Event image"}
+            width={400}
+            height={300}
+            className="w-full h-40 object-cover"
+          />
+          )}
+        </div>
+      )}
+      <div className="md:w-2/3 flex items-center justify-center px-10">
+        <Button asChild className="w-full ">
+          <a href={ticketUrl} target="_blank" rel="noopener noreferrer">
             {isBanner ? "Get tickets" : "More Info"}
-          </Button>
-        </a>
+          </a>
+        </Button>
       </div>
     </div>
   )

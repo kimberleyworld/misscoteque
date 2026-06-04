@@ -38,14 +38,23 @@ export default async function Home() {
       <NavBar />
       <main className="mx-auto max-w-6xl flex flex-col items-center w-full">
         <div className="w-full bg-cream text-black flex justify-center flex-col items-center gap-4 pt-4">
-                  <EventCard 
-                eventDate={nextEvent?.eventDate}
-                eventTime={nextEvent?.eventTime}
-                ticketUrl={nextEvent?.ticketUrl}
-                eventDescription={nextEvent?.eventDescription}
-                imageUrl={nextEvent?.imageUrl}
-                imageAlt={nextEvent?.imageAlt}
-              />
+                  {upcomingEvents.length > 0 ? (
+                    <EventCard 
+                      eventDate={nextEvent?.eventDate}
+                      eventTime={nextEvent?.eventTime}
+                      ticketUrl={nextEvent?.ticketUrl}
+                      eventDescription={nextEvent?.eventDescription}
+                      imageUrl={nextEvent?.imageUrl}
+                      imageAlt={nextEvent?.imageAlt}
+                    />
+                  ) : (
+                    <div className="w-full flex flex-col md:flex-row justify-between items-stretch gap-4 border-2 border-red">
+                      <div className="flex-1">
+                        <h1 className="text-2xl font-bold px-4">next event</h1>
+                        <p className="text-sm px-4">No future events</p>
+                      </div>
+                    </div>
+                  )}
               <AboutSection title={content.abouttitle} copy={content.aboutcopy} />
               <Link href="/artifacts" className="inline-block">
                 <Button className="bg-pink hover:bg-pink/90 text-black font-impact rounded-none">
