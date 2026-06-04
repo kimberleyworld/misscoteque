@@ -1,7 +1,6 @@
 import { gql } from "graphql-request"
 import { datocmsClient } from "./datocms"
 import { DatoCMSEventsResponse, DatoCMSEvent } from "@/types/datocms"
-import { getMockUpcomingEvents } from "./mockUpcomingEvents"
 
 const EVENTS_QUERY = gql`
   query GetUpcomingEvents {
@@ -76,18 +75,24 @@ export async function getUpcomingEvents(): Promise<FormattedEvent[]> {
   try {
     const response = await datocmsClient.request<DatoCMSEventsResponse>(EVENTS_QUERY)
 
+    console.log("DatoCMS Events Response:", response)
+
     if (!response.allEvents || response.allEvents.length === 0) {
-      return getMockUpcomingEvents()
+      console.log("No events found in DatoCMS")
+      return []
     }
 
     // Filter for future events only
-    const futureEvents = response.allEvents.filter((event: DatoCMSEvent) =>
-      isEventInFuture(event.date)
-    )
+    const futureEvents = response.allEvents.filter((event: DatoCMSEvent) => {
+      const isFuture = isEventInFuture(event.date)
+      console.log(`Event "${event.title}" (${event.date}) - Future: ${isFuture}`)
+      return isFuture
+    })
 
-    // If no future events found, return mock events
+    // If no future events found, return empty array
     if (futureEvents.length === 0) {
-      return getMockUpcomingEvents()
+      console.log("No future events found, returning empty array")
+      return []
     }
 
     return futureEvents.map((event: DatoCMSEvent) => ({
@@ -101,7 +106,6 @@ export async function getUpcomingEvents(): Promise<FormattedEvent[]> {
     }))
   } catch (error) {
     console.error("Failed to fetch events from DatoCMS:", error)
-    console.log("Using mock events as fallback")
-    return getMockUpcomingEvents()
+    return []
   }
 }

@@ -1,23 +1,18 @@
 import { Button } from "@/app/components/ui/button"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
+import { FormattedEvent } from "@/lib/getUpcomingEvents"
 
-interface EventCardProps {
-  eventDate?: string
-  eventTime?: string
-  eventDescription?: string
-  ticketUrl?: string
-  imageUrl?: string
-  imageAlt?: string
+interface EventCardProps extends Omit<FormattedEvent, 'id'> {
   variant?: "banner" | "carousel"
   className?: string
 }
 
 function EventCard({
-  eventDate = "Tuesday 7th October",
-  eventTime = "19:00",
-  eventDescription = "No description written yet, hold tight.",
-  ticketUrl = "https://www.headfirstbristol.co.uk/",
+  eventDate,
+  eventTime,
+  eventDescription,
+  ticketUrl,
   imageUrl,
   imageAlt,
   variant = "banner",

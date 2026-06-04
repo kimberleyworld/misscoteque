@@ -5,9 +5,9 @@ interface AboutSectionProps {
 
 export function AboutSection({ title, copy }: AboutSectionProps) {
   return (
-    <div className="w-full md:w-2/3 h-auto max-w-md md:max-w-3xl gap-3 flex flex-col bg-red">
-      <h2 className="text-2xl font-bold">{title}</h2>
-      <p className="text-sm columns-3" style={{ columnGap: '2rem' }}>
+    <div className="w-full gap-3 flex flex-row bg-red p-4">
+      <h2 className="text-5xl font-bold flex-none w-1/3">{title}</h2>
+      <p className="text-sm sm:columns-3 overflow-hidden" style={{ columnGap: '2rem' }}>
         {copy}
       </p>
     </div>
