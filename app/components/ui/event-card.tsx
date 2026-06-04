@@ -24,7 +24,7 @@ function EventCard({
   return (
     <div
       className={cn(
-        "w-full flex flex-col md:flex-row justify-between items-stretch gap-4 px-8 py-2",
+        "w-full flex flex-col md:flex-row justify-between items-stretch gap-4 px-6 md:px-8 py-2",
         isBanner ? "border-2 border-red" : "border-b-4 border-black",
         className
       )}
@@ -56,7 +56,7 @@ function EventCard({
           )}
         </div>
       )}
-      <div className="md:w-2/3 flex items-center justify-center px-10">
+      <div className="md:w-2/3 flex items-center justify-center md:px-10">
         <Button asChild className="w-full ">
           <a href={ticketUrl} target="_blank" rel="noopener noreferrer">
             {isBanner ? "Get tickets" : "More Info"}

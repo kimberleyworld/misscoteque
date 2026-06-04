@@ -174,15 +174,15 @@ export default function CrossWord() {
 
   return (
     <div className="w-full overflow-x-hidden">
-        <div className="flex flex-col md:flex-row items-start justify-center md:justify-start">
+        <div className="flex flex-col md:flex-row items-center md:items-end w-full">
         {/* Crossword Background */}
-        <div className="w-full flex justify-center py-4 md:py-8">
+        <div className="flex-1 flex justify-start py-0">
   <div
-    className="inline-grid gap-[1px] p-4 "
+    className="inline-grid gap-[1px] p-2 "
             style={{
               gridTemplateColumns: `repeat(${PUZZLE_DATA.size}, 1fr)`,
               backgroundImage: "url('/images/cw-bg.png')",
-              backgroundSize: "100%",
+              backgroundSize: "100% 110%",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
             }}
@@ -203,7 +203,7 @@ export default function CrossWord() {
                 }
 
                 return (
-                  <div key={key} className="relative w-[19px] h-[19px] md:w-6 md:h-6">
+                  <div key={key} className="relative w-[22px] h-[22px] md:w-6 md:h-6">
                     {cell.number && (
                       <span className="absolute top-0 left-0.5 text-[10px] md:text-[10px] font-bold text-black z-10">
                         {cell.number}
@@ -237,19 +237,20 @@ export default function CrossWord() {
         </div>
 
         {/* Clues */}
-        <div className="flex flex-col gap-2 w-full md:w-auto md:ml-6">
-          <div className="px-4 md:px-0">
+        <div className="flex-1 flex flex-col gap-2 px-4 w-full mt-4 md:mt-0">
+          <div>
+            <p className="mb-2 text-sm">Click on the clues to cross them out. Click them again to uncross.</p>
             <h3 className="text-xl text-black font-bold">
               Across
             </h3>
-            <ul className="">
+            <ul>
               {PUZZLE_DATA.words
                 .filter((w) => w.direction === "across")
                 .map((word) => (
                   <li
                     key={word.id}
                     onClick={() => toggleClueStrikethrough(word.id)}
-                    className={`cursor-pointer hover:text-red transition-colors max-w-xs md:max-w-none ${
+                    className={`cursor-pointer hover:text-red text-sm transition-colors max-w-xs md:max-w-none ${
                       crossedOutClues.has(word.id)
                         ? "text-pink line-through"
                         : "text-black"
@@ -261,7 +262,7 @@ export default function CrossWord() {
             </ul>
           </div>
 
-          <div className="px-4 md:px-0">
+          <div>
             <h3 className="text-xl text-black font-bold">
               Down
             </h3>
@@ -272,7 +273,7 @@ export default function CrossWord() {
                   <li
                     key={word.id}
                     onClick={() => toggleClueStrikethrough(word.id)}
-                    className={`cursor-pointer hover:text-red transition-colors max-w-xs md:max-w-none ${
+                    className={`cursor-pointer hover:text-red text-sm transition-colors max-w-xs md:max-w-none ${
                       crossedOutClues.has(word.id)
                         ? "text-pink line-through"
                         : "text-black"
