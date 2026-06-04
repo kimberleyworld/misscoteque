@@ -34,22 +34,25 @@ export default async function Home() {
     <main className="w-full min-h-screen bg-black overflow-x-hidden">
       <div className="mx-auto max-w-6xl flex flex-col items-center w-full">
         <Hero />
-        <div className="w-full bg-cream text-black pt-10 md:pt-20 pb-10 md:pb-20 px-4 flex justify-center flex-col items-center gap-8">
-        <Link href="/artifacts" className="inline-block">
-          <Button className="bg-pink hover:bg-pink/90 text-black font-impact rounded-none">
-            View the Archive →
-          </Button>
-        </Link>
+        <div className="w-full bg-cream text-black flex justify-center flex-col items-center gap-1">
+          <NavBar />
+          <EventCard 
+            eventDate={nextEvent?.eventDate}
+            eventTime={nextEvent?.eventTime}
+            ticketUrl={nextEvent?.ticketUrl}
+            eventDescription={nextEvent?.eventDescription}
+            imageUrl={nextEvent?.imageUrl}
+            imageAlt={nextEvent?.imageAlt}
+          />
         <AboutSection />
+          <Link href="/artifacts" className="inline-block">
+            <Button className="bg-pink hover:bg-pink/90 text-black font-impact rounded-none">
+              View the Archive →
+            </Button>
+          </Link>
+       
         <MailerLiteForm />
-        <EventCard 
-        eventDate={nextEvent?.eventDate}
-        eventTime={nextEvent?.eventTime}
-        ticketUrl={nextEvent?.ticketUrl}
-        eventDescription={nextEvent?.eventDescription}
-        imageUrl={nextEvent?.imageUrl}
-        imageAlt={nextEvent?.imageAlt}
-      />
+   
         {recentNotices.length > 0 && (
           <>
             <SectionDivider heading="Notices" />
@@ -72,7 +75,6 @@ export default async function Home() {
       </div>
       </div>
       <MusicBar song={song} />
-      <NavBar />
     </main>
   );
 }

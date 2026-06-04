@@ -5,7 +5,7 @@ import DiscoBall from "../DiscoBall";
 
 export default function Hero() {
   return (
-    <div className="w-full max-w-6xl h-screen relative flex flex-col overflow-hidden items-center bg-red">
+    <div className="w-full max-w-6xl h-screen flex flex-col overflow-hidden items-center bg-red">
       {/* Stars background */}
       {/* <div className="bg-red w-full flex flex-col items-center justify-start pt-8"> */}
         {/* Four stars in a row */}
@@ -82,8 +82,8 @@ export default function Hero() {
         <Image
           src="/images/cut-out-home.png"
           alt="Amaia and Georgia (founders) behind the Decs"
-          width={300}
-          height={200}
+          width={1920}
+          height={1280}
           className="w-full h-full object-cover object-top"
           priority
         />

@@ -28,7 +28,7 @@ function RecordModel() {
 
 export default function DiscoBall() {
   return (
-    <div className="absolute -top-5 left-0 right-0 w-full h-[600px] md:h-[700px] tall-screen:h-[800px] pointer-events-none z-10">
+    <div className="absolute -top-5 md:-top-26 left-0 right-0 w-full h-[600px] md:h-[700px] tall-screen:h-[800px] pointer-events-none z-10">
       <Canvas
         camera={{ position: [0, 0, 0.75], fov: 50 }}
         gl={{ antialias: false }}

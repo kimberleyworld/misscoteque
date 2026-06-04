@@ -6,7 +6,7 @@
 
 @layer base {
   html, body {
-    @apply overflow-x-hidden;
+    /* @apply overflow-x-hidden; */
   }
   h1 {
     @apply text-4xl md:text-6xl font-bold uppercase;
