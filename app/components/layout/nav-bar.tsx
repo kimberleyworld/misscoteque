@@ -14,7 +14,7 @@ export default function NavBar() {
   ];
 
   return (
-    <nav className="md:hidden w-full bg-black text-cream border-t-2 border-cream sticky top-0 z-[999] font-[family-name:var(--code)]">
+    <nav className="mdmd:hidden w-full bg-black text-cream sticky top-0 z-[999] shrink-0 font-[family-name:var(--code)]">
       <div className="flex justify-center items-center gap-4 py-2 px-4">
         {navItems.map((item) => (
           <Link
