@@ -19,16 +19,9 @@ export function AdminPassword({ onSuccess }: AdminPasswordProps) {
     e.preventDefault()
     setLoading(true)
 
-    // Set password cookie valid for 7 days
-    const expiryDate = new Date()
-    expiryDate.setDate(expiryDate.getDate() + 7)
-
     if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
-      document.cookie = `admin_auth=${btoa(password)}; path=/; expires=${expiryDate.toUTCString()}`
       toast("Access granted!", { position: "top-center" })
-      setTimeout(() => {
-        onSuccess()
-      }, 300)
+      onSuccess()
     } else {
       toast("Incorrect password", {
         description: "Please try again",
@@ -41,9 +34,9 @@ export function AdminPassword({ onSuccess }: AdminPasswordProps) {
 
   return (
     <main className="min-h-screen bg-cream flex items-center justify-center px-4">
-      <Card className="w-full max-w-md bg-cream/5 border-pink/30 rounded-none">
-        <CardHeader className="bg-pink/10 border-b border-pink/20">
-          <h1 className="text-pink font-impact text-3xl">Admin Access</h1>
+      <Card className="w-full max-w-md bg-cream/5 border-black/30 rounded-none">
+        <CardHeader className="bg-black/10 border-b border-black/20 flex flex-col">
+          <h1 className="text-black font-impact text-3xl">Admin Access</h1>
           <p className="text-black/60 text-sm">Enter password to continue</p>
         </CardHeader>
         <CardContent className="pt-8">
@@ -59,7 +52,7 @@ export function AdminPassword({ onSuccess }: AdminPasswordProps) {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 disabled={loading}
-                className="bg-cream/5 border-orange/30 text-black"
+                className="bg-cream/5 border-black/30 text-black"
                 autoFocus
                 required
               />
@@ -68,7 +61,7 @@ export function AdminPassword({ onSuccess }: AdminPasswordProps) {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-pink hover:bg-pink/90 text-black font-impact"
+              className="w-full bg-black hover:bg-black/90 text-cream font-impact"
             >
               {loading ? "Verifying..." : "Access"}
             </Button>

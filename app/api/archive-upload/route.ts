@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 
-// In-memory rate limiting store (IP address -> last submission timestamp)
-const submissionStore = new Map<string, number>()
-const RATE_LIMIT_WINDOW = 24 * 60 * 60 * 1000 // 24 hours in milliseconds (stricter for uploads)
+// In-memory rate limiting store (IP address -> array of submission timestamps)
+const submissionStore = new Map<string, number[]>()
+const RATE_LIMIT_WINDOW = 24 * 60 * 60 * 1000 // 24 hours in milliseconds
+const MAX_UPLOADS_PER_WINDOW = 5 // Allow 5 uploads per 24 hours
 
 // Sanitize input to prevent XSS attacks (remove HTML tags and scripts)
 function sanitizeInput(input: string): string {
@@ -25,21 +26,21 @@ function getClientIp(request: NextRequest): string {
 // Check rate limit
 function checkRateLimit(ip: string): { allowed: boolean; remainingMs?: number } {
   const now = Date.now()
-  const lastSubmission = submissionStore.get(ip)
+  const submissions = submissionStore.get(ip) || []
 
-  if (!lastSubmission) {
-    submissionStore.set(ip, now)
-    return { allowed: true }
-  }
+  // Remove submissions older than the rate limit window
+  const recentSubmissions = submissions.filter((timestamp) => now - timestamp < RATE_LIMIT_WINDOW)
 
-  const timeSinceLastSubmission = now - lastSubmission
-  if (timeSinceLastSubmission < RATE_LIMIT_WINDOW) {
-    const remainingMs = RATE_LIMIT_WINDOW - timeSinceLastSubmission
+  // Check if user has exceeded the limit
+  if (recentSubmissions.length >= MAX_UPLOADS_PER_WINDOW) {
+    const oldestSubmission = recentSubmissions[0]
+    const remainingMs = RATE_LIMIT_WINDOW - (now - oldestSubmission)
     return { allowed: false, remainingMs }
   }
 
-  // Update the timestamp for this IP
-  submissionStore.set(ip, now)
+  // Add the current submission timestamp
+  recentSubmissions.push(now)
+  submissionStore.set(ip, recentSubmissions)
   return { allowed: true }
 }
 

@@ -15,12 +15,20 @@ export default async function AdminPage() {
       getApprovedArchive(),
     ])
 
+  // Remove fileData (Bytes) from archives to avoid serialization issues
+  const serializedData = {
+    pendingNotices: pendingNotices,
+    approvedNotices: approvedNotices,
+    pendingArchive: pendingArchive.map(({ fileData, ...rest }) => rest),
+    approvedArchive: approvedArchive.map(({ fileData, ...rest }) => rest),
+  }
+
   return (
     <AdminPasswordPage
-      pendingNotices={pendingNotices}
-      approvedNotices={approvedNotices}
-      pendingArchive={pendingArchive}
-      approvedArchive={approvedArchive}
+      pendingNotices={serializedData.pendingNotices}
+      approvedNotices={serializedData.approvedNotices}
+      pendingArchive={serializedData.pendingArchive}
+      approvedArchive={serializedData.approvedArchive}
     />
   )
 }

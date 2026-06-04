@@ -21,7 +21,7 @@ export default function ArchiveTile({ archive }: ArchiveTileProps) {
 
   return (
     <Link href={`/archive-item/${archive.id}`}>
-      <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full border-red bg-black rounded-none">
+      <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full border-black bg-black rounded-none">
         <CardHeader>
           <p className="text-sm text-cream/60 pr-4 border-r border-black/20">{formattedDate}</p>
           <CardTitle className='text-cream font-impact pl-4'>{archive.title}</CardTitle>

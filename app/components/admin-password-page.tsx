@@ -21,14 +21,7 @@ export function AdminPasswordPage({
   pendingArchive,
   approvedArchive,
 }: AdminPasswordPageProps) {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    // Check if password cookie exists on initial mount
-    if (typeof document === "undefined") return false
-    const adminAuth = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("admin_auth="))
-    return !!adminAuth
-  })
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   if (!isAuthenticated) {
     return <AdminPassword onSuccess={() => setIsAuthenticated(true)} />
@@ -39,11 +32,17 @@ export function AdminPasswordPage({
       <div className="max-w-5xl mx-auto px-4 py-12">
         <div className="flex justify-between items-start mb-8">
           <div>
-            <h1 className="text-red font-impact text-4xl mb-2">Moderation Center</h1>
+            <h1 className="text-black font-impact text-4xl mb-2">Moderation Center</h1>
             <p className="text-black/60">
               Review and approve community notices and archive entries
             </p>
           </div>
+          <button 
+            onClick={() => setIsAuthenticated(false)}
+            className="bg-black hover:bg-black/80 text-cream px-4 py-2 font-impact rounded-none"
+          >
+            Logout
+          </button>
         </div>
 
         <AdminModeration

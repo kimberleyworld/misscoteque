@@ -117,7 +117,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
         placeholder="Search archive..."
         value={filters.search}
         onChange={(e) => handleFilterChange("search", e.target.value)}
-        className="border-red bg-cream/5 text-cream placeholder:text-cream/50"
+        className="border-black bg-cream/5 text-black placeholder:text-black"
       />
 
       {/* Sort Options */}
@@ -165,13 +165,13 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
             placeholder="Filter by Title"
             value={filters.title}
             onChange={(e) => handleFilterChange("title", e.target.value)}
-            className="border-red bg-cream/5 text-cream placeholder:text-cream/50"
+            className="border-black bg-cream/5 text-black placeholder:text-black"
           />
 
           <select
             value={filters.contentType}
             onChange={(e) => handleFilterChange("contentType", e.target.value)}
-            className="px-3 py-2 border-2 border-red bg-cream/5 text-cream rounded-none hover:border-red/50 focus:outline-none focus:border-red"
+            className="px-3 py-2 border-2 border-black bg-cream/5 text-black rounded-none hover:border-black/50 focus:outline-none focus:border-black"
           >
             <option value="">All Content Types</option>
             <option value="image">Images</option>
@@ -184,7 +184,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
           <select
             value={filters.date}
             onChange={(e) => handleFilterChange("date", e.target.value)}
-            className="px-3 py-2 border-2 border-red bg-cream/5 text-cream rounded-none hover:border-red/50 focus:outline-none focus:border-red"
+            className="px-3 py-2 border-2 border-black bg-cream/5 text-black rounded-none hover:border-black/50 focus:outline-none focus:border-black"
           >
             <option value="">All Dates</option>
             {uniqueDates.map((date) => (
@@ -197,7 +197,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
           {hasActiveFilters && (
             <Button
               onClick={clearFilters}
-              className="bg-red/10 border border-red text-cream hover:bg-red/20 rounded-none"
+              className="bg-red/10 border border-black text-cream hover:bg-red/20 rounded-none"
             >
               Clear Filters
             </Button>
@@ -210,12 +210,12 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
             placeholder="Filter by Title"
             value={filters.title}
             onChange={(e) => handleFilterChange("title", e.target.value)}
-            className="w-full border-red bg-cream/5 text-cream placeholder:text-cream/50"
+            className="w-full border-black bg-cream/5 text-black placeholder:text-black/50"
           />
           <select
             value={filters.contentType}
             onChange={(e) => handleFilterChange("contentType", e.target.value)}
-            className="w-full px-3 py-2 border-2 border-red bg-cream/5 text-cream rounded-none hover:border-red/50 focus:outline-none focus:border-red"
+            className="w-full px-3 py-2 border-2 border-black bg-cream/5 text-black rounded-none hover:border-black/50 focus:outline-none focus:border-black"
           >
             <option value="">All Content Types</option>
             <option value="image">Images</option>
@@ -227,7 +227,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
           <select
             value={filters.date}
             onChange={(e) => handleFilterChange("date", e.target.value)}
-            className="w-full px-3 py-2 border-2 border-red bg-cream/5 text-cream rounded-none hover:border-red/50 focus:outline-none focus:border-red"
+            className="w-full px-3 py-2 border-2 border-black bg-cream/5 text-black rounded-none hover:border-black/50 focus:outline-none focus:border-black"
           >
             <option value="">All Dates</option>
             {uniqueDates.map((date) => (
@@ -239,7 +239,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
           {hasActiveFilters && (
             <Button
               onClick={clearFilters}
-              className="w-full bg-red/10 border border-red text-cream hover:bg-red/20 rounded-none"
+              className="w-full bg-red/10 border border-black text-cream hover:bg-red/20 rounded-none"
             >
               Clear Filters
             </Button>
@@ -254,7 +254,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
             <Button
               onClick={clearFilters}
               variant="outline"
-              className="border-red/30 text-cream hover:bg-red/10"
+              className="border-black text-cream hover:bg-red/10"
             >
               Clear all filters
             </Button>

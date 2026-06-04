@@ -4,6 +4,7 @@ import { Button } from '@/app/components/ui/button';
 import Link from 'next/link';
 import { getMockArchives } from '@/lib/mockArchiveData';
 import ArchiveBackground from '@/app/components/layout/ArchiveBackground';
+import { FormsModal } from '@/app/components/layout/forms-modal';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,27 +16,31 @@ export default async function ArchivePage() {
       where: { isPublished: true },
       orderBy: { eventDate: 'desc' },
     });
-  } catch (error) {
+  } catch {
     console.log('Database unavailable, using mock data');
     archives = getMockArchives();
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden flex flex-col items-center justify-center">
       <ArchiveBackground />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-12 py-8">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-12 py-8 bg-cream border-black h-[85vh] overflow-y-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]">
         <Link href="/" className="inline-block mb-6">
-          <Button className="bg-cream hover:bg-white/60 text-black font-impact rounded-none">
+          <Button className="bg-black hover:bg-black/80 text-cream font-impact rounded-none">
             ← Back to Website
           </Button>
         </Link>
 
-        <h1 className="text-cream text-3xl sm:text-6xl font-impact mb-8">
+        <h1 className="text-black text-3xl sm:text-6xl font-impact mb-8">
           The Archive
         </h1>
 
         <ArchiveClient initialArchives={archives} />
+
+        <div className="mt-12 flex justify-center">
+          <FormsModal showNotice={false} showArchive={true} />
+        </div>
       </div>
     </div>
   );

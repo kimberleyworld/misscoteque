@@ -18,8 +18,8 @@ interface Notice {
   link: string | null
   isApproved: boolean
   isActive: boolean
-  createdAt: Date
-  updatedAt: Date
+  createdAt: Date | string
+  updatedAt: Date | string
 }
 
 interface ArchiveEntry {
@@ -31,8 +31,8 @@ interface ArchiveEntry {
   fileName: string | null
   isApproved: boolean
   isPublished: boolean
-  createdAt: Date
-  updatedAt: Date
+  createdAt: Date | string
+  updatedAt: Date | string
 }
 
 interface AdminModerationProps {
@@ -135,9 +135,9 @@ export function AdminModeration({
     details?: React.ReactNode
     id: string
     type: "notice" | "archive"
-    createdAt: Date
+    createdAt: Date | string
   }) => (
-    <Card className="bg-cream/5 border-orange/30 rounded-none">
+    <Card className="bg-cream/5 border-black rounded-none">
       <CardHeader>
         <h3 className="text-black font-bold text-lg">{title}</h3>
         <CardDescription className="text-black/70">
@@ -159,7 +159,7 @@ export function AdminModeration({
             onClick={() => reject(id, type)}
             disabled={loading === `${type}-${id}`}
             variant="outline"
-            className="border-orange/30 text-black hover:bg-orange/10"
+            className="border-black text-black hover:bg-black"
           >
             {loading === `${type}-${id}` ? "Rejecting..." : "Reject"}
           </Button>
@@ -172,7 +172,7 @@ export function AdminModeration({
     <div className="space-y-12">
       {/* Community Notices */}
       <div>
-        <h2 className="text-pink font-impact text-3xl mb-4">
+        <h2 className="text-black font-impact text-3xl mb-4">
           Community Notices
         </h2>
         <div className="space-y-8">
@@ -207,7 +207,7 @@ export function AdminModeration({
                               href={notice.link}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-pink underline"
+                              className="text-black underline"
                             >
                               {notice.link}
                             </a>
@@ -233,7 +233,7 @@ export function AdminModeration({
                 {notices.approved.map((notice) => (
                   <Card
                     key={notice.id}
-                    className="bg-cream/5 border-pink/30 rounded-none"
+                    className="bg-cream/5 border-black rounded-none"
                   >
                     <CardContent className="pt-6">
                       <div className="flex justify-between items-start gap-4">
@@ -243,7 +243,7 @@ export function AdminModeration({
                             {new Date(notice.createdAt).toLocaleString()}
                           </p>
                         </div>
-                        <span className="text-xs font-semibold text-pink bg-pink/10 px-2 py-1 rounded">
+                        <span className="text-xs font-semibold text-black bg-black/10 px-2 py-1 rounded">
                           Approved
                         </span>
                       </div>
@@ -258,7 +258,7 @@ export function AdminModeration({
 
       {/* Archive Entries */}
       <div>
-        <h2 className="text-orange font-impact text-3xl mb-4">
+        <h2 className="text-black font-impact text-3xl mb-4">
           Archive Entries
         </h2>
         <div className="space-y-8">
@@ -293,7 +293,7 @@ export function AdminModeration({
                               href={archive.URL}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-orange underline"
+                              className="text-black underline"
                             >
                               {archive.URL}
                             </a>
@@ -325,7 +325,7 @@ export function AdminModeration({
                 {archives.approved.map((archive) => (
                   <Card
                     key={archive.id}
-                    className="bg-cream/5 border-orange/30 rounded-none"
+                    className="bg-cream/5 border-black rounded-none"
                   >
                     <CardContent className="pt-6">
                       <div className="flex justify-between items-start gap-4">
@@ -337,7 +337,7 @@ export function AdminModeration({
                             {new Date(archive.createdAt).toLocaleString()}
                           </p>
                         </div>
-                        <span className="text-xs font-semibold text-orange bg-orange/10 px-2 py-1 rounded">
+                        <span className="text-xs font-semibold text-black bg-black/10 px-2 py-1 rounded">
                           Approved
                         </span>
                       </div>
