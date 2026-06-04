@@ -1,4 +1,5 @@
 import NavBar from "./components/layout/nav-bar";
+import VerticalNav from "./components/layout/vertical-nav";
 import MusicBar from "./components/layout/music-bar";
 import EventCard from "./components/ui/event-card";
 import Hero from "./components/layout/hero";
@@ -33,58 +34,60 @@ export default async function Home() {
   const nextEvent = upcomingEvents[0]
 
   return (
-    <>
+    <div className="bg-black">
       <Hero pageheading={content.pageheading} />
       <NavBar />
-      <main className="mx-auto max-w-6xl flex flex-col items-center w-full">
-        <div className="w-full bg-cream text-black flex justify-center flex-col items-center gap-4 pt-4">
-                  {upcomingEvents.length > 0 ? (
-                    <EventCard 
-                      eventDate={nextEvent?.eventDate}
-                      eventTime={nextEvent?.eventTime}
-                      ticketUrl={nextEvent?.ticketUrl}
-                      eventDescription={nextEvent?.eventDescription}
-                      imageUrl={nextEvent?.imageUrl}
-                      imageAlt={nextEvent?.imageAlt}
-                    />
-                  ) : (
-                    <div className="w-full flex flex-col md:flex-row justify-between items-stretch gap-4 border-2 border-red">
-                      <div className="flex-1">
-                        <h1 className="text-2xl font-bold px-4">next event</h1>
-                        <p className="text-sm px-4">No future events</p>
+      <main className="mx-auto max-w-6xl flex flex-col items-center w-full bg-cream">
+        <div className="w-full flex">
+          <VerticalNav />
+          <div className="flex-1 bg-cream text-black flex justify-center flex-col items-center gap-4 pt-4">
+                    {upcomingEvents.length > 0 ? (
+                      <EventCard 
+                        eventDate={nextEvent?.eventDate}
+                        eventTime={nextEvent?.eventTime}
+                        ticketUrl={nextEvent?.ticketUrl}
+                        eventDescription={nextEvent?.eventDescription}
+                        imageUrl={nextEvent?.imageUrl}
+                        imageAlt={nextEvent?.imageAlt}
+                      />
+                    ) : (
+                      <div className="w-full flex flex-col md:flex-row justify-between items-stretch gap-4 border-2 border-red">
+                        <div className="flex-1">
+                          <h1 className="text-2xl font-bold px-4">next event</h1>
+                          <p className="text-sm px-4">No future events</p>
+                        </div>
                       </div>
-                    </div>
-                  )}
-              <AboutSection title={content.abouttitle} copy={content.aboutcopy} />
-              <Link href="/artifacts" className="inline-block">
-                <Button className="bg-pink hover:bg-pink/90 text-black font-impact rounded-none">
-                  View the Archive →
-                </Button>
-              </Link>
-            
-              <MailerLiteForm />
-                {recentNotices.length > 0 && (    
-              <>
-                <SectionDivider heading="Notices" />
-                <NoticesCarousel notices={recentNotices} />
-              </>
-            )}
-            <SectionDivider heading="Crossword" />
-            <CrosswordSection/>
-          <SectionDivider heading="Our Ethos" />
-            <EthosSection />
-            <FormsModal />
-            {upcomingEvents.length > 1 && (
-              <>
-                <SectionDivider heading="All Events" />
-                <EventsCarousel events={upcomingEvents} />
-              </>
-            )}
-            <SectionDivider heading="Our Journey" />
-            <Timeline steps={timelineSteps} />
+                    )}
+                <AboutSection title={content.abouttitle} copy={content.aboutcopy} />
+              <CrosswordSection/>
+                <Link href="/artifacts" className="inline-block">
+                  <Button className="bg-pink hover:bg-pink/90 text-black font-impact rounded-none">
+                    View the Archive →
+                  </Button>
+                </Link>
+              
+                <MailerLiteForm />
+                  {recentNotices.length > 0 && (    
+                <>
+                  <SectionDivider heading="Notices" />
+                  <NoticesCarousel notices={recentNotices} />
+                </>
+              )}
+            <SectionDivider heading="Our Ethos" />
+              <EthosSection />
+              <FormsModal />
+              {upcomingEvents.length > 1 && (
+                <>
+                  <SectionDivider heading="All Events" />
+                  <EventsCarousel events={upcomingEvents} />
+                </>
+              )}
+              <SectionDivider heading="Our Journey" />
+              <Timeline steps={timelineSteps} />
+          </div>
         </div>
         <MusicBar song={song} />
       </main>
-  </>
+  </div>
 )
 }
