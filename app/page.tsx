@@ -10,21 +10,15 @@ import { getHomePageContent } from "@/lib/getHomePageContent";
 import CrosswordSection from "./components/layout/crossword-section";
 import { Button } from "./components/ui/button";
 import Link from "next/link";
-import { FormsModal } from "./components/layout/forms-modal";
 import { SectionDivider } from "./components/layout/section-divider";
-import { NoticesCarousel } from "./components/layout/notices-carousel";
+import { CommunityNoticeGrid } from "./components/layout/CommunityNoticeGrid";
 import { EventsCarousel } from "./components/layout/events-carousel";
 import { AboutSection } from "./components/layout/about-section";
-import { Timeline } from "./components/layout/timeline";
 import MailerLiteForm from "./components/MailerLiteForm";
-import { EthosSection } from "./components/layout/ethos";
-
-const timelineSteps = [
-  { id: 1, label: "Step 1", imageUrl: "/path/to/image1.jpg", imageAlt: "Step 1", description: "This is the first step of the process, where you will do X, Y, and Z." },
-  { id: 2, label: "Step 2", imageUrl: "/path/to/image2.jpg", imageAlt: "Step 2", description: "This is the second step of the process, where you will do A, B, and C." },
-  { id: 3, label: "Step 3", imageUrl: "/path/to/image3.jpg", imageAlt: "Step 3", description: "This is the third step of the process, where you will do D, E, and F." },
-  { id: 4, label: "Step 4", imageUrl: "/path/to/image4.jpg", imageAlt: "Step 4", description: "This is the fourth step of the process, where you will do G, H, and I." },
-]
+import Image from "next/image";
+import navStarOne from "@/public/images/nav-star-one.png"
+import navStarTwo from "@/public/images/nav-star-two.png"
+import navStarFour from "@/public/images/nav-star-four.png"
 
 export default async function Home() {
   const content = await getHomePageContent()
@@ -63,30 +57,53 @@ export default async function Home() {
                     )}
                 <AboutSection title={content.abouttitle} copy={content.aboutcopy} />
               <CrosswordSection/>
+               {recentNotices.length > 0 && (    
+                <>
+                  <SectionDivider heading="COMMUNITY NOTICE BOARD" />
+                  <CommunityNoticeGrid notices={recentNotices} description={content.communitynoticeboarddescription} />
+                </>
+              )}
+              <div className="bg-red py-20 relative overflow-visible">
+                <h1 className="px-8 text-center relative z-10">MAILING LIST</h1>
+                <Image
+                  src={navStarOne}
+                  alt="star"
+                  width={100}
+                  height={100}
+                  className="w-40 h-40 object-cover absolute -top-10 left-24"
+                />
+                <Image
+                  src={navStarTwo}
+                  alt="star"
+                  width={100}
+                  height={100}
+                  className="w-32 h-32 object-cover absolute top-16 right-24"
+                />
+                <Image
+                  src={navStarFour}
+                  alt="star"
+                  width={100}
+                  height={100}
+                  className="w-36 h-36 object-cover absolute bottom-5 left-1/4"
+                />
+                <div className="relative z-10 px-4">
+                  <MailerLiteForm />
+                </div>
+              </div>
+              
+              {upcomingEvents.length > 1 && (
+                <>
+                  <SectionDivider heading="All Upcoming events" />
+                  <EventsCarousel events={upcomingEvents} />
+                </>
+              )}
+             
+                  
                 <Link href="/artifacts" className="inline-block">
                   <Button className="bg-pink hover:bg-pink/90 text-black font-impact rounded-none">
                     View the Archive →
                   </Button>
                 </Link>
-              
-                <MailerLiteForm />
-                  {recentNotices.length > 0 && (    
-                <>
-                  <SectionDivider heading="Notices" />
-                  <NoticesCarousel notices={recentNotices} />
-                </>
-              )}
-            <SectionDivider heading="Our Ethos" />
-              <EthosSection />
-              <FormsModal />
-              {upcomingEvents.length > 1 && (
-                <>
-                  <SectionDivider heading="All Events" />
-                  <EventsCarousel events={upcomingEvents} />
-                </>
-              )}
-              <SectionDivider heading="Our Journey" />
-              <Timeline steps={timelineSteps} />
           </div>
         </div>
         <MusicBar song={song} />

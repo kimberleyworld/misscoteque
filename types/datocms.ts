@@ -37,6 +37,7 @@ export interface HomePageContent {
   pageheading: string
   abouttitle: string
   aboutcopy: string
+  communitynoticeboarddescription: string
 }
 
 export interface HomePageResponse {
