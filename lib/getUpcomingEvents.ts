@@ -27,6 +27,7 @@ const EVENTS_QUERY = gql`
 
 export interface FormattedEvent {
   id: string
+  eventTitle: string
   eventDate: string
   eventTime: string
   eventDescription: string
@@ -97,6 +98,7 @@ export async function getUpcomingEvents(): Promise<FormattedEvent[]> {
 
     return futureEvents.map((event: DatoCMSEvent) => ({
       id: event.id,
+      eventTitle: event.title,
       eventDate: formatEventDate(event.date),
       eventTime: formatEventTime(event.time),
       eventDescription: event.description,

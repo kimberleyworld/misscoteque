@@ -78,9 +78,12 @@ body {
   font-family: var(--code), Helvetica, sans-serif;
 }
 .spinning-record {
-  animation: recordSpin 1s linear infinite;
   transform-origin: center center;
   will-change: transform;
+}
+
+.spinning-record:hover {
+  animation: recordSpin 1s linear infinite;
 }
 
 @keyframes recordSpin {

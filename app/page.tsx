@@ -38,11 +38,12 @@ export default async function Home() {
       <Hero pageheading={content.pageheading} />
       <NavBar />
       <main className="mx-auto max-w-6xl flex flex-col items-center w-full bg-cream">
-        <div className="w-full flex">
+        <div className="w-full flex justify-between">
           <VerticalNav />
-          <div className="flex-1 bg-cream text-black flex justify-center flex-col items-center gap-4 pt-4">
+          <div className="flex-1 bg-cream text-black flex justify-center flex-col items-end gap-4 pt-4 mr-4">
                     {upcomingEvents.length > 0 ? (
                       <EventCard 
+                        eventTitle={nextEvent?.eventTitle}
                         eventDate={nextEvent?.eventDate}
                         eventTime={nextEvent?.eventTime}
                         ticketUrl={nextEvent?.ticketUrl}

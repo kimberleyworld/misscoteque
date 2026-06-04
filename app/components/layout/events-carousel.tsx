@@ -60,6 +60,7 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
           <EventCard
             key={event.id}
             variant="carousel"
+            eventTitle={event.eventTitle}
             eventDate={event.eventDate}
             eventTime={event.eventTime}
             eventDescription={event.eventDescription}

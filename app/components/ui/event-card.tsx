@@ -9,6 +9,7 @@ interface EventCardProps extends Omit<FormattedEvent, 'id'> {
 }
 
 function EventCard({
+  eventTitle,
   eventDate,
   eventTime,
   eventDescription,
@@ -23,16 +24,18 @@ function EventCard({
   return (
     <div
       className={cn(
-        "w-full flex flex-col md:flex-row justify-between items-stretch gap-4",
+        "w-full flex flex-col md:flex-row justify-between items-stretch gap-4 px-8 py-2",
         isBanner ? "border-2 border-red" : "border-b-4 border-black",
         className
       )}
     >
-      <div className={!isBanner && imageUrl ? "md:w-1/3" : "flex-1 px-10 md:px-4"}>
+      <div className={!isBanner && imageUrl ? "md:w-1/3" : "flex-1"}>
         <h1 className="text-2xl font-bold">next event</h1>
-        <p className="font-semibold">{eventDate}</p>
-        <p className="text-sm">{eventTime}</p>
-        <p className="text-sm">{eventDescription}</p>
+        {isBanner && <p className="text-sm">{eventTitle}</p>}
+        {isBanner && <p className="text-sm">{eventDate}</p>}
+        {!isBanner && <p className="font-semibold">{eventDate}</p>}
+        {!isBanner && <p className="text-sm">{eventTime}</p>}
+        {!isBanner && <p className="text-sm">{eventDescription}</p>}
       </div>
       {!isBanner && (
         <div
