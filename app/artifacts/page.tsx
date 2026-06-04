@@ -26,7 +26,7 @@ export default async function ArchivePage() {
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-12 py-8">
         <Link href="/" className="inline-block mb-6">
-          <Button className="bg-orange/10 border border-orange/30 text-cream hover:bg-orange/20 rounded-none">
+          <Button className="bg-cream hover:bg-white/60 text-black font-impact rounded-none">
             ← Back to Website
           </Button>
         </Link>

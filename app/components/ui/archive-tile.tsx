@@ -21,9 +21,9 @@ export default function ArchiveTile({ archive }: ArchiveTileProps) {
 
   return (
     <Link href={`/archive-item/${archive.id}`}>
-      <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full border-orange/20 bg-cream/5 rounded-none">
+      <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full border-red bg-black rounded-none">
         <CardHeader>
-          <p className="text-sm text-cream/60 pr-4 border-r border-cream/20">{formattedDate}</p>
+          <p className="text-sm text-cream/60 pr-4 border-r border-black/20">{formattedDate}</p>
           <CardTitle className='text-cream font-impact pl-4'>{archive.title}</CardTitle>
         </CardHeader>
         <CardContent>
@@ -34,7 +34,7 @@ export default function ArchiveTile({ archive }: ArchiveTileProps) {
           }}>
             {archive.description || archive.content}
           </p>
-          <p className="text-xs text-orange mt-2 font-impact">
+          <p className="text-xs text-cream mt-2 font-impact">
             View entry →
           </p>
         </CardContent>
