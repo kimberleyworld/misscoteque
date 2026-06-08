@@ -48,7 +48,7 @@ const formSchema = z.object({
     .max(200, "Contact details must be at most 200 characters."),
 })
 
-export function CommunityNoticeForm() {
+export function CommunityNoticeForm({ onSuccess }: { onSuccess?: () => void }) {
   const [isSubmitting, setIsSubmitting] = React.useState(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -100,12 +100,10 @@ export function CommunityNoticeForm() {
         classNames: {
           content: "flex flex-col gap-2",
         },
-        style: {
-          "--border-radius": "calc(var(--radius) + 4px)",
-        } as React.CSSProperties,
       })
 
       form.reset()
+      onSuccess?.()
     } catch (error) {
       console.error('Submission error:', error)
       toast("Something went wrong", {
@@ -118,9 +116,9 @@ export function CommunityNoticeForm() {
   }
 
   return (
-    <Card className="w-full max-w-3xl bg-black border-pink/20 rounded-none">
-      <CardHeader>
-        <h2 className="text-pink font-impact">Add a notice to the community board</h2>
+    <Card className="w-full bg-black rounded-none ">
+      <CardHeader className="flex flex-col items-start">
+        <h2 className="text-cream font-impact">Add a notice to the community board</h2>
         <CardDescription className="text-cream/80">
           This could be a request for a pet sitter, a missed connection callout, an event you want to advertise, etc.
         </CardDescription>
@@ -249,18 +247,19 @@ export function CommunityNoticeForm() {
             type="button" 
             variant="outline" 
             onClick={() => form.reset()}
-            className="border-pink/30 text-cream hover:bg-pink/10"
+            className=""
             disabled={isSubmitting}
           >
             Reset
           </Button>
           <Button 
             type="submit" 
+            variant="outline" 
             form="notice-form"
-            className="bg-pink hover:bg-pink/90 text-cream font-impact"
+            className=""
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Submitting..." : "Post Notice"}
+            {isSubmitting ? "SUBMITTING..." : "POST NOTICE"}
           </Button>
         </Field>
       </CardFooter>

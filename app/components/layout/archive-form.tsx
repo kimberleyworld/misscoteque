@@ -52,7 +52,7 @@ const formSchema = z.object({
     .optional(),
 })
 
-export function ArchiveForm() {
+export function ArchiveForm({ onSuccess }: { onSuccess?: () => void }) {
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null)
   const fileInputRef = React.useRef<HTMLInputElement>(null)
@@ -113,15 +113,13 @@ export function ArchiveForm() {
         position: "top-center",
         duration: 7000,
         classNames: {
-          content: "flex flex-col gap-2",
+          content: "flex flex-col gap-2 bg-black p-6 text-cream border-2 border-cream",
         },
-        style: {
-          "--border-radius": "calc(var(--radius) + 4px)",
-        } as React.CSSProperties,
       })
 
       form.reset()
       setSelectedFile(null)
+      onSuccess?.()
     } catch (error) {
       console.error('Submission error:', error)
       toast("Something went wrong", {
@@ -134,10 +132,10 @@ export function ArchiveForm() {
   }
 
   return (
-    <Card className="w-full max-w-3xl bg-cream/5 border-pink/20 rounded-none">
-      <CardHeader>
-        <h2 className="text-pink font-impact">Contribute to the Archive</h2>
-        <CardDescription className="text-black/80">
+    <Card className="w-full max-w-3xl bg-black rounded-none">
+      <CardHeader className="flex flex-col items-start">
+        <h2 className="text-cream font-impact">Contribute to the Archive</h2>
+        <CardDescription className="text-cream/80">
           Add your piece, recording, photo or other content to the Misscoteque Archive.
         </CardDescription>
       </CardHeader>
@@ -149,7 +147,7 @@ export function ArchiveForm() {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="archive-form-title" className="text-black">
+                  <FieldLabel htmlFor="archive-form-title" className="text-cream">
                     Title
                   </FieldLabel>
                   <Input
@@ -158,7 +156,7 @@ export function ArchiveForm() {
                     aria-invalid={fieldState.invalid}
                     placeholder="Name your entry..."
                     autoComplete="off"
-                    className="border-orange/30 text-black placeholder:text-black/50"
+                    className="border-orange/30 text-cream placeholder:text-cream/50"
                     disabled={isSubmitting}
                   />
                   {fieldState.invalid && (
@@ -173,7 +171,7 @@ export function ArchiveForm() {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="archive-form-description" className="text-black">
+                  <FieldLabel htmlFor="archive-form-description" className="text-cream">
                     Description
                   </FieldLabel>
                   <InputGroup className="border-orange/30">
@@ -182,12 +180,12 @@ export function ArchiveForm() {
                       id="archive-form-description"
                       placeholder="Brief overview of entry..."
                       rows={4}
-                      className="min-h-24 resize-none bg-cream/5 border-orange/30 text-black placeholder:text-black/50"
+                      className="min-h-24 resize-none bg-cream/5 border-orange/30 text-cream placeholder:text-cream/50"
                       aria-invalid={fieldState.invalid}
                       disabled={isSubmitting}
                     />
                     <InputGroupAddon align="block-end">
-                      <InputGroupText className="tabular-nums text-black/60 bg-cream/5 border-orange/30">
+                      <InputGroupText className="tabular-nums text-cream/60 bg-cream/5 border-orange/30">
                         {field.value.length}/500
                       </InputGroupText>
                     </InputGroupAddon>
@@ -204,7 +202,7 @@ export function ArchiveForm() {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="archive-form-content" className="text-black">
+                  <FieldLabel htmlFor="archive-form-content" className="text-cream">
                     Content (Optional)
                   </FieldLabel>
                   <InputGroup className="border-orange/30">
@@ -213,12 +211,12 @@ export function ArchiveForm() {
                       id="archive-form-content"
                       placeholder="Input your entry here."
                       rows={8}
-                      className="min-h-32 resize-y bg-cream/5 text-black placeholder:text-black/50 border-orange/30"
+                      className="min-h-32 resize-y bg-cream/5 text-cream placeholder:text-cream/50 border-orange/30"
                       aria-invalid={fieldState.invalid}
                       disabled={isSubmitting}
                     />
                     <InputGroupAddon align="block-end">
-                      <InputGroupText className="tabular-nums text-black/60 bg-cream/5 border-orange/30">
+                      <InputGroupText className="tabular-nums text-cream/60 bg-cream/5 border-orange/30">
                         {(field.value ?? "").length}/2000
                       </InputGroupText>
                     </InputGroupAddon>
@@ -235,7 +233,7 @@ export function ArchiveForm() {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="archive-form-url" className="text-black">
+                  <FieldLabel htmlFor="archive-form-url" className="text-cream">
                     URL
                   </FieldLabel>
                   <Input
@@ -244,7 +242,7 @@ export function ArchiveForm() {
                     type="url"
                     aria-invalid={fieldState.invalid}
                     placeholder="https://example.com"
-                    className="bg-cream/5 border-orange/30 text-black placeholder:text-black/50"
+                    className="bg-cream/5 border-orange/30 text-cream placeholder:text-cream/50"
                     disabled={isSubmitting}
                   />
                   {fieldState.invalid && (
@@ -258,7 +256,7 @@ export function ArchiveForm() {
             />
 
             <Field>
-              <FieldLabel htmlFor="archive-form-file" className="text-black">
+              <FieldLabel htmlFor="archive-form-file" className="text-cream">
                 Upload a file
               </FieldLabel>
               <input
@@ -276,7 +274,7 @@ export function ArchiveForm() {
               <Button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="bg-orange/10 border-orange/30 border text-black hover:bg-orange/20"
+                variant="outline"
                 disabled={isSubmitting}
               >
                 {selectedFile ? `Selected: ${selectedFile.name}` : "Choose File"}
@@ -291,7 +289,7 @@ export function ArchiveForm() {
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="archive-form-date" className="text-black">
+                  <FieldLabel htmlFor="archive-form-date" className="text-cream">
                     Date of publish
                   </FieldLabel>
                   <Input
@@ -299,7 +297,7 @@ export function ArchiveForm() {
                     id="archive-form-date"
                     type="datetime-local"
                     aria-invalid={fieldState.invalid}
-                    className="border-orange/30 text-black placeholder:text-black/50"
+                    className="bg-cream/5 border-orange/30 text-cream placeholder:text-cream/50 cursor-pointer"
                     disabled={isSubmitting}
                   />
                   {fieldState.invalid && (
@@ -317,18 +315,17 @@ export function ArchiveForm() {
             type="button" 
             variant="outline" 
             onClick={() => form.reset()}
-            className="border-pink/30 text-black hover:bg-pink/10"
             disabled={isSubmitting}
           >
             Reset
           </Button>
           <Button 
             type="submit" 
+            variant="outline"
             form="archive-form"
-            className="bg-pink hover:bg-pink/90 text-black font-impact"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Adding..." : "Add to Archive"}
+            {isSubmitting ? "ADDING..." : "ADD"}
           </Button>
         </Field>
       </CardFooter>

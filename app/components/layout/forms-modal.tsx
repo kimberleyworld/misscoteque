@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { CommunityNoticeForm } from "./notice-form"
 import { ArchiveForm } from "./archive-form"
+import { Modal } from "../ui/modal"
 import { Button } from "../ui/button"
 
 interface FormsModalProps {
@@ -15,12 +16,11 @@ export function FormsModal({ showNotice = true, showArchive = true }: FormsModal
 
   return (
     <>
-      {/* Buttons */}
       <div className="flex flex-col gap-4 justify-center items-center w-full">
         {showNotice && (
           <Button
             onClick={() => setActiveModal("notice")}
-            className="bg-black hover:bg-black/60 text-cream font-impact rounded-none w-full cursor-pointer"
+            variant="outline"
           >
             SUBMIT A NOTICE
           </Button>
@@ -28,40 +28,20 @@ export function FormsModal({ showNotice = true, showArchive = true }: FormsModal
         {showArchive && (
           <Button
             onClick={() => setActiveModal("archive")}
-            className="bg-black hover:bg-black/60 text-cream font-impact rounded-none w-full cursor-pointer"
+            variant="outline"
           >
-            UPLOAD TO ARCHIVE
+            ADD TO ARCHIVE
           </Button>
         )}
       </div>
 
-      {/* Modal Backdrop and Content */}
-      {activeModal && (
-        <div
-          className="fixed inset-0 bg-black/50 z-[600] flex items-center justify-center p-4"
-          onClick={() => setActiveModal(null)}
-        >
-          <div
-            className="bg-white rounded-lg shadow-lg w-full max-h-[90vh] overflow-y-auto relative"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close Button */}
-            <button
-              onClick={() => setActiveModal(null)}
-              className="absolute top-4 right-4 text-black hover:text-gray-700 text-2xl z-[601]"
-              aria-label="Close modal"
-            >
-              ✕
-            </button>
+      <Modal isOpen={activeModal === "notice"} onClose={() => setActiveModal(null)}>
+        <CommunityNoticeForm onSuccess={() => setActiveModal(null)} />
+      </Modal>
 
-            {/* Form Content */}
-            <div className="p-8">
-              {activeModal === "notice" && <CommunityNoticeForm />}
-              {activeModal === "archive" && <ArchiveForm />}
-            </div>
-          </div>
-        </div>
-      )}
+      <Modal isOpen={activeModal === "archive"} onClose={() => setActiveModal(null)}>
+        <ArchiveForm onSuccess={() => setActiveModal(null)} />
+      </Modal>
     </>
   )
 }

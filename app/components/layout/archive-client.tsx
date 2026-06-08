@@ -129,7 +129,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
             className={`rounded-none ${
               sortBy === "eventDate"
                 ? "bg-red text-cream hover:bg-red/90"
-                : "bg-black text-cream hover:bg-black/60"
+                : "bg-black text-cream hover:bg-black/60bg-black border border-black hover:border hover:border-cream text-cream font-impact rounded-none"
             }`}
           >
             Publish Date
@@ -139,7 +139,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
             className={`rounded-none ${
               sortBy === "createdAt"
                 ? "bg-red text-cream hover:bg-red/90"
-                : "bg-black text-cream hover:bg-black/60"
+                : "bg-black border border-black hover:border hover:border-cream text-cream font-impact rounded-none"
             }`}
           >
             Recently Added
@@ -149,7 +149,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
             className={`rounded-none ${
               sortBy === "title"
                 ? "bg-red text-cream hover:bg-red/90"
-                : "bg-black text-cream hover:bg-black/60"
+                : "bg-black border border-black hover:border hover:border-cream text-cream font-impact rounded-none"
             }`}
           >
             A-Z Title
@@ -261,7 +261,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
           )}
         </div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 ">
           {filteredArchives.map((archive) => (
             <ArchiveTile key={archive.id} archive={archive} />
           ))}

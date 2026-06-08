@@ -25,14 +25,14 @@ export default async function ArchivePage() {
     <div className="relative min-h-screen overflow-hidden flex flex-col items-center justify-center">
       <ArchiveBackground />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-12 py-8 bg-cream border-black h-[85vh] overflow-y-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-12 py-8 border-black h-[85vh] overflow-y-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]">
         <Link href="/" className="inline-block mb-6">
-          <Button className="bg-black hover:bg-black/80 text-cream font-impact rounded-none">
+          <Button className="bg-black border border-black hover:border hover:border-cream text-cream font-impact rounded-none">
             ← Back to Website
           </Button>
         </Link>
 
-        <h1 className="text-black text-3xl sm:text-6xl font-impact mb-8">
+        <h1 className="text-cream text-3xl sm:text-6xl font-impact mb-8">
           The Archive
         </h1>
 
