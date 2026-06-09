@@ -3,7 +3,6 @@
 import { Card, CardContent } from "@/app/components/ui/card"
 import Image from "next/image"
 import { FormsModal } from "./forms-modal"
-import navStarFive from "@/public/images/nav-star-five.png"
 
 interface Notice {
   id: string
@@ -11,6 +10,7 @@ interface Notice {
   description: string
   link?: string | null
   contactDetails?: string | null
+  imageUrl?: string | null
   createdAt: Date
 }
 

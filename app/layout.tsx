@@ -7,10 +7,11 @@ import { Toaster } from "sonner";
 export const metadata: Metadata = {
   title: "Misscoteque",
   description: "Archive, community Notice board and more... GAY STUFF",
+  metadataBase: new URL('https://misscoteque.world'),
   openGraph: {
     title: "Misscoteque",
     description: "Archive, community Notice board and more... GAY STUFF.",
-    url: "https:misscoteque.world",
+    url: "https://misscoteque.world",
     siteName: "Misscoteque Archive",
     images: [
       {

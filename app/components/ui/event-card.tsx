@@ -1,7 +1,11 @@
+'use client'
+
 import { Button } from "@/app/components/ui/button"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 import { FormattedEvent } from "@/lib/getUpcomingEvents"
+import { useState } from "react"
+import { ChevronDown } from "lucide-react"
 
 interface EventCardProps extends Omit<FormattedEvent, 'id'> {
   variant?: "banner" | "carousel"
@@ -20,12 +24,14 @@ function EventCard({
   className = ""
 }: EventCardProps) {
   const isBanner = variant === "banner"
+  const [isExpandedDescription, setIsExpandedDescription] = useState(false)
+  const descriptionExceedsCharLimit = eventDescription?.length > 60
   
   return (
     <div
       className={cn(
         "w-full flex justify-between items-stretch gap-4 py-2",
-        isBanner ? "flex-col md:flex-row px-6 md:px-8 border-2 border-red" : "flex-col px-0 border-b-4 border-black",
+        isBanner ? "flex-col md:flex-row px-6 md:px-8 border-2 border-red" : "flex-col border border-2 border-red p-4",
         className
       )}
     >
@@ -35,7 +41,26 @@ function EventCard({
         {isBanner && <p className="text-sm">{eventDate}</p>}
         {!isBanner && <p className="font-semibold">{eventDate}</p>}
         {!isBanner && <p className="text-sm">{eventTime}</p>}
-        {!isBanner && <p className="text-sm">{eventDescription}</p>}
+        {!isBanner && (
+          <div className="flex items-start gap-2">
+            <p
+              className={cn("text-sm", !isExpandedDescription && descriptionExceedsCharLimit && "line-clamp-1")}
+            >
+              {eventDescription}
+            </p>
+            {descriptionExceedsCharLimit && (
+              <button
+                onClick={() => setIsExpandedDescription(!isExpandedDescription)}
+                className="flex-shrink-0 p-1 hover:bg-gray-200 rounded transition-colors mt-0.5"
+              >
+                <ChevronDown
+                  size={16}
+                  className={cn("transition-transform", isExpandedDescription && "rotate-180")}
+                />
+              </button>
+            )}
+          </div>
+        )}
       </div>
       {!isBanner && (
         <div
