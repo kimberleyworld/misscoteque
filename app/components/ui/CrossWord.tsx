@@ -34,17 +34,17 @@ const PUZZLE_DATA: CrosswordData = {
   words: [
     // Across
     { id: "6a", clue: "Gay clip for securing things", answer: "CARABINER", direction: "across", startX: 0, startY: 6, number: 6 },
-    { id: "3a", clue: "Masc presenting Lesbian", answer: "BUTCH", direction: "across", startX: 4, startY: 2, number: 3 },
-    { id: "4a", clue: "A strong affinity to femininity", answer: "FEMME", direction: "across", startX: 6, startY: 4, number: 4 },
-    { id: "9a", clue: "BA place to store and record things", answer: "ARCHIVE", direction: "across", startX: 8, startY: 7, number: 9 },
-    { id: "8a", clue: "Typically girl on girl", answer: "LESBIAN", direction: "across", startX: 8, startY: 12, number: 8 },
+    { id: "3a", clue: "Someone who presents masculinely", answer: "BUTCH", direction: "across", startX: 4, startY: 2, number: 3 },
+    { id: "4a", clue: "Someone who presents femininely", answer: "FEMME", direction: "across", startX: 6, startY: 4, number: 4 },
+    { id: "9a", clue: "A place to store and record artifacts", answer: "ARCHIVE", direction: "across", startX: 8, startY: 7, number: 9 },
+    { id: "8a", clue: "A sexuality", answer: "LESBIAN", direction: "across", startX: 8, startY: 12, number: 8 },
     // Down
     { id: "1d", clue: "Working with wood", answer: "WOODWORK", direction: "down", startX: 2, startY: 0, number: 1 },
     { id: "2d", clue: "Academic study of identity", answer: "EPHEMERA", direction: "down", startX: 8, startY: 0, number: 2 },
     { id: "7d", clue: "Doing stuff to change stuff", answer: "ACTIVISM", direction: "down", startX: 10, startY: 6, number: 7},
     { id: "8d", clue: "Neck decor", answer: "TIES", direction: "down", startX: 12, startY: 6, number: 8 },
-    { id: "5d", clue: "Lesbian slur", answer: "DYKE", direction: "down", startX: 14, startY: 4, number: 5 },
-    { id: "10d", clue: "Gender assigned at birth does not match true gender", answer: "TRANS", direction: "down", startX: 14, startY: 9, number: 10 },
+    { id: "5d", clue: "Lesbian slur that has been reclaimed", answer: "DYKE", direction: "down", startX: 14, startY: 4, number: 5 },
+    { id: "10d", clue: "Gender identity differs from sex assigned at birth", answer: "TRANS", direction: "down", startX: 14, startY: 9, number: 10 },
     { id: "11d", clue: "Not a CD but a...", answer: "VINYL", direction: "down", startX: 12, startY: 11, number: 11 },
 
   ],
@@ -93,6 +93,7 @@ export default function CrossWord() {
   const [grid, setGrid] = useState<Cell[][]>(initializeGrid);
   const [focusedCell, setFocusedCell] = useState<{ x: number; y: number } | null>(null);
   const [crossedOutClues, setCrossedOutClues] = useState<Set<string>>(new Set());
+  const [currentDirection, setCurrentDirection] = useState<'across' | 'down' | null>(null);
   const inputRefs = useRef<Map<string, HTMLInputElement>>(new Map());
 
   // Toggle clue strikethrough
@@ -127,11 +128,57 @@ export default function CrossWord() {
   const handleInput = (x: number, y: number, value: string) => {
     const letter = value.slice(-1).toUpperCase();
     
+    if (!letter) return; // Don't proceed if empty
+    
     setGrid((prevGrid) => {
       const newGrid = prevGrid.map((row) => row.map((cell) => ({ ...cell })));
       newGrid[y][x].value = letter;
       return newGrid;
     });
+
+    // Auto-advance to next cell
+    const currentCell = grid[y][x];
+    if (currentCell && !currentCell.isTransparent) {
+      // Determine direction: prefer "across" if available
+      const hasAcross = currentCell.belongsTo.some(wordId => 
+        PUZZLE_DATA.words.find(w => w.id === wordId && w.direction === 'across')
+      );
+      const hasDown = currentCell.belongsTo.some(wordId => 
+        PUZZLE_DATA.words.find(w => w.id === wordId && w.direction === 'down')
+      );
+
+      let nextX = x;
+      let nextY = y;
+      let advanced = false;
+
+      // Try primary direction first
+      if (hasAcross) {
+        nextX = x + 1;
+        if (grid[nextY]?.[nextX] && !grid[nextY][nextX].isTransparent) {
+          advanced = true;
+        } else if (hasDown) {
+          // If can't go across but can go down, try down
+          nextX = x;
+          nextY = y + 1;
+          if (grid[nextY]?.[nextX] && !grid[nextY][nextX].isTransparent) {
+            advanced = true;
+          }
+        }
+      } else if (hasDown) {
+        nextY = y + 1;
+        if (grid[nextY]?.[nextX] && !grid[nextY][nextX].isTransparent) {
+          advanced = true;
+        }
+      }
+
+      if (advanced) {
+        setTimeout(() => {
+          setFocusedCell({ x: nextX, y: nextY });
+          const key = `${nextX}-${nextY}`;
+          inputRefs.current.get(key)?.focus();
+        }, 0);
+      }
+    }
   };
 
   // Handle arrow key navigation
@@ -237,13 +284,13 @@ export default function CrossWord() {
         </div>
 
         {/* Clues */}
-        <div className="flex-1 flex flex-col gap-2 px-4 w-full mt-4 md:mt-0">
+        <div className="flex-1 flex flex-col gap-0 px-4 w-full mt-4 md:mt-0">
           <div>
-            <p className="mb-2 text-sm">Click on the clues to cross them out. Click them again to uncross.</p>
+            <p className="mb-1 text-sm">Click on the clues to cross them out. Click them again to uncross.</p>
             <h3 className="text-xl text-black font-bold">
               Across
             </h3>
-            <ul>
+            <ul className="space-y-[-2px]">
               {PUZZLE_DATA.words
                 .filter((w) => w.direction === "across")
                 .map((word) => (
@@ -266,7 +313,7 @@ export default function CrossWord() {
             <h3 className="text-xl text-black font-bold">
               Down
             </h3>
-            <ul className="">
+            <ul className="space-y-[-2px]">
               {PUZZLE_DATA.words
                 .filter((w) => w.direction === "down")
                 .map((word) => (
