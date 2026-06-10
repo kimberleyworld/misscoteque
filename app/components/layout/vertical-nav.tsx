@@ -30,7 +30,7 @@ export default function VerticalNav() {
     capitalize
   "
 >
-  <SpinningRecord />
+  {/* <SpinningRecord /> */}
 
   {navItems.map((item) => (
     <Link

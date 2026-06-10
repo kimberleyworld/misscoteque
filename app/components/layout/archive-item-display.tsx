@@ -29,8 +29,8 @@ export function ArchiveItemDisplay({
 }: ArchiveItemDisplayProps) {
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-black">
-      <div className="mb-6">
+    <div className="max-w-4xl mx-auto p-6 relative">
+      <div className="mb-6 relative z-10">
         <Link href="/artifacts">
           <Button variant="outline" className="flex items-center gap-2 border-pink/20 bg-cream/5 text-cream hover:bg-pink/10 rounded-none">
             <ArrowLeft className="h-4 w-4" />
@@ -39,9 +39,9 @@ export function ArchiveItemDisplay({
         </Link>
       </div>
 
-      <Card className="border-pink/20 bg-cream/5 rounded-none">
+      <Card className="border-pink/20 bg-cream/5 rounded-none relative z-10">
         <CardHeader>
-          <CardTitle className="text-3xl text-cream font-impact">{archive.title}</CardTitle>
+          <CardTitle className="text-3xl text-cream font-impact break-words overflow-hidden">{archive.title}</CardTitle>
           <p className="text-cream/60 text-sm mt-2">{formattedDate}</p>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -99,7 +99,7 @@ export function ArchiveItemDisplay({
                   <img
                     src={`data:${archive.fileMimeType};base64,${Buffer.from(archive.fileData).toString('base64')}`}
                     alt={archive.title}
-                    className="max-w-full h-auto rounded"
+                    className="max-w-full h-auto rounded max-h-[70vh]"
                   />
                 </div>
               )}
@@ -114,7 +114,7 @@ export function ArchiveItemDisplay({
               )}
               {archive.fileMimeType === 'application/pdf' && (
                 <div>
-                  <p className="text-cream text-sm mb-2">PDF Document: {archive.fileName}</p>
+                  <p className="text-cream text-sm mb-2 break-words overflow-hidden">PDF Document: {archive.fileName}</p>
                   <a
                     href={`data:application/pdf;base64,${Buffer.from(archive.fileData).toString('base64')}`}
                     download={archive.fileName}
@@ -129,14 +129,14 @@ export function ArchiveItemDisplay({
 
           {/* Display main content */}
           <div className="prose prose-invert max-w-none">
-            <p className="text-cream whitespace-pre-line leading-relaxed">{archive.content}</p>
+            <p className="text-cream whitespace-pre-line leading-relaxed break-words overflow-hidden">{archive.content}</p>
           </div>
 
           {/* Show description if it exists and differs from content */}
           {archive.description && archive.description !== archive.content && (
             <div className="pt-6 border-t border-orange/20">
               <h3 className="text-lg font-impact text-cream mb-2">About</h3>
-              <p className="text-cream leading-relaxed">{archive.description}</p>
+              <p className="text-cream leading-relaxed break-words overflow-hidden">{archive.description}</p>
             </div>
           )}
 

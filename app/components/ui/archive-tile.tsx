@@ -24,7 +24,13 @@ export default function ArchiveTile({ archive }: ArchiveTileProps) {
       <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full bg-black border border-black hover:border hover:border-cream text-cream font-impact rounded-none">
         <CardHeader>
           <p className="text-sm text-cream/60 pr-4 border-r border-black/20">{formattedDate}</p>
-          <CardTitle className='text-cream font-impact pl-4'>{archive.title}</CardTitle>
+          <CardTitle className='text-cream font-impact pl-4 pr-4 break-words overflow-hidden' style={{ 
+            display: '-webkit-box', 
+            WebkitLineClamp: 2, 
+            WebkitBoxOrient: 'vertical' 
+          }}>
+            {archive.title}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <p className="overflow-hidden text-ellipsis text-cream text-sm" style={{ 
