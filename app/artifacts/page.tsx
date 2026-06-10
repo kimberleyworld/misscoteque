@@ -2,24 +2,16 @@ import { prisma } from '@/lib/prisma';
 import ArchiveClient from '@/app/components/layout/archive-client';
 import { Button } from '@/app/components/ui/button';
 import Link from 'next/link';
-import { getMockArchives } from '@/lib/mockArchiveData';
 import ArchiveBackground from '@/app/components/layout/ArchiveBackground';
 import { FormsModal } from '@/app/components/layout/forms-modal';
 
 export const dynamic = 'force-dynamic';
 
 export default async function ArchivePage() {
-  let archives;
-
-  try {
-    archives = await prisma.archive.findMany({
-      where: { isPublished: true },
-      orderBy: { eventDate: 'desc' },
-    });
-  } catch {
-    console.log('Database unavailable, using mock data');
-    archives = getMockArchives();
-  }
+  const archives = await prisma.archive.findMany({
+    where: { isPublished: true },
+    orderBy: { eventDate: 'desc' },
+  });
 
   return (
     <div className="relative min-h-screen overflow-hidden flex flex-col items-center justify-center">

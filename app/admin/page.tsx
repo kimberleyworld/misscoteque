@@ -5,6 +5,7 @@ import {
   getApprovedArchive,
 } from "@/lib/getNoticesAdmin"
 import { AdminPasswordPage } from "@/app/components/admin-password-page"
+import type { Archive } from "@prisma/client"
 
 export default async function AdminPage() {
   const [pendingNotices, approvedNotices, pendingArchive, approvedArchive] =
@@ -19,8 +20,8 @@ export default async function AdminPage() {
   const serializedData = {
     pendingNotices: pendingNotices,
     approvedNotices: approvedNotices,
-    pendingArchive: pendingArchive.map(({ fileData, ...rest }) => rest),
-    approvedArchive: approvedArchive.map(({ fileData, ...rest }) => rest),
+    pendingArchive: pendingArchive.map(({ fileData, ...rest }: Archive) => rest),
+    approvedArchive: approvedArchive.map(({ fileData, ...rest }: Archive) => rest),
   }
 
   return (

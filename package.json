@@ -40,6 +40,7 @@
     "@types/pg": "^8.18.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "baseline-browser-mapping": "^2.10.35",
     "eslint": "^9",
     "eslint-config-next": "16.0.3",
     "shadcn": "^3.8.5",

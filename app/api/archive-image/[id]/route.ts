@@ -1,5 +1,4 @@
 import { prisma } from '@/lib/prisma';
-import { getMockArchiveById } from '@/lib/mockArchiveData';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
@@ -10,18 +9,13 @@ export async function GET(
     const resolvedParams = await params;
     const { id } = resolvedParams;
 
-    let archive;
-    try {
-      archive = await prisma.archive.findUnique({
-        where: { id },
-        select: {
-          fileData: true,
-          fileMimeType: true,
-        },
-      });
-    } catch {
-      archive = getMockArchiveById(id);
-    }
+    const archive = await prisma.archive.findUnique({
+      where: { id },
+      select: {
+        fileData: true,
+        fileMimeType: true,
+      },
+    });
 
     if (!archive?.fileData || !archive?.fileMimeType?.startsWith('image/')) {
       return NextResponse.json({ error: 'Image not found' }, { status: 404 });
