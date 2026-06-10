@@ -29,6 +29,8 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
   })
   const [sortBy, setSortBy] = React.useState<SortOption>("eventDate")
   const [showMobileFilters, setShowMobileFilters] = React.useState(false)
+  const [currentPage, setCurrentPage] = React.useState(1)
+  const itemsPerPage = 15
 
   // Extract unique dates for filter dropdown
   const uniqueDates = React.useMemo(() => {
@@ -53,11 +55,13 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
   const handleFilterChange = (key: keyof Filters, value: string) => {
     const newFilters = { ...filters, [key]: value }
     setFilters(newFilters)
+    setCurrentPage(1)
     applyFiltersAndSort(newFilters, sortBy)
   }
 
   const handleSortChange = (newSort: SortOption) => {
     setSortBy(newSort)
+    setCurrentPage(1)
     applyFiltersAndSort(filters, newSort)
   }
 
@@ -106,10 +110,17 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
   const clearFilters = () => {
     setFilters({ title: "", date: "", search: "", contentType: "" })
     setSortBy("eventDate")
+    setCurrentPage(1)
     setFilteredArchives(initialArchives)
   }
 
   const hasActiveFilters = filters.title || filters.date || filters.search || filters.contentType
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredArchives.length / itemsPerPage)
+  const startIdx = (currentPage - 1) * itemsPerPage
+  const endIdx = startIdx + itemsPerPage
+  const paginatedArchives = filteredArchives.slice(startIdx, endIdx)
 
   return (
     <div className="space-y-6">
@@ -275,11 +286,50 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
           )}
         </div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 ">
-          {filteredArchives.map((archive) => (
-            <ArchiveTile key={archive.id} archive={archive} />
-          ))}
-        </div>
+        <>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 ">
+            {paginatedArchives.map((archive) => (
+              <ArchiveTile key={archive.id} archive={archive} />
+            ))}
+          </div>
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div className="flex justify-center items-center gap-2 mt-8">
+              <Button
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+                className="bg-black border border-cream text-cream hover:bg-black/80 disabled:opacity-50 disabled:cursor-not-allowed rounded-none"
+              >
+                ← Prev
+              </Button>
+
+              <div className="flex gap-1">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <Button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`rounded-none min-w-10 ${
+                      currentPage === page
+                        ? "bg-red text-cream hover:bg-red/90"
+                        : "bg-black border border-cream text-cream hover:bg-black/80"
+                    }`}
+                  >
+                    {page}
+                  </Button>
+                ))}
+              </div>
+
+              <Button
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={currentPage === totalPages}
+                className="bg-black border border-cream text-cream hover:bg-black/80 disabled:opacity-50 disabled:cursor-not-allowed rounded-none"
+              >
+                Next →
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </div>
   )
