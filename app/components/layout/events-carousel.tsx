@@ -76,7 +76,7 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
         <div className="flex gap-4 items-center">
           <button
             onClick={goToPrevious}
-            className="bg-red hover:bg-red/90 text-white px-4 py-2 rounded-md"
+            className="bg-red hover:bg-red/90 text-white px-4 py-2"
             aria-label="Previous page"
           >
             Previous
@@ -88,7 +88,7 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
               <button
                 key={index}
                 onClick={() => goToPage(index)}
-                className={`w-3 h-3 rounded-full transition-all ${
+                className={`w-3 h-3 transition-all ${
                   index === currentPage
                     ? "bg-red scale-125"
                     : "bg-gray-300 hover:bg-gray-400"
@@ -100,7 +100,7 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
 
           <button
             onClick={goToNext}
-            className="bg-red hover:bg-red/90 text-white px-4 py-2 rounded-md"
+            className="bg-red hover:bg-red/90 text-white px-4 py-2"
             aria-label="Next page"
           >
             Next

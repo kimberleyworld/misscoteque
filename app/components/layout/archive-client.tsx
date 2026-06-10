@@ -28,6 +28,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
     contentType: "",
   })
   const [sortBy, setSortBy] = React.useState<SortOption>("eventDate")
+  const [showMobileFilters, setShowMobileFilters] = React.useState(false)
 
   // Extract unique dates for filter dropdown
   const uniqueDates = React.useMemo(() => {
@@ -117,39 +118,42 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
         placeholder="Search archive..."
         value={filters.search}
         onChange={(e) => handleFilterChange("search", e.target.value)}
-        className="border-black bg-cream/5 text-black placeholder:text-black"
+        className="border-black bg-cream/80 text-black placeholder:text-black"
       />
 
       {/* Sort Options */}
       <div className="flex flex-col gap-2">
-        <p className="text-sm text-cream/60 font-impact">Sort By</p>
+        <p className="text-sm text-cream/60 font-impact capitalize">Sort By</p>
         <div className="flex flex-wrap gap-2">
           <Button
             onClick={() => handleSortChange("eventDate")}
+            variant="outline"
             className={`rounded-none ${
               sortBy === "eventDate"
-                ? "bg-red text-cream hover:bg-red/90"
-                : "bg-black text-cream hover:bg-black/60bg-black border border-black hover:border hover:border-cream text-cream font-impact rounded-none"
+                ? "bg-red text-cream"
+                : ""
             }`}
           >
             Publish Date
           </Button>
           <Button
             onClick={() => handleSortChange("createdAt")}
+            variant="outline"
             className={`rounded-none ${
               sortBy === "createdAt"
-                ? "bg-red text-cream hover:bg-red/90"
-                : "bg-black border border-black hover:border hover:border-cream text-cream font-impact rounded-none"
+                ? "bg-red text-cream"
+                : ""
             }`}
           >
             Recently Added
           </Button>
           <Button
             onClick={() => handleSortChange("title")}
+            variant="outline"
             className={`rounded-none ${
               sortBy === "title"
-                ? "bg-red text-cream hover:bg-red/90"
-                : "bg-black border border-black hover:border hover:border-cream text-cream font-impact rounded-none"
+                ? "bg-red text-cream"
+                : ""
             }`}
           >
             A-Z Title
@@ -165,13 +169,13 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
             placeholder="Filter by Title"
             value={filters.title}
             onChange={(e) => handleFilterChange("title", e.target.value)}
-            className="border-black bg-cream/5 text-black placeholder:text-black"
+            className="border-black bg-cream/80 text-black placeholder:text-black"
           />
 
           <select
             value={filters.contentType}
             onChange={(e) => handleFilterChange("contentType", e.target.value)}
-            className="px-3 py-2 border-2 border-black bg-cream/5 text-black rounded-none hover:border-black/50 focus:outline-none focus:border-black"
+            className="px-3 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outline-none focus:border-black"
           >
             <option value="">All Content Types</option>
             <option value="image">Images</option>
@@ -184,7 +188,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
           <select
             value={filters.date}
             onChange={(e) => handleFilterChange("date", e.target.value)}
-            className="px-3 py-2 border-2 border-black bg-cream/5 text-black rounded-none hover:border-black/50 focus:outline-none focus:border-black"
+            className="px-3 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outline-none focus:border-black"
           >
             <option value="">All Dates</option>
             {uniqueDates.map((date) => (
@@ -197,7 +201,6 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
           {hasActiveFilters && (
             <Button
               onClick={clearFilters}
-              className="bg-red/10 border border-black text-cream hover:bg-red/20 rounded-none"
             >
               Clear Filters
             </Button>
@@ -206,43 +209,54 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
 
         {/* Mobile filters */}
         <div className="md:hidden space-y-2">
-          <Input
-            placeholder="Filter by Title"
-            value={filters.title}
-            onChange={(e) => handleFilterChange("title", e.target.value)}
-            className="w-full border-black bg-cream/5 text-black placeholder:text-black/50"
-          />
-          <select
-            value={filters.contentType}
-            onChange={(e) => handleFilterChange("contentType", e.target.value)}
-            className="w-full px-3 py-2 border-2 border-black bg-cream/5 text-black rounded-none hover:border-black/50 focus:outline-none focus:border-black"
+          <Button
+            onClick={() => setShowMobileFilters(!showMobileFilters)}
+            className="w-full bg-black border border-cream text-cream hover:bg-black/80 hover:border hover:border-cream font-impact rounded-none"
           >
-            <option value="">All Content Types</option>
-            <option value="image">Images</option>
-            <option value="audio">Audio</option>
-            <option value="pdf">PDFs</option>
-            <option value="video-link">Videos/Links</option>
-            <option value="text">Text Only</option>
-          </select>
-          <select
-            value={filters.date}
-            onChange={(e) => handleFilterChange("date", e.target.value)}
-            className="w-full px-3 py-2 border-2 border-black bg-cream/5 text-black rounded-none hover:border-black/50 focus:outline-none focus:border-black"
-          >
-            <option value="">All Dates</option>
-            {uniqueDates.map((date) => (
-              <option key={date} value={date}>
-                {date}
-              </option>
-            ))}
-          </select>
-          {hasActiveFilters && (
-            <Button
-              onClick={clearFilters}
-              className="w-full bg-red/10 border border-black text-cream hover:bg-red/20 rounded-none"
-            >
-              Clear Filters
-            </Button>
+            {showMobileFilters ? "Hide Filters" : "Show Filters"}
+          </Button>
+
+          {showMobileFilters && (
+            <div className="space-y-2 pt-2 border-t border-black">
+              <Input
+                placeholder="Filter by Title"
+                value={filters.title}
+                onChange={(e) => handleFilterChange("title", e.target.value)}
+                className="w-full border-black bg-cream/80 text-black placeholder:text-black/50"
+              />
+              <select
+                value={filters.contentType}
+                onChange={(e) => handleFilterChange("contentType", e.target.value)}
+                className="w-full px-3 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outline-none focus:border-black"
+              >
+                <option value="">All Content Types</option>
+                <option value="image">Images</option>
+                <option value="audio">Audio</option>
+                <option value="pdf">PDFs</option>
+                <option value="video-link">Videos/Links</option>
+                <option value="text">Text Only</option>
+              </select>
+              <select
+                value={filters.date}
+                onChange={(e) => handleFilterChange("date", e.target.value)}
+                className="w-full px-3 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outline-none focus:border-black"
+              >
+                <option value="">All Dates</option>
+                {uniqueDates.map((date) => (
+                  <option key={date} value={date}>
+                    {date}
+                  </option>
+                ))}
+              </select>
+              {hasActiveFilters && (
+                <Button
+                  onClick={clearFilters}
+                  className="w-full bg-red/10 border border-black text-cream hover:bg-red/20 rounded-none"
+                >
+                  Clear Filters
+                </Button>
+              )}
+            </div>
           )}
         </div>
       </div>

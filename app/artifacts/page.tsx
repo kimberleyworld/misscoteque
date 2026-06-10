@@ -14,25 +14,24 @@ export default async function ArchivePage() {
   });
 
   return (
-    <div className="relative min-h-screen overflow-hidden flex flex-col items-center justify-center">
+    <div className="relative min-h-screen overflow-hidden flex flex-col items-center md:justify-center justify-start">
       <ArchiveBackground />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-12 py-8 border-black h-[85vh] overflow-y-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]">
-        <Link href="/" className="inline-block mb-6">
-          <Button className="bg-black border border-black hover:border hover:border-cream text-cream font-impact rounded-none">
-            ← Back to Website
-          </Button>
-        </Link>
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-12 py-8 border-black md:h-[85vh] overflow-y-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center items-start gap-4 w-full mb-6">
+          <Link href="/">
+            <Button className="w-max" variant="outline">
+              ← HOME
+            </Button>
+          </Link>
+          <FormsModal showNotice={false} showArchive={true} className="md:items-end items-start" />
+        </div>
 
         <h1 className="text-cream text-3xl sm:text-6xl font-impact mb-8">
           The Archive
         </h1>
 
         <ArchiveClient initialArchives={archives} />
-
-        <div className="mt-12 flex justify-center">
-          <FormsModal showNotice={false} showArchive={true} />
-        </div>
       </div>
     </div>
   );

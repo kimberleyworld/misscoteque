@@ -51,7 +51,7 @@ function EventCard({
             {descriptionExceedsCharLimit && (
               <button
                 onClick={() => setIsExpandedDescription(!isExpandedDescription)}
-                className="flex-shrink-0 p-1 hover:bg-gray-200 rounded transition-colors mt-0.5"
+                className="flex-shrink-0 p-1 hover:bg-gray-200 transition-colors mt-0.5"
               >
                 <ChevronDown
                   size={16}
@@ -82,7 +82,7 @@ function EventCard({
         </div>
       )}
       <div className={cn("flex items-center justify-center", isBanner ? "md:w-2/3 md:px-10" : "w-full")}>
-        <Button asChild className="w-full ">
+        <Button asChild className="w-full">
           <a href={ticketUrl} target="_blank" rel="noopener noreferrer">
             GET TICKETS
           </a>

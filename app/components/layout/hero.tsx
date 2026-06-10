@@ -23,7 +23,7 @@ export default function Hero({ pageheading }: HeroProps) {
           ...and more
         </ul>
         <Link href="/artifacts">
-          <Button className="mt-4">
+          <Button className="mt-4" variant="outline">
             View the Archive →
           </Button>
         </Link>

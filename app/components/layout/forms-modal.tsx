@@ -9,18 +9,18 @@ import { Button } from "../ui/button"
 interface FormsModalProps {
   showNotice?: boolean
   showArchive?: boolean
+  className?: string
 }
 
-export function FormsModal({ showNotice = true, showArchive = true }: FormsModalProps) {
+export function FormsModal({ showNotice = true, showArchive = true, className }: FormsModalProps) {
   const [activeModal, setActiveModal] = useState<"notice" | "archive" | null>(null)
 
   return (
     <>
-      <div className="flex flex-col gap-4 justify-center items-center w-full">
+      <div className={`flex flex-col gap-4 justify-center items-center ${className || ""}`}>
         {showNotice && (
           <Button
             onClick={() => setActiveModal("notice")}
-            variant="outline"
           >
             SUBMIT A NOTICE
           </Button>

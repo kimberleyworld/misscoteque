@@ -7,7 +7,7 @@ export function SectionDivider({ heading, variant = "default" }: SectionDividerP
   const isSmall = variant === "small"
   
   return (
-    <div className={`${isSmall ? "bg-black hover:bg-black/60" : "bg-red"} w-full  flex items-center justify-center`}>
+    <div className={`${isSmall ? "bg-black hover:bg-red hover:text-black text-cream" : "bg-red mb-4"} w-full  flex items-center justify-center`}>
       <h2 className={`${isSmall ? "text-xs p-1" : "text-lg md:text-xl py-1 px-4"} font-impact text-cream text-center`}>
         {heading}
       </h2>

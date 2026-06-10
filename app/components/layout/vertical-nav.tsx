@@ -36,7 +36,7 @@ export default function VerticalNav() {
     <Link
       key={item.id}
       href={item.href}
-      className="text-sm transition-all duration-300 hover:underline tracking-wide w-full"
+      className="text-sm tracking-wide w-full"
     >
       <SectionDivider heading={item.label} variant="small" />
     </Link>
