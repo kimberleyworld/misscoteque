@@ -81,6 +81,7 @@ export default async function Home() {
               )}
               <div className="bg-red py-20 relative overflow-visible">
                 <h1 className="px-8 text-center relative z-10 text-black hidden sm:block">MAILING LIST</h1>
+                <p className="px-8 mt-2 text-center relative z-10 text-cream "><span className="bg-black px-1">{content.mailinglistdescription}</span></p>
                 <Image
                   src={navStarOne}
                   alt="star"

@@ -7,6 +7,7 @@ export function SpinningRecord() {
         src="/images/record.png"
         alt="Record"
         fill
+        sizes="128px"
         className="object-contain"
       />
     </div>

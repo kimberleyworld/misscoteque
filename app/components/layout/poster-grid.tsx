@@ -31,6 +31,7 @@ export function PosterGrid({ posters }: PosterGridProps) {
                 src={poster.imageUrl}
                 alt={poster.imageAlt}
                 fill
+                sizes="(max-width: 768px) 50vw, 25vw"
                 className="object-cover"
               />
             </div>

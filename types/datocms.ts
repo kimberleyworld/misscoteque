@@ -54,6 +54,7 @@ export interface HomePageContent {
   communitynoticeboarddescription: string
   submitcommunitynoticetitle: string
   submitcommunitynoticedescription: string
+  mailinglistdescription: string
 }
 
 export interface HomePageResponse {
