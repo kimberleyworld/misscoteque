@@ -2,26 +2,27 @@
 
 import { useState, useRef, useEffect } from "react";
 
+type PlaylistTrack = {
+  id: string | number;
+  title: string;
+  artist: string;
+  audioUrl: string;
+};
+
 interface MusicBarProps {
   song?: {
     title: string;
     artist: string;
     audioUrl?: string;
   } | null;
+  playlist?: PlaylistTrack[];
 }
 
-const PLAYLIST = [
-  { id: 1, title: "Track 1", artist: "Artist A", audioUrl: "/music/track1.mp3" },
-  { id: 2, title: "Track 2", artist: "Artist B", audioUrl: "/music/track2.mp3" },
-  { id: 3, title: "Track 3", artist: "Artist C", audioUrl: "/music/track3.mp3" },
-  { id: 4, title: "Track 4", artist: "Artist D", audioUrl: "/music/track4.mp3" },
-  { id: 5, title: "Track 5", artist: "Artist E", audioUrl: "/music/track5.mp3" },
-];
-
-export default function MusicBar({ song }: MusicBarProps) {
+export default function MusicBar({ song, playlist }: MusicBarProps) {
+  const activePlaylist = playlist || [];
   const [isPlaying, setIsPlaying] = useState(false);
   const [showPlaylist, setShowPlaylist] = useState(false);
-  const [currentTrack, setCurrentTrack] = useState<typeof PLAYLIST[0] | null>(null);
+  const [currentTrack, setCurrentTrack] = useState<PlaylistTrack | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const playlistRef = useRef<HTMLDivElement>(null);
   const playlistButtonRef = useRef<HTMLButtonElement>(null);
@@ -60,7 +61,7 @@ export default function MusicBar({ song }: MusicBarProps) {
     }
   };
 
-  const handleTrackChange = (track: typeof PLAYLIST[0]) => {
+  const handleTrackChange = (track: PlaylistTrack) => {
     setCurrentTrack(track);
     setShowPlaylist(false);
   };
@@ -74,7 +75,7 @@ export default function MusicBar({ song }: MusicBarProps) {
           {/* Playlist Menu - appears above bar */}
           {showPlaylist && (
             <div ref={playlistRef} className="absolute bottom-full mb-2 left-8 sm:left-12 bg-black border border-cream max-h-56 overflow-y-auto z-50 w-max max-w-xs">
-              {PLAYLIST.map(track => (
+              {activePlaylist.map((track: PlaylistTrack) => (
                 <button
                   key={track.id}
                   onClick={() => handleTrackChange(track)}
@@ -111,18 +112,20 @@ export default function MusicBar({ song }: MusicBarProps) {
               )}
 
               {/* Playlist Button - Hamburger Menu */}
-              <button
-                ref={playlistButtonRef}
-                onClick={() => setShowPlaylist(!showPlaylist)}
-                className="cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-cream p-1"
-                aria-label="Toggle playlist"
-                title="Our fave songs"
-                type="button"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
-                </svg>
-              </button>
+              {activePlaylist.length > 0 && (
+                <button
+                  ref={playlistButtonRef}
+                  onClick={() => setShowPlaylist(!showPlaylist)}
+                  className="cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-cream p-1"
+                  aria-label="Toggle playlist"
+                  title="Our fave songs"
+                  type="button"
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                  </svg>
+                </button>
+              )}
             </div>
             <div className="flex-1 overflow-hidden">
               <div className="animate-marquee whitespace-nowrap font-[family-name:var(--code)]">

@@ -38,6 +38,10 @@ export interface DatoCMSMarqueSongResponse {
   marqueSong: DatoCMSSong
 }
 
+export interface DatoCMSSongsPlaylistResponse {
+  allMarqueSongs: DatoCMSSong[]
+}
+
 export interface DatoCMSCollection {
   id: string
   posters: DatoCMSAsset[]

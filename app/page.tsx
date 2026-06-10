@@ -5,7 +5,7 @@ import EventCard from "./components/ui/event-card";
 import Hero from "./components/layout/hero";
 import { getUpcomingEvents } from "@/lib/getUpcomingEvents";
 import { getRecentNotices } from "@/lib/getRecentNotices";
-import { getSong } from "@/lib/getSong";
+import { getSong, getPlaylist } from "@/lib/getSong";
 import { getHomePageContent } from "@/lib/getHomePageContent";
 import { getCollection } from "@/lib/getCollection";
 import CrosswordSection from "./components/layout/crossword-section";
@@ -21,13 +21,12 @@ import navStarOne from "@/public/images/nav-star-one.png"
 import navStarTwo from "@/public/images/nav-star-two.png"
 import navStarFour from "@/public/images/nav-star-four.png"
 
-export const revalidate = 3600 // Revalidate every 1 hour (ISR)
-
 export default async function Home() {
   const content = await getHomePageContent()
   const upcomingEvents = await getUpcomingEvents()
   const recentNotices = await getRecentNotices()
   const song = await getSong()
+  const playlist = await getPlaylist()
   const collection = await getCollection()
   const nextEvent = upcomingEvents[0]
 
@@ -118,7 +117,7 @@ export default async function Home() {
               <PosterGrid posters={posters} />
           </div>
         </div>
-        <MusicBar song={song} />
+        <MusicBar song={song} playlist={playlist} />
       </main>
   </div>
 )
