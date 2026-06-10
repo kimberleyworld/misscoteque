@@ -69,7 +69,7 @@ export default async function Home() {
                 <AboutSection title={content.abouttitle} copy={content.aboutcopy} />
               <CrosswordSection/>
                {recentNotices.length > 0 && (    
-                <>
+                <div id="community-notice-board">
                   <SectionDivider heading="COMMUNITY NOTICE BOARD" />
                   <CommunityNoticeGrid 
                     notices={recentNotices} 
@@ -77,7 +77,7 @@ export default async function Home() {
                     submitNoticeTitle={content.submitcommunitynoticetitle}
                     submitNoticeDescription={content.submitcommunitynoticedescription}
                   />
-                </>
+                </div>
               )}
               <div className="bg-red py-20 relative overflow-visible">
                 <h1 className="px-8 text-center relative z-10 text-black hidden sm:block">MAILING LIST</h1>
@@ -108,10 +108,10 @@ export default async function Home() {
               </div>
               
               {upcomingEvents.length > 1 && (
-                <>
+                <div id="events-carousel">
                   <SectionDivider heading="All Upcoming events" />
                   <EventsCarousel events={upcomingEvents} />
-                </>
+                </div>
               )}
               <SectionDivider heading="Past Poster Gallery"  />
               <PosterGrid posters={posters} />

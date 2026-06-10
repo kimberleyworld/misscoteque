@@ -7,9 +7,9 @@ import { SpinningRecord } from "./spinning-record";
 export default function VerticalNav() {
 
   const navItems = [
-    { href: "/#event", label: "Upcoming Events", id: "event" },
-    { href: "/#community-notice", label: "Submit Notice", id: "community-notice" },
-    { href: "/artifacts", label: "Go to the Archive", id: "archive" },
+    { href: "/#community-notice-board", label: "Community Notice Board", id: "community-notice-board" },
+    { href: "/#events-carousel", label: "Events", id: "events-carousel" },
+    { href: "/artifacts", label: "Archive", id: "archive" },
   ];
 
   return (
@@ -27,6 +27,7 @@ export default function VerticalNav() {
     px-4
     bg-cream
     gap-2
+    capitalize
   "
 >
   <SpinningRecord />
