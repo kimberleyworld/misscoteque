@@ -204,7 +204,53 @@ export default function CrossWord() {
         e.preventDefault();
         break;
       case "Backspace":
-        // Don't auto-navigate on backspace
+        e.preventDefault();
+        setGrid((prevGrid) => {
+          const newGrid = prevGrid.map((row) => row.map((cell) => ({ ...cell })));
+          newGrid[y][x].value = "";
+          return newGrid;
+        });
+        
+        // Auto-advance backwards
+        const currentCell = grid[y][x];
+        if (currentCell && !currentCell.isTransparent) {
+          const hasAcross = currentCell.belongsTo.some(wordId => 
+            PUZZLE_DATA.words.find(w => w.id === wordId && w.direction === 'across')
+          );
+          const hasDown = currentCell.belongsTo.some(wordId => 
+            PUZZLE_DATA.words.find(w => w.id === wordId && w.direction === 'down')
+          );
+
+          let prevX = x;
+          let prevY = y;
+          let advanced = false;
+
+          if (hasAcross) {
+            prevX = x - 1;
+            if (grid[prevY]?.[prevX] && !grid[prevY][prevX].isTransparent) {
+              advanced = true;
+            } else if (hasDown) {
+              prevX = x;
+              prevY = y - 1;
+              if (grid[prevY]?.[prevX] && !grid[prevY][prevX].isTransparent) {
+                advanced = true;
+              }
+            }
+          } else if (hasDown) {
+            prevY = y - 1;
+            if (grid[prevY]?.[prevX] && !grid[prevY][prevX].isTransparent) {
+              advanced = true;
+            }
+          }
+
+          if (advanced) {
+            setTimeout(() => {
+              setFocusedCell({ x: prevX, y: prevY });
+              const key = `${prevX}-${prevY}`;
+              inputRefs.current.get(key)?.focus();
+            }, 0);
+          }
+        }
         return;
       default:
         return;

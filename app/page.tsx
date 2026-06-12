@@ -16,6 +16,7 @@ import { EventsCarousel } from "./components/layout/events-carousel";
 import { AboutSection } from "./components/layout/about-section";
 import { PosterGrid } from "./components/layout/poster-grid";
 import { MailingListSection } from "./components/layout/mailing-list-section";
+import { ContactSection } from "./components/layout/contact-section";
 
 export default async function Home() {
   const content = await getHomePageContent()
@@ -82,6 +83,8 @@ export default async function Home() {
               )}
               <SectionDivider heading="Past Poster Gallery"  />
               <PosterGrid posters={posters} />
+               <SectionDivider heading="Contact"  />
+              <ContactSection email="wnbdiscocollective@gmail.com" instagram="@misscoteque" />
           </div>
         </div>
         <MusicBar song={song} playlist={playlist} />

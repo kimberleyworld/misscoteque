@@ -10,37 +10,52 @@ export default function VerticalNav() {
     { href: "/#community-notice-board", label: "Community Notice Board", id: "community-notice-board" },
     { href: "/#events-carousel", label: "Events", id: "events-carousel" },
     { href: "/artifacts", label: "Archive", id: "archive" },
+    { href: "https://www.instagram.com/misscoteque/?hl=en-gb", label: "Instagram", id: "instagram" },
+    { href: "/#contact", label: "Contact", id: "contact" },
   ];
 
   return (
-<nav
-  className="
-    hidden
-    md:flex
-    md:w-64
-    md:flex-col
-    md:items-center
-    md:sticky
-    md:top-0
-    self-start
-    py-6
-    px-4
-    bg-cream
-    gap-2
-    capitalize
-  "
->
-  {/* <SpinningRecord /> */}
-
-  {navItems.map((item) => (
-    <Link
-      key={item.id}
-      href={item.href}
-      className="text-sm tracking-wide w-full"
+    <div className="bg-black/20 md:mr-4 md:border-r-2 md:border-black">
+    <nav
+      className="
+        hidden
+        md:flex
+        md:w-64
+        md:flex-col
+        md:items-center
+        md:sticky
+        md:top-0
+        self-start
+        py-6
+        px-4
+        gap-2
+        capitalize
+      "
     >
-      <SectionDivider heading={item.label} variant="small" />
-    </Link>
-  ))}
-</nav>
+      {/* <SpinningRecord /> */}
+
+      {navItems.map((item) => 
+        item.href.startsWith('http') ? (
+          <a
+            key={item.id}
+            href={item.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm tracking-wide w-full"
+          >
+            <SectionDivider heading={item.label} variant="small" />
+          </a>
+        ) : (
+          <Link
+            key={item.id}
+            href={item.href}
+            className="text-sm tracking-wide w-full"
+          >
+            <SectionDivider heading={item.label} variant="small" />
+          </Link>
+        )
+      )}
+    </nav>
+    </div>
   );
 }
