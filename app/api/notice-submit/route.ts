@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
+import { Resend } from "resend"
 
 // In-memory rate limiting store (IP address -> array of submission timestamps)
 const submissionStore = new Map<string, number[]>()
@@ -108,25 +109,38 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    // Send notification via Zapier webhook
+    // Send email notification via Resend
     try {
-      const zapierWebhookUrl = process.env.ZAPIER_WEBHOOK_URL
-      if (zapierWebhookUrl) {
-        await fetch(zapierWebhookUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            title,
-            description,
-            contactDetails,
-            submittedAt: new Date().toISOString(),
-            adminLink: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/admin`,
-          }),
+      const resendApiKey = process.env.RESEND_API_KEY
+      const adminEmail = process.env.ADMIN_EMAIL || "wnbdiscocollective@gmail.com"
+
+      if (resendApiKey) {
+        const resend = new Resend(resendApiKey)
+        
+        const emailResult = await resend.emails.send({
+          from: "notification@misscoteque.world",
+          to: adminEmail,
+          subject: `New Community Notice: ${title}`,
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h2>New Community Notice Submitted</h2>
+              <p><strong>Title:</strong> ${title}</p>
+              <p><strong>Description:</strong> ${description}</p>
+              <hr />
+              <p><a href="${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/admin">Review in Admin Panel</a></p>
+            </div>
+          `,
         })
+        
+        if (emailResult.error) {
+          console.error("Resend API error:", emailResult.error)
+        } else {
+          console.log("Email sent successfully:", emailResult.data)
+        }
       }
-    } catch (webhookError) {
-      console.error("Failed to trigger Zapier webhook:", webhookError)
-      // Don't fail the submission if webhook fails
+    } catch (emailError) {
+      console.error("Failed to send email notification:", emailError)
+      // Don't fail the submission if email fails
     }
 
     return NextResponse.json(

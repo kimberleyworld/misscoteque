@@ -108,8 +108,8 @@ export function ArchiveForm({ onSuccess }: { onSuccess?: () => void }) {
       // Parse result but don't need to use it if successful
       await response.json()
       
-      toast("Submitted to the archive! ✨", {
-        description: "Your piece has been submitted, it will be reviewed and then added to the archive usually within a week. We will email you when it is published if you opted in for notifications.",
+      toast("Submitted to the archive!", {
+        description: "Your piece has been submitted, it will be reviewed and then added to the archive usually within a week. Thank you for contributing!",
         position: "top-center",
         duration: 7000,
         classNames: {
