@@ -51,7 +51,7 @@ export default async function ArchiveItemPage({ params }: ArchiveItemPageProps) 
     notFound();
   }
 
-  if (!archive.isPublished) {
+  if (!archive.isPublished || !archive.isApproved) {
     notFound();
   }
 

@@ -14,10 +14,12 @@ export async function GET(
       select: {
         fileData: true,
         fileMimeType: true,
+        isPublished: true,
+        isApproved: true,
       },
     });
 
-    if (!archive?.fileData || !archive?.fileMimeType?.startsWith('image/')) {
+    if (!archive?.fileData || !archive?.fileMimeType?.startsWith('image/') || !archive.isPublished || !archive.isApproved) {
       return NextResponse.json({ error: 'Image not found' }, { status: 404 });
     }
 

@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function ArchivePage() {
   const archives = await prisma.archive.findMany({
-    where: { isPublished: true },
+    where: { isPublished: true, isApproved: true },
     orderBy: { eventDate: 'desc' },
   });
 

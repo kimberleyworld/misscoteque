@@ -98,7 +98,7 @@ export function CommunityNoticeForm({ onSuccess }: { onSuccess?: () => void }) {
         position: "top-center",
         duration: 7000,
         classNames: {
-          content: "flex flex-col gap-2",
+          content: "flex flex-col gap-2 bg-black p-6 text-cream border-2 border-cream",
         },
       })
 
@@ -132,7 +132,7 @@ export function CommunityNoticeForm({ onSuccess }: { onSuccess?: () => void }) {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="notice-form-title" className="text-cream">
-                    Title
+                    Title <span className="text-red">*</span>
                   </FieldLabel>
                   <Input
                     {...field}
@@ -156,7 +156,7 @@ export function CommunityNoticeForm({ onSuccess }: { onSuccess?: () => void }) {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="notice-form-description" className="text-cream">
-                    Description
+                    Description <span className="text-red">*</span>
                   </FieldLabel>
                   <InputGroup className="border-orange/30">
                     <InputGroupTextarea
@@ -214,7 +214,7 @@ export function CommunityNoticeForm({ onSuccess }: { onSuccess?: () => void }) {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="notice-form-contact" className="text-cream">
-                    Contact Details
+                    Contact Details <span className="text-red">*</span>
                   </FieldLabel>
                   <InputGroup className="border-orange/30">
                     <InputGroupTextarea

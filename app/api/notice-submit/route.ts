@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server"
 import { prisma } from "@/lib/prisma"
 
-// In-memory rate limiting store (IP address -> last submission timestamp)
-const submissionStore = new Map<string, number>()
+// In-memory rate limiting store (IP address -> array of submission timestamps)
+const submissionStore = new Map<string, number[]>()
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000 // 1 hour in milliseconds
+const MAX_SUBMISSIONS_PER_WINDOW = 5 // Allow 5 submissions per hour
 
 // Sanitize input to prevent XSS attacks (remove HTML tags and scripts)
 function sanitizeInput(input: string): string {
@@ -25,21 +26,21 @@ function getClientIp(request: NextRequest): string {
 // Check rate limit
 function checkRateLimit(ip: string): { allowed: boolean; remainingMs?: number } {
   const now = Date.now()
-  const lastSubmission = submissionStore.get(ip)
+  const submissions = submissionStore.get(ip) || []
 
-  if (!lastSubmission) {
-    submissionStore.set(ip, now)
-    return { allowed: true }
-  }
+  // Remove submissions older than the rate limit window
+  const recentSubmissions = submissions.filter((timestamp) => now - timestamp < RATE_LIMIT_WINDOW)
 
-  const timeSinceLastSubmission = now - lastSubmission
-  if (timeSinceLastSubmission < RATE_LIMIT_WINDOW) {
-    const remainingMs = RATE_LIMIT_WINDOW - timeSinceLastSubmission
+  // Check if user has exceeded the limit
+  if (recentSubmissions.length >= MAX_SUBMISSIONS_PER_WINDOW) {
+    const oldestSubmission = recentSubmissions[0]
+    const remainingMs = RATE_LIMIT_WINDOW - (now - oldestSubmission)
     return { allowed: false, remainingMs }
   }
 
-  // Update the timestamp for this IP
-  submissionStore.set(ip, now)
+  // Add the current submission timestamp
+  recentSubmissions.push(now)
+  submissionStore.set(ip, recentSubmissions)
   return { allowed: true }
 }
 
@@ -52,7 +53,7 @@ export async function POST(request: NextRequest) {
     if (!rateLimitCheck.allowed) {
       const minutesRemaining = Math.ceil((rateLimitCheck.remainingMs || 0) / 60000)
       return NextResponse.json(
-        { error: `Too many submissions. Please try again in ${minutesRemaining} minute(s).` },
+        { error: `You have reached the submission limit. Please try again in ${minutesRemaining} minute(s).` },
         { status: 429 }
       )
     }

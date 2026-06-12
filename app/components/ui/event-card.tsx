@@ -82,11 +82,18 @@ function EventCard({
         </div>
       )}
       <div className={cn("flex items-center justify-center", isBanner ? "md:w-2/3 md:px-10" : "w-full")}>
-        <Button asChild className="w-full">
-          <a href={ticketUrl} target="_blank" rel="noopener noreferrer">
-            GET TICKETS
-          </a>
-        </Button>
+        {ticketUrl && (ticketUrl.startsWith("http://") || ticketUrl.startsWith("https://")) ? (
+          
+          <Button asChild className="w-full">
+            <a href={ticketUrl} target="_blank" rel="noopener noreferrer">
+              GET TICKETS
+            </a>
+          </Button>
+        ) : (
+          <Button disabled className="w-full">
+            NO TICKETS YET
+          </Button>
+        )}
       </div>
     </div>
   )

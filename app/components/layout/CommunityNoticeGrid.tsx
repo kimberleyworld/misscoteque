@@ -62,7 +62,7 @@ export function CommunityNoticeGrid({ notices, description, submitNoticeTitle, s
               height={24}
               className="w-6 h-6 absolute bottom-2 right-2 object-cover sm:hidden"
             />
-            <CardContent className="flex flex-col h-full">
+            <CardContent className="flex flex-col h-full px-10">
               <div className="flex-1">
                 
                 <h3 className="text-black font-bold text-lg mb-2">

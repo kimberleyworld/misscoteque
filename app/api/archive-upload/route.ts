@@ -179,6 +179,7 @@ export async function POST(request: NextRequest) {
       fileSize,
       eventDate: eventDateRaw ? new Date(eventDateRaw) : null,
       isPublished: true,
+      isApproved: false,
     }
 
     const archiveCreate = (prisma.archive as unknown as {

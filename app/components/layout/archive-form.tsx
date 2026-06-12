@@ -148,7 +148,7 @@ export function ArchiveForm({ onSuccess }: { onSuccess?: () => void }) {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="archive-form-title" className="text-cream">
-                    Title
+                    Title <span className="text-red">*</span>
                   </FieldLabel>
                   <Input
                     {...field}
@@ -172,7 +172,7 @@ export function ArchiveForm({ onSuccess }: { onSuccess?: () => void }) {
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="archive-form-description" className="text-cream">
-                    Description
+                    Description <span className="text-red">*</span>
                   </FieldLabel>
                   <InputGroup className="border-orange/30">
                     <InputGroupTextarea
