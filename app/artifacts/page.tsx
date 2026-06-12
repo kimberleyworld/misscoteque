@@ -20,7 +20,7 @@ export default async function ArchivePage() {
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-12 py-8 border-black md:h-[85vh] overflow-y-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]">
         <div className="flex flex-col md:flex-row md:justify-between md:items-center items-start gap-4 w-full mb-6">
           <Link href="/">
-            <Button className="w-max" variant="outline">
+            <Button className="w-max" variant="outlineDark">
               ← HOME
             </Button>
           </Link>

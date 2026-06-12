@@ -274,7 +274,7 @@ export function ArchiveForm({ onSuccess }: { onSuccess?: () => void }) {
               <Button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                variant="outline"
+                variant="outlineDark"
                 disabled={isSubmitting}
               >
                 {selectedFile ? `Selected: ${selectedFile.name}` : "Choose File"}
@@ -313,7 +313,7 @@ export function ArchiveForm({ onSuccess }: { onSuccess?: () => void }) {
         <Field orientation="horizontal" className="w-full justify-between">
           <Button 
             type="button" 
-            variant="outline" 
+            variant="outlineDark" 
             onClick={() => form.reset()}
             disabled={isSubmitting}
           >
@@ -321,7 +321,7 @@ export function ArchiveForm({ onSuccess }: { onSuccess?: () => void }) {
           </Button>
           <Button 
             type="submit" 
-            variant="outline"
+            variant="outlineDark"
             form="archive-form"
             disabled={isSubmitting}
           >

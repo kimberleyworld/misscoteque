@@ -3,7 +3,8 @@
 import { Card, CardHeader, CardTitle, CardContent } from '@/app/components/ui/card';
 import { Button } from '@/app/components/ui/button';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, LinkIcon } from 'lucide-react';
+import { useState } from 'react';
 
 interface ArchiveItemDisplayProps {
   archive: {
@@ -27,22 +28,37 @@ export function ArchiveItemDisplay({
   formattedDate,
   videoData,
 }: ArchiveItemDisplayProps) {
+  const [copied, setCopied] = useState(false);
+
+  const copyUrlToClipboard = () => {
+    const currentUrl = window.location.href;
+    navigator.clipboard.writeText(currentUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-6 relative">
       <div className="mb-6 relative z-10">
         <Link href="/artifacts">
-          <Button variant="outline" className="flex items-center gap-2 border-pink/20 bg-cream/5 text-cream hover:bg-pink/10 rounded-none">
+          <Button variant="outlineDark" className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />
             Back to Archive
           </Button>
         </Link>
       </div>
 
-      <Card className="border-pink/20 bg-cream/5 rounded-none relative z-10">
-        <CardHeader>
+      <Card className="border-orange/20 bg-cream/5 rounded-none relative z-10">
+        <button
+          onClick={copyUrlToClipboard}
+          className="absolute top-4 right-4 p-2 hover:bg-cream/10 transition-colors z-20 border border-cream"
+          title={copied ? "Copied!" : "Copy link"}
+        >
+          <LinkIcon className="h-4 w-4 text-cream" />
+        </button>
+        <CardHeader className="flex flex-col">
           <CardTitle className="text-3xl text-cream font-impact break-words overflow-hidden">{archive.title}</CardTitle>
-          <p className="text-cream/60 text-sm mt-2">{formattedDate}</p>
+          <p className="text-cream/60 text-sm mt-1">{formattedDate}</p>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Display URL/video if available */}
@@ -56,7 +72,6 @@ export function ArchiveItemDisplay({
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                className="rounded"
               />
             </div>
           )}
@@ -71,13 +86,12 @@ export function ArchiveItemDisplay({
                 frameBorder="0"
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowFullScreen
-                className="rounded"
               />
             </div>
           )}
 
           {!videoData && archive.URL && (
-            <div className="p-4 bg-orange/10 border border-orange/20 rounded">
+            <div className="p-4 bg-orange/10 border border-orange/20">
               <p className="text-cream text-sm mb-2">External Link:</p>
               <a
                 href={archive.URL}
@@ -92,14 +106,14 @@ export function ArchiveItemDisplay({
 
           {/* Display uploaded file if available */}
           {archive.fileData && archive.fileMimeType && (
-            <div className="p-4 bg-orange/10 border border-orange/20 rounded">
+            <div className="p-4 bg-orange/10 border border-orange/20">
               {archive.fileMimeType.startsWith('image/') && (
                 <div className="flex justify-center">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={`data:${archive.fileMimeType};base64,${Buffer.from(archive.fileData).toString('base64')}`}
                     alt={archive.title}
-                    className="max-w-full h-auto rounded max-h-[70vh]"
+                    className="max-w-full h-auto max-h-[70vh]"
                   />
                 </div>
               )}

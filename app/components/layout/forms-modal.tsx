@@ -28,7 +28,7 @@ export function FormsModal({ showNotice = true, showArchive = true, className }:
         {showArchive && (
           <Button
             onClick={() => setActiveModal("archive")}
-            variant="outline"
+            variant="outlineDark"
           >
             ADD TO ARCHIVE
           </Button>

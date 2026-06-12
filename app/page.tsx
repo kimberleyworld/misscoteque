@@ -63,17 +63,15 @@ export default async function Home() {
                     )}
                 <AboutSection title={content.abouttitle} copy={content.aboutcopy} />
               <CrosswordSection/>
-               {recentNotices.length > 0 && (    
-                <div id="community-notice-board">
-                  <SectionDivider heading="COMMUNITY NOTICE BOARD"/>
-                  <CommunityNoticeGrid 
-                    notices={recentNotices} 
-                    description={content.communitynoticeboarddescription}
-                    submitNoticeTitle={content.submitcommunitynoticetitle}
-                    submitNoticeDescription={content.submitcommunitynoticedescription}
-                  />
-                </div>
-              )}
+               <div id="community-notice-board">
+                <SectionDivider heading="COMMUNITY NOTICE BOARD"/>
+                <CommunityNoticeGrid 
+                  notices={recentNotices} 
+                  description={content.communitynoticeboarddescription}
+                  submitNoticeTitle={content.submitcommunitynoticetitle}
+                  submitNoticeDescription={content.submitcommunitynoticedescription}
+                />
+              </div>
               <MailingListSection description={content.mailinglistdescription} />
               
               {upcomingEvents.length > 1 && (

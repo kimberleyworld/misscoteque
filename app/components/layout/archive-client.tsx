@@ -138,7 +138,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
         <div className="flex flex-wrap gap-2">
           <Button
             onClick={() => handleSortChange("eventDate")}
-            variant="outline"
+            variant="outlineDark"
             className={`rounded-none ${
               sortBy === "eventDate"
                 ? "bg-red text-cream"
@@ -149,7 +149,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
           </Button>
           <Button
             onClick={() => handleSortChange("createdAt")}
-            variant="outline"
+            variant="outlineDark"
             className={`rounded-none ${
               sortBy === "createdAt"
                 ? "bg-red text-cream"
@@ -160,7 +160,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
           </Button>
           <Button
             onClick={() => handleSortChange("title")}
-            variant="outline"
+            variant="outlineDark"
             className={`rounded-none ${
               sortBy === "title"
                 ? "bg-red text-cream"
@@ -186,7 +186,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
           <select
             value={filters.contentType}
             onChange={(e) => handleFilterChange("contentType", e.target.value)}
-            className="px-3 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outline-none focus:border-black"
+            className="px-3 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outlineDark-none focus:border-black"
           >
             <option value="">All Content Types</option>
             <option value="image">Images</option>
@@ -199,7 +199,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
           <select
             value={filters.date}
             onChange={(e) => handleFilterChange("date", e.target.value)}
-            className="px-3 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outline-none focus:border-black"
+            className="px-3 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outlineDark-none focus:border-black"
           >
             <option value="">All Dates</option>
             {uniqueDates.map((date) => (
@@ -238,7 +238,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
               <select
                 value={filters.contentType}
                 onChange={(e) => handleFilterChange("contentType", e.target.value)}
-                className="w-full px-3 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outline-none focus:border-black"
+                className="w-full px-3 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outlineDark-none focus:border-black"
               >
                 <option value="">All Content Types</option>
                 <option value="image">Images</option>
@@ -250,7 +250,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
               <select
                 value={filters.date}
                 onChange={(e) => handleFilterChange("date", e.target.value)}
-                className="w-full px-3 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outline-none focus:border-black"
+                className="w-full px-3 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outlineDark-none focus:border-black"
               >
                 <option value="">All Dates</option>
                 {uniqueDates.map((date) => (
@@ -278,7 +278,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
           {hasActiveFilters && (
             <Button
               onClick={clearFilters}
-              variant="outline"
+              variant="outlineDark"
               className="border-black text-cream hover:bg-red/10"
             >
               Clear all filters

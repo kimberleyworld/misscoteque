@@ -22,10 +22,6 @@ interface CommunityNoticeGridProps {
 }
 
 export function CommunityNoticeGrid({ notices, description, submitNoticeTitle, submitNoticeDescription }: CommunityNoticeGridProps) {
-  if (notices.length === 0) {
-    return null
-  }
-
   return (
     <div className="w-full flex flex-col gap-6  px-4 sm:px-0">
       <p>{description}</p>
