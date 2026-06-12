@@ -34,7 +34,7 @@ export function ArchiveItemDisplay({
     const currentUrl = window.location.href;
     navigator.clipboard.writeText(currentUrl);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => setCopied(false), 5000);
   };
 
   return (
@@ -51,10 +51,10 @@ export function ArchiveItemDisplay({
       <Card className="border-orange/20 bg-cream/5 rounded-none relative z-10">
         <button
           onClick={copyUrlToClipboard}
-          className="absolute top-4 right-4 p-2 hover:bg-cream/10 transition-colors z-20 border border-cream"
-          title={copied ? "Copied!" : "Copy link"}
+          className="absolute top-4 right-4 p-2 hover:bg-cream/10 transition-colors z-20 border border-cream flex flex-col items-center gap-1"
         >
           <LinkIcon className="h-4 w-4 text-cream" />
+          <span className="text-xs text-cream">{copied ? "Copied!" : "Copy"}</span>
         </button>
         <CardHeader className="flex flex-col">
           <CardTitle className="text-3xl text-cream font-impact break-words overflow-hidden">{archive.title}</CardTitle>
