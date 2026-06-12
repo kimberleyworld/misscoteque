@@ -3,8 +3,9 @@
 import Link from "next/link";
 import { SectionDivider } from "./section-divider";
 import { SpinningRecord } from "./spinning-record";
+import { ArchiveDescription } from "./archive-description";
 
-export default function VerticalNav() {
+export default function VerticalNav({ description }: { description: string }) {
 
   const navItems = [
     { href: "/artifacts", label: "Archive", id: "archive" },
@@ -15,7 +16,7 @@ export default function VerticalNav() {
   ];
 
   return (
-    <div className="bg-black/20 md:mr-4 md:border-r-2 md:border-black">
+    <div className="bg-black/20 md:mr-4 md:border-r-2 md:border-black md:flex md:flex-col md:h-screen md:sticky md:top-0">
     <nav
       className="
         hidden
@@ -23,9 +24,7 @@ export default function VerticalNav() {
         md:w-64
         md:flex-col
         md:items-center
-        md:sticky
-        md:top-0
-        self-start
+        md:h-full
         py-6
         px-4
         gap-2
@@ -55,6 +54,7 @@ export default function VerticalNav() {
           </Link>
         )
       )}
+      <ArchiveDescription description={description} />
     </nav>
     </div>
   );

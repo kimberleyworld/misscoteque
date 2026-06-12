@@ -17,6 +17,7 @@ import { AboutSection } from "./components/layout/about-section";
 import { PosterGrid } from "./components/layout/poster-grid";
 import { MailingListSection } from "./components/layout/mailing-list-section";
 import { ContactSection } from "./components/layout/contact-section";
+import { ArchiveDescription } from "./components/layout/archive-description";
 
 export default async function Home() {
   const content = await getHomePageContent()
@@ -40,7 +41,7 @@ export default async function Home() {
       <NavBar />
       <main className="mx-auto max-w-6xl flex flex-col items-center w-full bg-cream">
         <div className="w-full flex justify-between">
-          <VerticalNav />
+          <VerticalNav description={content.archivedescription} />
 <div className="flex-1 bg-cream text-black flex flex-col gap-4 pt-4 sm:mr-4 mb-10">     
                  {upcomingEvents.length > 0 ? (
                       <div className="w-full px-2 md:px-0">
@@ -62,7 +63,11 @@ export default async function Home() {
                         </div>
                       </div>
                     )}
+               
                 <AboutSection title={content.abouttitle} copy={content.aboutcopy} />
+                <div className="md:hidden w-full px-4 md:px-0">
+                  <ArchiveDescription description={content.archivedescription} />
+                </div>
               <CrosswordSection/>
                <div id="community-notice-board">
                 <SectionDivider heading="COMMUNITY NOTICE BOARD"/>
