@@ -1,6 +1,3 @@
-import Link from "next/link";
-import { Button } from "../ui/button";
-
 export function ArchiveDescription({ description }: { description: string }) {
   return (
     <div className="w-full px-2 md:mb-12 md:px-0 md:mt-auto">
