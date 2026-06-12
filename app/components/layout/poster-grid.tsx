@@ -27,15 +27,21 @@ export function PosterGrid({ posters: initialPosters }: PosterGridProps) {
   );
   const [dragging, setDragging] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [posterDims, setPosterDims] = useState({ width: 192, height: 256 });
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const getPosterDimensions = () => {
-    // Mobile: 150px x 200px, Desktop: 192px x 256px
-    if (typeof window !== "undefined" && window.innerWidth < 768) {
-      return { width: 120, height: 150 };
-    }
-    return { width: 192, height: 256 };
-  };
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (window.innerWidth < 768) {
+        setPosterDims({ width: 120, height: 150 });
+      }
+    };
+    updateDimensions();
+    window.addEventListener("resize", updateDimensions);
+    return () => window.removeEventListener("resize", updateDimensions);
+  }, []);
+
+  const getPosterDimensions = () => posterDims;
 
   const handlePointerDown = (index: number, e: React.PointerEvent) => {
     e.preventDefault();
@@ -91,7 +97,7 @@ export function PosterGrid({ posters: initialPosters }: PosterGridProps) {
       document.removeEventListener("pointermove", handlePointerMove);
       document.removeEventListener("pointerup", handlePointerUp);
     };
-  }, [dragging, dragOffset]);
+  }, [dragging, dragOffset, posterDims]);
 
   if (initialPosters.length === 0) {
     return (
@@ -120,6 +126,7 @@ export function PosterGrid({ posters: initialPosters }: PosterGridProps) {
               className={`absolute transition-opacity select-none ${
                 dragging === index ? "cursor-grabbing" : "cursor-grab"
               }`}
+              suppressHydrationWarning
               style={{
                 left: `${x}px`,
                 top: `${y}px`,
