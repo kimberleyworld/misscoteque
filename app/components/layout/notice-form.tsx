@@ -245,7 +245,7 @@ export function CommunityNoticeForm({ onSuccess }: { onSuccess?: () => void }) {
         <Field orientation="horizontal" className="w-full justify-between">
           <Button 
             type="button" 
-            variant="outline" 
+            variant="outlineDark" 
             onClick={() => form.reset()}
             className=""
             disabled={isSubmitting}
@@ -254,7 +254,7 @@ export function CommunityNoticeForm({ onSuccess }: { onSuccess?: () => void }) {
           </Button>
           <Button 
             type="submit" 
-            variant="outline" 
+            variant="outlineDark" 
             form="notice-form"
             className=""
             disabled={isSubmitting}

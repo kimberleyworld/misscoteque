@@ -7,9 +7,9 @@ import { SpinningRecord } from "./spinning-record";
 export default function VerticalNav() {
 
   const navItems = [
+    { href: "/artifacts", label: "Archive", id: "archive" },
     { href: "/#community-notice-board", label: "Community Notice Board", id: "community-notice-board" },
     { href: "/#events-carousel", label: "Events", id: "events-carousel" },
-    { href: "/artifacts", label: "Archive", id: "archive" },
     { href: "https://www.instagram.com/misscoteque/?hl=en-gb", label: "Instagram", id: "instagram" },
     { href: "/#contact", label: "Contact", id: "contact" },
   ];
@@ -32,7 +32,7 @@ export default function VerticalNav() {
         capitalize
       "
     >
-      {/* <SpinningRecord /> */}
+      <SpinningRecord />
 
       {navItems.map((item) => 
         item.href.startsWith('http') ? (

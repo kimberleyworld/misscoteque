@@ -22,7 +22,7 @@ export function PosterGrid({ posters }: PosterGridProps) {
   }
 
   return (
-    <div className="w-full px-4 sm:px-0 mb-8">
+    <div className="w-full px-4 sm:px-0">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {posters.map((poster) => (
           <div key={poster.id} className="flex flex-col gap-2">
