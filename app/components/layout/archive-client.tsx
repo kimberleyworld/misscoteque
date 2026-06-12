@@ -6,8 +6,10 @@ import { Button } from "@/app/components/ui/button"
 import { Archive } from "@prisma/client"
 import ArchiveTile from "@/app/components/ui/archive-tile"
 
+type ArchiveWithoutFileData = Omit<Archive, 'fileData'>
+
 interface ArchiveClientProps {
-  initialArchives: Archive[]
+  initialArchives: ArchiveWithoutFileData[]
 }
 
 interface Filters {
@@ -44,7 +46,7 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
   }, [initialArchives])
 
   // Get content type for an archive entry
-  const getContentType = (archive: Archive) => {
+  const getContentType = (archive: ArchiveWithoutFileData) => {
     if (archive.fileMimeType?.startsWith("image/")) return "image"
     if (archive.fileMimeType?.startsWith("audio/")) return "audio"
     if (archive.fileMimeType === "application/pdf") return "pdf"

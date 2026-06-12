@@ -11,6 +11,22 @@ export default async function ArchivePage() {
   const archives = await prisma.archive.findMany({
     where: { isPublished: true, isApproved: true },
     orderBy: { eventDate: 'desc' },
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+      description: true,
+      content: true,
+      URL: true,
+      fileName: true,
+      fileMimeType: true,
+      fileSize: true,
+      eventDate: true,
+      isPublished: true,
+      isApproved: true,
+      createdAt: true,
+      updatedAt: true,
+    },
   });
 
   return (

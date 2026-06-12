@@ -2,8 +2,10 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/app/components/ui/ca
 import Link from 'next/link';
 import { Archive } from '@prisma/client';
 
+type ArchiveWithoutFileData = Omit<Archive, 'fileData'>
+
 interface ArchiveTileProps {
-  archive: Archive;
+  archive: ArchiveWithoutFileData;
 }
 
 export default function ArchiveTile({ archive }: ArchiveTileProps) {
