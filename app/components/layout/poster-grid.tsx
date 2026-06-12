@@ -41,6 +41,21 @@ export function PosterGrid({ posters: initialPosters }: PosterGridProps) {
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
 
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const { width: posterWidth, height: posterHeight } = posterDims;
+
+    const newPositions = initialPosters.map(() => {
+      const randomX = Math.random() * Math.max(0, containerRect.width - posterWidth);
+      const randomY = Math.random() * Math.max(0, containerRect.height - posterHeight);
+      return { x: randomX, y: randomY };
+    });
+
+    setPositions(newPositions);
+  }, [initialPosters, posterDims]);
+
   const getPosterDimensions = () => posterDims;
 
   const handlePointerDown = (index: number, e: React.PointerEvent) => {
