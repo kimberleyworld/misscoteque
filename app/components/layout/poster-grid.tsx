@@ -1,7 +1,7 @@
 'use client';
 
 import Image from "next/image";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
 export interface Poster {
   id: string;
@@ -56,7 +56,7 @@ export function PosterGrid({ posters: initialPosters }: PosterGridProps) {
     setPositions(newPositions);
   }, [initialPosters, posterDims]);
 
-  const getPosterDimensions = () => posterDims;
+  const getPosterDimensions = useCallback(() => posterDims, [posterDims]);
 
   const handlePointerDown = (index: number, e: React.PointerEvent) => {
     e.preventDefault();
@@ -112,7 +112,7 @@ export function PosterGrid({ posters: initialPosters }: PosterGridProps) {
       document.removeEventListener("pointermove", handlePointerMove);
       document.removeEventListener("pointerup", handlePointerUp);
     };
-  }, [dragging, dragOffset, posterDims]);
+  }, [dragging, dragOffset, posterDims, getPosterDimensions]);
 
   if (initialPosters.length === 0) {
     return (
@@ -124,46 +124,70 @@ export function PosterGrid({ posters: initialPosters }: PosterGridProps) {
 
   return (
     <div className="w-full px-4 sm:px-0 flex justify-center">
-      <div
-        ref={containerRef}
-        className="relative w-full select-none h-screen md:h-[70vh]"
-        style={{ touchAction: "none" }}
-      >
-        {initialPosters.map((poster, index) => {
-          const zIndex = order.indexOf(index);
-          const { x, y } = positions[index];
-          const { width: posterWidth, height: posterHeight } = getPosterDimensions();
-
-          return (
+      {/* Grid Layout for Mobile & Tablet */}
+      <div className="w-full md:hidden">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pb-8">
+          {initialPosters.map((poster) => (
             <div
               key={poster.id}
-              onPointerDown={(e) => handlePointerDown(index, e)}
-              className={`absolute transition-opacity select-none ${
-                dragging === index ? "cursor-grabbing" : "cursor-grab"
-              }`}
-              suppressHydrationWarning
-              style={{
-                left: `${x}px`,
-                top: `${y}px`,
-                zIndex,
-                opacity: dragging === index ? 0.9 : 1,
-                width: `${posterWidth}px`,
-                height: `${posterHeight}px`,
-              }}
+              className="relative aspect-[3/4] overflow-hidden"
             >
-              <div className="relative w-full h-full overflow-hidden">
-                <Image
-                  src={poster.imageUrl}
-                  alt={poster.imageAlt}
-                  fill
-                  sizes="(max-width: 768px) 120px, 192px"
-                  className="object-cover pointer-events-none"
-                  draggable={false}
-                />
-              </div>
+              <Image
+                src={poster.imageUrl}
+                alt={poster.imageAlt}
+                fill
+                sizes="(max-width: 640px) 160px, 240px"
+                className="object-cover"
+                draggable={false}
+              />
             </div>
-          );
-        })}
+          ))}
+        </div>
+      </div>
+
+      {/* Draggable Layout for Desktop */}
+      <div className="hidden md:flex md:justify-center w-full">
+        <div
+          ref={containerRef}
+          className="relative w-full select-none h-[70vh]"
+          style={{ touchAction: "none" }}
+        >
+          {initialPosters.map((poster, index) => {
+            const zIndex = order.indexOf(index);
+            const { x, y } = positions[index];
+            const { width: posterWidth, height: posterHeight } = getPosterDimensions();
+
+            return (
+              <div
+                key={poster.id}
+                onPointerDown={(e) => handlePointerDown(index, e)}
+                className={`absolute transition-opacity select-none ${
+                  dragging === index ? "cursor-grabbing" : "cursor-grab"
+                }`}
+                suppressHydrationWarning
+                style={{
+                  left: `${x}px`,
+                  top: `${y}px`,
+                  zIndex,
+                  opacity: dragging === index ? 0.9 : 1,
+                  width: `${posterWidth}px`,
+                  height: `${posterHeight}px`,
+                }}
+              >
+                <div className="relative w-full h-full overflow-hidden">
+                  <Image
+                    src={poster.imageUrl}
+                    alt={poster.imageAlt}
+                    fill
+                    sizes="192px"
+                    className="object-cover pointer-events-none"
+                    draggable={false}
+                  />
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

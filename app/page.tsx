@@ -86,7 +86,7 @@ export default async function Home() {
                   <EventsCarousel events={upcomingEvents} />
                 </div>
               )}
-              <SectionDivider heading="click&drag Poster Gallery"  />
+              <SectionDivider heading="Poster Gallery"  />
               <PosterGrid posters={posters} />
                <SectionDivider heading="Contact"  />
               <ContactSection email="wnbdiscocollective@gmail.com" instagram="@misscoteque" />

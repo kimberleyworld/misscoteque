@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import EventCard from "@/app/components/ui/event-card"
 import { FormattedEvent } from "@/lib/getUpcomingEvents"
 
@@ -12,7 +12,6 @@ const EVENTS_PER_PAGE = 3
 
 export function EventsCarousel({ events }: EventsCarouselProps) {
   const [currentPage, setCurrentPage] = useState(0)
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
 
   const totalPages = Math.ceil(events.length / EVENTS_PER_PAGE)
   const visibleEvents = events.slice(
@@ -20,40 +19,22 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
     (currentPage + 1) * EVENTS_PER_PAGE
   )
 
-  // Auto-scroll every 3 seconds
-  useEffect(() => {
-    if (!isAutoPlaying || totalPages <= 1) return
-
-    const interval = setInterval(() => {
-      setCurrentPage((prev) => (prev + 1) % totalPages)
-    }, 3000)
-
-    return () => clearInterval(interval)
-  }, [isAutoPlaying, totalPages])
-
   if (events.length === 0) return null
 
   const goToPrevious = () => {
     setCurrentPage((prev) => (prev - 1 + totalPages) % totalPages)
-    setIsAutoPlaying(false)
   }
 
   const goToNext = () => {
     setCurrentPage((prev) => (prev + 1) % totalPages)
-    setIsAutoPlaying(false)
   }
 
   const goToPage = (page: number) => {
     setCurrentPage(page)
-    setIsAutoPlaying(false)
   }
 
   return (
-    <div
-      className="w-full flex flex-col items-center gap-4"
-      onMouseEnter={() => setIsAutoPlaying(false)}
-      onMouseLeave={() => setIsAutoPlaying(true)}
-    >
+    <div className="w-full flex flex-col items-center gap-4">
       {/* 3 Events Grid */}
       <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 px-4 sm:px-0">
         {visibleEvents.map((event) => (
@@ -106,13 +87,6 @@ export function EventsCarousel({ events }: EventsCarouselProps) {
             Next
           </button>
         </div>
-      )}
-
-      {/* Page Counter */}
-      {totalPages > 1 && (
-        <p className="text-sm text-gray-600">
-          Page {currentPage + 1} of {totalPages}
-        </p>
       )}
     </div>
   )

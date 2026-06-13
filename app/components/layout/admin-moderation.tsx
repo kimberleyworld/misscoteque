@@ -158,8 +158,7 @@ export function AdminModeration({
           <Button
             onClick={() => reject(id, type)}
             disabled={loading === `${type}-${id}`}
-            variant="outline"
-            className="border-black text-black hover:bg-black"
+            variant="outlineDark"
           >
             {loading === `${type}-${id}` ? "Rejecting..." : "Reject"}
           </Button>
