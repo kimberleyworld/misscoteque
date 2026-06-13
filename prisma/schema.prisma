@@ -18,6 +18,7 @@ model Archive {
   fileMimeType String?
   fileSize    Int?
   eventDate   DateTime?
+  contributorName String?
   isPublished Boolean  @default(true)
   isApproved  Boolean  @default(false)
   createdAt   DateTime @default(now())

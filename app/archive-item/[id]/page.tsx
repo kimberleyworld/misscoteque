@@ -93,6 +93,7 @@ export default async function ArchiveItemPage({ params }: ArchiveItemPageProps) 
         fileMimeType: archive.fileMimeType,
         fileName: archive.fileName,
         eventDate: archive.eventDate,
+        contributorName: archive.contributorName,
         createdAt: archive.createdAt,
       }}
       formattedDate={formattedDate}

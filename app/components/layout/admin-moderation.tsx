@@ -29,6 +29,7 @@ interface ArchiveEntry {
   content: string | null
   URL: string | null
   fileName: string | null
+  contributorName: string | null
   isApproved: boolean
   isPublished: boolean
   createdAt: Date | string
@@ -84,7 +85,7 @@ export function AdminModeration({
       }
 
       toast("Item approved! ✓", { position: "bottom-right" })
-    } catch (error) {
+    } catch {
       toast("Failed to approve", { position: "bottom-right" })
     } finally {
       setLoading(null)
@@ -115,7 +116,7 @@ export function AdminModeration({
       }
 
       toast("Item rejected", { position: "bottom-right" })
-    } catch (error) {
+    } catch {
       toast("Failed to reject", { position: "bottom-right" })
     } finally {
       setLoading(null)
@@ -280,6 +281,12 @@ export function AdminModeration({
                     createdAt={archive.createdAt}
                     details={
                       <div className="space-y-1">
+                        {archive.contributorName && (
+                          <p>
+                            <span className="font-semibold">Contributor:</span>{" "}
+                            {archive.contributorName}
+                          </p>
+                        )}
                         {archive.content && (
                           <p className="line-clamp-2">
                             <span className="font-semibold">Content:</span>{" "}
@@ -335,6 +342,11 @@ export function AdminModeration({
                           <p className="text-black/70 text-sm">
                             {new Date(archive.createdAt).toLocaleString()}
                           </p>
+                          {archive.contributorName && (
+                            <p className="text-black/70 text-sm">
+                              by {archive.contributorName}
+                            </p>
+                          )}
                         </div>
                         <span className="text-xs font-semibold text-black bg-black/10 px-2 py-1 rounded">
                           Approved

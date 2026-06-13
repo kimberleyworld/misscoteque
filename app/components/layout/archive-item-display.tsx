@@ -17,6 +17,7 @@ interface ArchiveItemDisplayProps {
     fileMimeType?: string | null;
     fileName?: string | null;
     eventDate?: Date | null;
+    contributorName?: string | null;
     createdAt: Date;
   };
   formattedDate: string;
@@ -58,7 +59,12 @@ export function ArchiveItemDisplay({
         </button>
         <CardHeader className="flex flex-col">
           <CardTitle className="text-3xl text-cream font-impact break-words overflow-hidden">{archive.title}</CardTitle>
-          <p className="text-cream/60 text-sm mt-1">{formattedDate}</p>
+          <div className="flex flex-col gap-1 mt-1">
+            <p className="text-cream/60 text-sm">{formattedDate}</p>
+            {archive.contributorName && (
+              <p className="text-cream/60 text-sm">by {archive.contributorName}</p>
+            )}
+          </div>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Display URL/video if available */}

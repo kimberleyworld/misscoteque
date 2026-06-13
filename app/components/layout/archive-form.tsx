@@ -50,6 +50,11 @@ const formSchema = z.object({
   eventDate: z
     .string()
     .optional(),
+  contributorName: z
+    .string()
+    .max(100, "Contributor name must be at most 100 characters.")
+    .optional()
+    .or(z.literal("")),
 })
 
 export function ArchiveForm({ onSuccess }: { onSuccess?: () => void }) {
@@ -65,6 +70,7 @@ export function ArchiveForm({ onSuccess }: { onSuccess?: () => void }) {
       content: "",
       URL: "",
       eventDate: "",
+      contributorName: "",
     },
   })
 
@@ -78,6 +84,7 @@ export function ArchiveForm({ onSuccess }: { onSuccess?: () => void }) {
       payload.append("content", data.content || "")
       payload.append("URL", data.URL || "")
       payload.append("eventDate", data.eventDate || "")
+      payload.append("contributorName", data.contributorName || "")
 
       if (selectedFile) {
         payload.append("file", selectedFile)
@@ -303,6 +310,33 @@ export function ArchiveForm({ onSuccess }: { onSuccess?: () => void }) {
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
                   )}
+                </Field>
+              )}
+            />
+
+            <Controller
+              name="contributorName"
+              control={form.control}
+              render={({ field, fieldState }) => (
+                <Field data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="archive-form-contributor" className="text-cream">
+                    Contributor Name (Optional)
+                  </FieldLabel>
+                  <Input
+                    {...field}
+                    id="archive-form-contributor"
+                    aria-invalid={fieldState.invalid}
+                    placeholder="Your name or artist name..."
+                    autoComplete="off"
+                    className="bg-cream/5 border-orange/30 text-cream placeholder:text-cream/50"
+                    disabled={isSubmitting}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                  <FieldDescription>
+                    Your name will be credited alongside your contribution.
+                  </FieldDescription>
                 </Field>
               )}
             />

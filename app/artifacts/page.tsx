@@ -22,6 +22,7 @@ export default async function ArchivePage() {
       fileMimeType: true,
       fileSize: true,
       eventDate: true,
+      contributorName: true,
       isPublished: true,
       isApproved: true,
       createdAt: true,

@@ -73,6 +73,7 @@ export async function POST(request: NextRequest) {
     let description = data.get("description")?.toString().trim() ?? ""
     let content = data.get("content")?.toString().trim() ?? ""
     let manualUrl = data.get("URL")?.toString().trim() ?? ""
+    let contributorName = data.get("contributorName")?.toString().trim() ?? ""
     const eventDateRaw = data.get("eventDate")?.toString().trim() ?? ""
     const fileEntry = data.get("file")
     const file = fileEntry instanceof File && fileEntry.size > 0 ? fileEntry : null
@@ -82,6 +83,7 @@ export async function POST(request: NextRequest) {
     description = sanitizeInput(description)
     content = sanitizeInput(content)
     manualUrl = sanitizeInput(manualUrl)
+    contributorName = sanitizeInput(contributorName)
 
     // Validate input lengths to prevent abuse
     if (title.length > 200) {
@@ -179,6 +181,7 @@ export async function POST(request: NextRequest) {
       fileMimeType,
       fileSize,
       eventDate: eventDateRaw ? new Date(eventDateRaw) : null,
+      contributorName: contributorName || null,
       isPublished: true,
       isApproved: false,
     }
