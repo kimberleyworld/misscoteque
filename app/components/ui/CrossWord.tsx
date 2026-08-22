@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef } from "react";
 
 // Type definitions
 interface Cell {
@@ -40,7 +40,7 @@ const PUZZLE_DATA: CrosswordData = {
     { id: "8a", clue: "A sexuality", answer: "LESBIAN", direction: "across", startX: 8, startY: 12, number: 8 },
     // Down
     { id: "1d", clue: "Working with wood", answer: "WOODWORK", direction: "down", startX: 2, startY: 0, number: 1 },
-    { id: "2d", clue: "Academic study of identity", answer: "EPHEMERA", direction: "down", startX: 8, startY: 0, number: 2 },
+    { id: "2d", clue: "Items collected and preserved from everyday life originally designed to be discarded", answer: "EPHEMERA", direction: "down", startX: 8, startY: 0, number: 2 },
     { id: "7d", clue: "Doing stuff to change stuff", answer: "ACTIVISM", direction: "down", startX: 10, startY: 6, number: 7},
     { id: "8d", clue: "Neck decor", answer: "TIES", direction: "down", startX: 12, startY: 6, number: 8 },
     { id: "5d", clue: "Lesbian slur that has been reclaimed", answer: "DYKE", direction: "down", startX: 14, startY: 4, number: 5 },
@@ -93,8 +93,35 @@ export default function CrossWord() {
   const [grid, setGrid] = useState<Cell[][]>(initializeGrid);
   const [focusedCell, setFocusedCell] = useState<{ x: number; y: number } | null>(null);
   const [crossedOutClues, setCrossedOutClues] = useState<Set<string>>(new Set());
-  const [currentDirection, setCurrentDirection] = useState<'across' | 'down' | null>(null);
+  const [showWinScreen, setShowWinScreen] = useState(false);
+  const [showError, setShowError] = useState(false);
   const inputRefs = useRef<Map<string, HTMLInputElement>>(new Map());
+
+  // Check if all words are correct
+  const checkAllWordsComplete = () => {
+    if (grid.length === 0) return false;
+
+    return PUZZLE_DATA.words.every((word) => {
+      const cells = word.answer.split("").map((_, index) => {
+        const x = word.direction === "across" ? word.startX + index : word.startX;
+        const y = word.direction === "down" ? word.startY + index : word.startY;
+        return grid[y]?.[x];
+      });
+
+      return cells.every((cell) => cell?.value.toUpperCase() === cell?.answer);
+    });
+  };
+
+  // Handle Done button click
+  const handleDone = () => {
+    if (checkAllWordsComplete()) {
+      setShowWinScreen(true);
+      setShowError(false);
+    } else {
+      setShowError(true);
+      setTimeout(() => setShowError(false), 2000); // Hide error after 2 seconds
+    }
+  };
 
   // Toggle clue strikethrough
   const toggleClueStrikethrough = (wordId: string) => {
@@ -108,21 +135,6 @@ export default function CrossWord() {
       return newSet;
     });
   };
-
-  // Check if all words are completed
-  const allWordsComplete = useMemo(() => {
-    if (grid.length === 0) return false;
-
-    return PUZZLE_DATA.words.every((word) => {
-      const cells = word.answer.split("").map((_, index) => {
-        const x = word.direction === "across" ? word.startX + index : word.startX;
-        const y = word.direction === "down" ? word.startY + index : word.startY;
-        return grid[y]?.[x];
-      });
-
-      return cells.every((cell) => cell?.value.toUpperCase() === cell?.answer);
-    });
-  }, [grid]);
 
   // Handle input
   const handleInput = (x: number, y: number, value: string) => {
@@ -267,11 +279,11 @@ export default function CrossWord() {
 
   return (
     <div className="w-full overflow-x-hidden">
-        <div className="flex flex-col md:flex-row items-center md:items-end w-full">
+      <div className="flex flex-col md:flex-row items-center md:items-end w-full">
         {/* Crossword Background */}
         <div className="flex-1 flex justify-start py-0">
-  <div
-    className="inline-grid gap-[1px] p-2 "
+          <div
+            className="inline-grid gap-[1px] p-2 "
             style={{
               gridTemplateColumns: `repeat(${PUZZLE_DATA.size}, 1fr)`,
               backgroundImage: "url('/images/cw-bg.png')",
@@ -314,7 +326,7 @@ export default function CrossWord() {
                       onKeyDown={(e) => handleKeyDown(e, x, y)}
                       onFocus={() => setFocusedCell({ x, y })}
                       className={`w-full h-full text-center text-sm md:text-sm uppercase border-2 transition-colors ${
-                        allWordsComplete
+                        showWinScreen
                           ? "bg-pink text-black border-pink"
                           : isFocused
                           ? "bg-cream text-black border-red"
@@ -330,9 +342,31 @@ export default function CrossWord() {
         </div>
 
         {/* Clues */}
-        <div className="flex-1 flex flex-col gap-0 px-4 w-full mt-4 md:mt-0">
+        <div className="flex-1 flex flex-col gap-0 px-4 w-full mt-4 md:mt-0 ">
           <div>
-            <p className="mb-1 text-sm">Click on the clues to cross them out. Click them again to uncross.</p>
+            <h1>CROSSWORD</h1>
+            <p className="my-4 text-sm">Click on the clues to cross them out. Click them again to uncross.</p>
+            {/* Check Button */}
+          <button
+            onClick={handleDone}
+            className="mb-2 bg-black w-full hover:bg-red text-cream px-6 py-2"
+          >
+            CHECK
+          </button>
+
+          {/* Error Message */}
+          {showError && (
+            <p className="mt-1 text-red font-bold text-center">
+              WRONG, try again.
+            </p>
+          )}
+
+          {/* Win Message */}
+          {showWinScreen && (
+            <p className="mt-1 text-red font-bold text-center text-lg">
+               YOU WIN! You are the gayest in the land.
+            </p>
+          )}
             <h3 className="text-xl text-black font-bold">
               Across
             </h3>

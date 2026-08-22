@@ -25,6 +25,7 @@ export function ContactSection({ email, instagram }: ContactSectionProps) {
           )}
           {instagram && (
             <div className="flex items-center justify-center sm:justify-end gap-3">
+              @misscoteque
               <a
                 href={`https://instagram.com/${instagram.replace("@", "")}`}
                 target="_blank"

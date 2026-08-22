@@ -80,7 +80,7 @@ export default async function Home() {
               </div>
               <MailingListSection description={content.mailinglistdescription} />
               
-              {upcomingEvents.length > 1 && (
+              {upcomingEvents.length > 0 && (
                 <div id="events-carousel">
                   <SectionDivider heading="All Upcoming events" />
                   <EventsCarousel events={upcomingEvents} />
