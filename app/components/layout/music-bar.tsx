@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from "react";
+import { useMusicContext } from "@/app/context/MusicContext";
 
 type PlaylistTrack = {
   id: string | number;
@@ -19,14 +20,25 @@ interface MusicBarProps {
 }
 
 export default function MusicBar({ song, playlist }: MusicBarProps) {
+  const { currentTrack, setCurrentTrack, isPlaying, setIsPlaying, setPlaylist, audioRef, pageType } = useMusicContext();
   const activePlaylist = playlist || [];
-  const [isPlaying, setIsPlaying] = useState(false);
   const [showPlaylist, setShowPlaylist] = useState(false);
-  const [currentTrack, setCurrentTrack] = useState<PlaylistTrack | null>(null);
-  const audioRef = useRef<HTMLAudioElement>(null);
   const playlistRef = useRef<HTMLDivElement>(null);
   const playlistButtonRef = useRef<HTMLButtonElement>(null);
 
+  // Initialize playlist and set initial track on mount
+  useEffect(() => {
+    if (playlist && playlist.length > 0) {
+      setPlaylist(playlist);
+      if (!currentTrack && song?.audioUrl) {
+        // Find the current song in playlist or use it as fallback
+        const foundTrack = playlist.find(t => t.audioUrl === song.audioUrl);
+        setCurrentTrack(foundTrack || { id: 0, title: song.title, artist: song.artist, audioUrl: song.audioUrl });
+      }
+    }
+  }, [playlist, song, currentTrack, setPlaylist, setCurrentTrack]);
+
+  // Handle audio src changes and auto-play
   useEffect(() => {
     if (audioRef.current && currentTrack?.audioUrl) {
       audioRef.current.src = currentTrack.audioUrl;
@@ -36,7 +48,7 @@ export default function MusicBar({ song, playlist }: MusicBarProps) {
         setIsPlaying(false);
       });
     }
-  }, [currentTrack?.audioUrl]);
+  }, [currentTrack?.audioUrl, audioRef, setIsPlaying]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -69,7 +81,11 @@ export default function MusicBar({ song, playlist }: MusicBarProps) {
   const displayTrack = currentTrack || song;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 w-full md:max-w-6xl mx-auto bg-black text-cream z-50">
+    <div className={`fixed bottom-0 left-0 right-0 w-full bg-black text-cream z-50 ${
+      pageType === 'archive' 
+        ? 'max-w-none' 
+        : 'md:max-w-6xl mx-auto'
+    }`}>
       {displayTrack && (
         <div className="relative">
           {/* Playlist Menu - appears above bar */}
@@ -129,10 +145,10 @@ export default function MusicBar({ song, playlist }: MusicBarProps) {
             </div>
             <div className="flex-1 overflow-hidden">
               <div className="animate-marquee whitespace-nowrap font-[family-name:var(--code)]">
-                <span className="inline-block px-4">Now Playing: {displayTrack.artist} - {displayTrack.title}</span>
-                <span className="inline-block px-4">Now Playing: {displayTrack.artist} - {displayTrack.title}</span>
-                <span className="inline-block px-4">Now Playing: {displayTrack.artist} - {displayTrack.title}</span>
-                <span className="inline-block px-4">Now Playing: {displayTrack.artist} - {displayTrack.title}</span>
+                <span className="inline-block px-4">{displayTrack.artist} - {displayTrack.title}</span>
+                <span className="inline-block px-4">{displayTrack.artist} - {displayTrack.title}</span>
+                <span className="inline-block px-4">{displayTrack.artist} - {displayTrack.title}</span>
+                <span className="inline-block px-4">{displayTrack.artist} - {displayTrack.title}</span>
               </div>
             </div>
           </div>

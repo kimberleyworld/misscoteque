@@ -4,7 +4,8 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/app/components/ui/ca
 import { Button } from '@/app/components/ui/button';
 import Link from 'next/link';
 import { ArrowLeft, LinkIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useMusicContext } from '@/app/context/MusicContext';
 
 interface ArchiveItemDisplayProps {
   archive: {
@@ -30,6 +31,24 @@ export function ArchiveItemDisplay({
   videoData,
 }: ArchiveItemDisplayProps) {
   const [copied, setCopied] = useState(false);
+  const { pauseMusic } = useMusicContext();
+
+  useEffect(() => {
+    const audioElements = document.querySelectorAll('audio');
+    audioElements.forEach(audio => {
+      audio.addEventListener('play', () => {
+        pauseMusic();
+      });
+    });
+
+    return () => {
+      audioElements.forEach(audio => {
+        audio.removeEventListener('play', () => {
+          pauseMusic();
+        });
+      });
+    };
+  }, [pauseMusic]);
 
   const copyUrlToClipboard = () => {
     const currentUrl = window.location.href;

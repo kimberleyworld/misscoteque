@@ -1,12 +1,12 @@
 import { prisma } from "@/lib/prisma"
 
 export async function getRecentNotices() {
-  const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+  const fourWeeksAgo = new Date(Date.now() - 28 * 24 * 60 * 60 * 1000)
 
   const notices = await prisma.communityNotice.findMany({
     where: {
       createdAt: {
-        gte: sevenDaysAgo,
+        gte: fourWeeksAgo,
       },
       isApproved: true,
       isActive: true,

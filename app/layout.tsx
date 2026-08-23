@@ -3,6 +3,9 @@ import "./globals.css";
 import Script from "next/script";
 import { sourceCodePro, racing_sans_one, tinos } from "./ui/fonts";
 import { Toaster } from "sonner";
+import { MusicProvider } from "./context/MusicContext";
+import MusicBar from "./components/layout/music-bar";
+import { getSong, getPlaylist } from "@/lib/getSong";
 
 export const metadata: Metadata = {
   title: "Misscoteque",
@@ -32,29 +35,35 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const song = await getSong();
+  const playlist = await getPlaylist();
+
   return (
     <html lang="en" className={`${sourceCodePro.variable} ${racing_sans_one.variable} ${tinos.variable}`}>
       <head>
         
       </head>
       <body suppressHydrationWarning={true}>
-        {children}
-        <Toaster 
-          theme="dark" 
-          position="bottom-right"
-          toastOptions={{
-            style: {
-              background: 'hsl(var(--color-cream) / 0.1)',
-              border: '1px solid hsl(var(--color-pink) / 0.3)',
-              color: 'hsl(var(--color-cream))',
-            },
-          }}
-        />
+        <MusicProvider>
+          {children}
+          <MusicBar song={song} playlist={playlist} />
+          <Toaster 
+            theme="dark" 
+            position="bottom-right"
+            toastOptions={{
+              style: {
+                background: 'hsl(var(--color-cream) / 0.1)',
+                border: '1px solid hsl(var(--color-pink) / 0.3)',
+                color: 'hsl(var(--color-cream))',
+              },
+            }}
+          />
+        </MusicProvider>
       </body>
     </html>
   );

@@ -70,7 +70,7 @@ export default function MusicPlayer({ title, artist, audioUrl }: MusicPlayerProp
         </div>
         <span className="sr-only">{isPlaying ? 'Pause' : 'Play'} music</span>
       </button>
-      <audio ref={audioRef} src={audioUrl} loop aria-label={`Now playing: ${title} by ${artist}`} />
+      <audio ref={audioRef} src={audioUrl} loop aria-label={`${title} by ${artist}`} />
     </div>
   );
 }

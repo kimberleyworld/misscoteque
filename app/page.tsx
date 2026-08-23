@@ -1,11 +1,9 @@
 import NavBar from "./components/layout/nav-bar";
 import VerticalNav from "./components/layout/vertical-nav";
-import MusicBar from "./components/layout/music-bar";
 import EventCard from "./components/ui/event-card";
 import Hero from "./components/layout/hero";
 import { getUpcomingEvents } from "@/lib/getUpcomingEvents";
 import { getRecentNotices } from "@/lib/getRecentNotices";
-import { getSong, getPlaylist } from "@/lib/getSong";
 import { getHomePageContent } from "@/lib/getHomePageContent";
 import { getCollection } from "@/lib/getCollection";
 import CrosswordSection from "./components/layout/crossword-section";
@@ -23,8 +21,6 @@ export default async function Home() {
   const content = await getHomePageContent()
   const upcomingEvents = await getUpcomingEvents()
   const recentNotices = await getRecentNotices()
-  const song = await getSong()
-  const playlist = await getPlaylist()
   const collection = await getCollection()
   const nextEvent = upcomingEvents[0]
 
@@ -92,7 +88,6 @@ export default async function Home() {
               <ContactSection email="wnbdiscocollective@gmail.com" instagram="@misscoteque" />
           </div>
         </div>
-        <MusicBar song={song} playlist={playlist} />
       </main>
   </div>
 )
