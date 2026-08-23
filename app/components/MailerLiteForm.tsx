@@ -59,7 +59,7 @@ export default function MailerLiteForm() {
             font-bold
             border-2
             border-black
-            hover:opacity-90
+            hover:bg-red
           "
         >
           SUBSCRIBE
