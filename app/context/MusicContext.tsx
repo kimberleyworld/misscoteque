@@ -18,7 +18,7 @@ interface MusicContextType {
   setIsPlaying: (playing: boolean) => void;
   playNext: () => void;
   playPrevious: () => void;
-  audioRef: React.RefObject<HTMLAudioElement>;
+  audioRef: React.RefObject<HTMLAudioElement | null>;
   pageType: 'default' | 'archive';
   setPageType: (type: 'default' | 'archive') => void;
   pauseMusic: () => void;
