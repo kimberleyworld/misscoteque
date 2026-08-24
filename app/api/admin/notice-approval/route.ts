@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { revalidatePath } from "next/cache"
 import { prisma } from "@/lib/prisma"
 
 interface UpdateApprovalRequest {
@@ -37,6 +38,10 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
+
+    // Revalidate pages that show approved content
+    revalidatePath("/")
+    revalidatePath("/artifacts")
 
     return NextResponse.json(
       {
