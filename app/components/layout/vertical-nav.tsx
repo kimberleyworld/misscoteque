@@ -27,7 +27,7 @@ export default function VerticalNav({ description }: { description: string }) {
         md:h-full
         py-6
         px-4
-        gap-2
+        gap-1
         capitalize
       "
     >

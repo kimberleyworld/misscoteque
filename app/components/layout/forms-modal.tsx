@@ -22,7 +22,7 @@ export function FormsModal({ showNotice = true, showArchive = true, className }:
           <Button
             onClick={() => setActiveModal("notice")}
           >
-            SUBMIT A NOTICE
+            SUBMIT
           </Button>
         )}
         {showArchive && (

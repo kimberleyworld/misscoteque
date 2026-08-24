@@ -139,8 +139,8 @@ export function ArchiveForm({ onSuccess }: { onSuccess?: () => void }) {
   }
 
   return (
-    <Card className="w-full max-w-3xl bg-black rounded-none">
-      <CardHeader className="flex flex-col items-start">
+    <Card className="w-full max-w-3xl bg-black rounded-none mx-auto mt-0 pt-0">
+      <CardHeader className="flex flex-col items-start pt-6">
         <h2 className="text-cream font-impact">Contribute to the Archive</h2>
         <CardDescription className="text-cream/80">
           Add your piece, recording, photo or other content to the Misscoteque Archive.
