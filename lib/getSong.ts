@@ -1,43 +1,84 @@
-import { Entry } from "contentful";
-import { contentfulClient } from "./contentful";
-import { GlobalSettingsSkeleton } from "@/types/contentful";
-
-const DEFAULT_AUDIO_URL = "./public/song.mp3";
-const DEFAULT_TITLE = "CHECK Automatic Lover";
-const DEFAULT_ARTIST = "Dee D.Jackson";
+import { datocmsClient } from "./datocms";
+import { DatoCMSMarqueSongResponse, DatoCMSSongsPlaylistResponse, DatoCMSSong } from "@/types/datocms";
 
 type SongData = {
+  id: string;
   title: string;
   artist: string;
   audioUrl: string;
 };
 
-export async function getSong(): Promise<SongData> {
-  const response = await contentfulClient.getEntries<GlobalSettingsSkeleton>({
-    content_type: "globalSettings",
-    limit: 1,
-  });
-
-  const entry: Entry<GlobalSettingsSkeleton> | undefined = response.items[0];
-
-  if (!entry) {
-    return {
-      title: DEFAULT_TITLE,
-      artist: DEFAULT_ARTIST,
-      audioUrl: DEFAULT_AUDIO_URL,
-    };
+const SONG_QUERY = `
+  query {
+    marqueSong {
+      id
+      title
+      artist
+      song {
+        url
+      }
+    }
   }
+`;
 
-  const { fields } = entry;
+const PLAYLIST_QUERY = `
+  query {
+    allMarqueSongs(orderBy: _createdAt_DESC) {
+      id
+      title
+      artist
+      song {
+        url
+      }
+    }
+  }
+`;
 
-  // runtime check: ensure songFile exists
-  const songFile = fields.songFile as unknown as { fields?: { file?: { url?: string } } };
-  const audioUrl =
-    songFile?.fields?.file?.url ?? DEFAULT_AUDIO_URL;
+export async function getSong(): Promise<SongData | null> {
+  try {
+    const response = await datocmsClient.request<DatoCMSMarqueSongResponse>(SONG_QUERY);
 
-  return {
-    title: String(fields.songTitle || DEFAULT_TITLE),
-    artist: String(fields.songArtist || DEFAULT_ARTIST),
-    audioUrl: audioUrl.startsWith("http") ? audioUrl : `https:${audioUrl}`,
-  };
+    if (!response?.marqueSong) {
+      return null;
+    }
+
+    const { id, title, artist, song } = response.marqueSong;
+
+    // Only return if we have all required data
+    if (!title || !artist || !song?.url) {
+      return null;
+    }
+
+    return {
+      id,
+      title,
+      artist,
+      audioUrl: song.url,
+    };
+  } catch (error) {
+    console.warn("Failed to fetch song from DatoCMS:", error);
+    return null;
+  }
+}
+
+export async function getPlaylist(): Promise<SongData[]> {
+  try {
+    const response = await datocmsClient.request<DatoCMSSongsPlaylistResponse>(PLAYLIST_QUERY);
+
+    if (!response?.allMarqueSongs) {
+      return [];
+    }
+
+    return response.allMarqueSongs
+      .filter((song: DatoCMSSong) => song.title && song.artist && song.song?.url)
+      .map((song: DatoCMSSong) => ({
+        id: song.id,
+        title: song.title,
+        artist: song.artist,
+        audioUrl: song.song.url,
+      }));
+  } catch (error) {
+    console.warn("Failed to fetch playlist from DatoCMS:", error);
+    return [];
+  }
 }

@@ -53,7 +53,7 @@ export default function MusicPlayer({ title, artist, audioUrl }: MusicPlayerProp
             alt=""
             width={100}
             height={100}
-            className="transition-opacity hover:opacity-50"
+            className="border-2 border-cream"
             aria-hidden="true"
           />
           <div className="absolute top-15 left-11 -translate-x-1/2 -translate-y-1/2" aria-hidden="true">
@@ -70,7 +70,7 @@ export default function MusicPlayer({ title, artist, audioUrl }: MusicPlayerProp
         </div>
         <span className="sr-only">{isPlaying ? 'Pause' : 'Play'} music</span>
       </button>
-      <audio ref={audioRef} src={audioUrl} loop aria-label={`Now playing: ${title} by ${artist}`} />
+      <audio ref={audioRef} src={audioUrl} loop aria-label={`${title} by ${artist}`} />
     </div>
   );
 }

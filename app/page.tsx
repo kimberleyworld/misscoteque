@@ -1,19 +1,94 @@
-import ThreeDObject from "@/app/components/ThreeDObject"
-import ComingSoon from "@/app/components/ComingSoon";
-import MailerLiteForm from "./components/MailerLiteForm";
-import MusicPlayer from "./components/MusicPlayer";
-import { getSong } from "@/lib/getSong"
+import NavBar from "./components/layout/nav-bar";
+import VerticalNav from "./components/layout/vertical-nav";
+import EventCard from "./components/ui/event-card";
+import Hero from "./components/layout/hero";
+import { getUpcomingEvents } from "@/lib/getUpcomingEvents";
+import { getRecentNotices } from "@/lib/getRecentNotices";
+import { getHomePageContent } from "@/lib/getHomePageContent";
+import { getCollection } from "@/lib/getCollection";
+import CrosswordSection from "./components/layout/crossword-section";
 
+import { SectionDivider } from "./components/layout/section-divider";
+import { CommunityNoticeGrid } from "./components/layout/CommunityNoticeGrid";
+import { EventsCarousel } from "./components/layout/events-carousel";
+import { AboutSection } from "./components/layout/about-section";
+import { PosterGrid } from "./components/layout/poster-grid";
+import { MailingListSection } from "./components/layout/mailing-list-section";
+import { ContactSection } from "./components/layout/contact-section";
+import { ArchiveDescription } from "./components/layout/archive-description";
 
 export default async function Home() {
-  const song = await getSong();
+  const content = await getHomePageContent()
+  const upcomingEvents = await getUpcomingEvents()
+  const recentNotices = await getRecentNotices()
+  const collection = await getCollection()
+  const nextEvent = upcomingEvents[0]
+
+  const posters = collection?.posters.map((asset, index) => ({
+    id: `poster-${index}`,
+    title: `Poster ${index + 1}`,
+    imageUrl: asset.url,
+    imageAlt: asset.alt || `Poster ${index + 1}`,
+  })) || []
+
   return (
-    <main className="relative flex min-h-screen flex-col items-center bg-red">
-      <ThreeDObject />
-      <ComingSoon/>
-      <h1 className="absolute top-15 left-1/2 -translate-x-1/2 text-6xl text-black font-bold font-[family-name:var(--impact)]">Misscoteque</h1>
-      <MusicPlayer title={song.title} artist={song.artist} audioUrl={song.audioUrl} />
-      <MailerLiteForm />
-    </main>
-  );
+    <div className="bg-black">
+      <Hero pageheading={content.pageheading} />
+      <NavBar />
+      <main className="mx-auto max-w-6xl flex flex-col items-center w-full bg-cream">
+        <div className="w-full flex justify-between">
+          <VerticalNav description={content.archivedescription} />
+<div className="flex-1 bg-cream text-black flex flex-col gap-4 pt-4 sm:mr-4 mb-10">     
+                 {upcomingEvents.length > 0 ? (
+                      <div className="w-full px-2 md:px-0">
+                        <EventCard
+                          eventTitle={nextEvent?.eventTitle}
+                          eventDate={nextEvent?.eventDate}
+                          eventTime={nextEvent?.eventTime}
+                          ticketUrl={nextEvent?.ticketUrl}
+                          eventDescription={nextEvent?.eventDescription}
+                          imageUrl={nextEvent?.imageUrl}
+                          imageAlt={nextEvent?.imageAlt}
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-full flex flex-col md:flex-row justify-between items-stretch gap-4 border-2 border-red">
+                        <div className="flex-1">
+                          <h1 className="text-2xl font-bold px-4">next event</h1>
+                          <p className="text-sm px-4">No future events</p>
+                        </div>
+                      </div>
+                    )}
+               
+                <AboutSection title={content.abouttitle} copy={content.aboutcopy} />
+                <div className="md:hidden w-full px-4 md:px-0">
+                  <ArchiveDescription description={content.archivedescription} />
+                </div>
+              <CrosswordSection/>
+               <div id="community-notice-board">
+                <SectionDivider heading="COMMUNITY NOTICE BOARD"/>
+                <CommunityNoticeGrid 
+                  notices={recentNotices} 
+                  description={content.communitynoticeboarddescription}
+                  submitNoticeTitle={content.submitcommunitynoticetitle}
+                  submitNoticeDescription={content.submitcommunitynoticedescription}
+                />
+              </div>
+              <MailingListSection description={content.mailinglistdescription} />
+              
+              {upcomingEvents.length > 0 && (
+                <div id="events-carousel">
+                  <SectionDivider heading="All Upcoming events" />
+                  <EventsCarousel events={upcomingEvents} />
+                </div>
+              )}
+              <SectionDivider heading="Poster Gallery"  />
+              <PosterGrid posters={posters} />
+               <SectionDivider heading="Contact"  />
+              <ContactSection email="wnbdiscocollective@gmail.com" instagram="@misscoteque" />
+          </div>
+        </div>
+      </main>
+  </div>
+)
 }

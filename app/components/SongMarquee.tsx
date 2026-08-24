@@ -4,7 +4,7 @@ interface SongMarqueeProps {
 }
 
 export default function SongMarquee({ title, artist }: SongMarqueeProps) {
-  const songInfo = `Now Playing: ${artist} - ${title}`;
+  const songInfo = `${artist} - ${title}`;
   
   return (
     <div className="absolute top-0 left-0 w-full bg-black text-cream py-2 overflow-hidden">

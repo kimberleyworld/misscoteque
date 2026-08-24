@@ -1,0 +1,187 @@
+'use client';
+
+import { Card, CardHeader, CardTitle, CardContent } from '@/app/components/ui/card';
+import { Button } from '@/app/components/ui/button';
+import Link from 'next/link';
+import { ArrowLeft, LinkIcon } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useMusicContext } from '@/app/context/MusicContext';
+
+interface ArchiveItemDisplayProps {
+  archive: {
+    id: string;
+    title: string;
+    description?: string | null;
+    content: string;
+    URL?: string | null;
+    fileData?: Uint8Array | Buffer | null;
+    fileMimeType?: string | null;
+    fileName?: string | null;
+    eventDate?: Date | null;
+    contributorName?: string | null;
+    createdAt: Date;
+  };
+  formattedDate: string;
+  videoData?: { provider: string; embedUrl: string } | null;
+}
+
+export function ArchiveItemDisplay({
+  archive,
+  formattedDate,
+  videoData,
+}: ArchiveItemDisplayProps) {
+  const [copied, setCopied] = useState(false);
+  const { pauseMusic } = useMusicContext();
+
+  useEffect(() => {
+    const audioElements = document.querySelectorAll('audio');
+    audioElements.forEach(audio => {
+      audio.addEventListener('play', () => {
+        pauseMusic();
+      });
+    });
+
+    return () => {
+      audioElements.forEach(audio => {
+        audio.removeEventListener('play', () => {
+          pauseMusic();
+        });
+      });
+    };
+  }, [pauseMusic]);
+
+  const copyUrlToClipboard = () => {
+    const currentUrl = window.location.href;
+    navigator.clipboard.writeText(currentUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 5000);
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto p-6 relative">
+      <div className="mb-6 relative z-10">
+        <Link href="/artifacts">
+          <Button variant="outlineDark" className="flex items-center gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            Back to Archive
+          </Button>
+        </Link>
+      </div>
+
+      <Card className="border-orange/20 bg-cream/5 rounded-none relative z-10">
+        <button
+          onClick={copyUrlToClipboard}
+          className="absolute top-4 right-4 p-2 hover:bg-cream/10 transition-colors z-20 border border-cream flex flex-col items-center gap-1"
+        >
+          <LinkIcon className="h-4 w-4 text-cream" />
+          <span className="text-xs text-cream">{copied ? "Copied!" : "Copy"}</span>
+        </button>
+        <CardHeader className="flex flex-col">
+          <CardTitle className="text-3xl text-cream font-impact break-words overflow-hidden">{archive.title}</CardTitle>
+          <div className="flex flex-col gap-1 mt-1">
+            <p className="text-cream/60 text-sm">{formattedDate}</p>
+            {archive.contributorName && (
+              <p className="text-cream/60 text-sm">by {archive.contributorName}</p>
+            )}
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Display URL/video if available */}
+          {videoData && videoData.provider === 'youtube' && (
+            <div className="w-full aspect-video">
+              <iframe
+                width="100%"
+                height="100%"
+                src={videoData.embedUrl}
+                title="YouTube video"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          )}
+
+          {videoData && videoData.provider === 'vimeo' && (
+            <div className="w-full aspect-video">
+              <iframe
+                width="100%"
+                height="100%"
+                src={videoData.embedUrl}
+                title="Vimeo video"
+                frameBorder="0"
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
+          )}
+
+          {!videoData && archive.URL && (
+            <div className="p-4 bg-orange/10 border border-orange/20">
+              <p className="text-cream text-sm mb-2">External Link:</p>
+              <a
+                href={archive.URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-orange font-impact hover:underline break-all"
+              >
+                {archive.URL} →
+              </a>
+            </div>
+          )}
+
+          {/* Display uploaded file if available */}
+          {archive.fileData && archive.fileMimeType && (
+            <div className="p-4 bg-orange/10 border border-orange/20">
+              {archive.fileMimeType.startsWith('image/') && (
+                <div className="flex justify-center">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`data:${archive.fileMimeType};base64,${Buffer.from(archive.fileData).toString('base64')}`}
+                    alt={archive.title}
+                    className="max-w-full h-auto max-h-[70vh]"
+                  />
+                </div>
+              )}
+              {archive.fileMimeType.startsWith('audio/') && (
+                <audio controls className="w-full">
+                  <source
+                    src={`data:${archive.fileMimeType};base64,${Buffer.from(archive.fileData).toString('base64')}`}
+                    type={archive.fileMimeType}
+                  />
+                  Your browser does not support the audio element.
+                </audio>
+              )}
+              {archive.fileMimeType === 'application/pdf' && (
+                <div>
+                  <p className="text-cream text-sm mb-2 break-words overflow-hidden">PDF Document: {archive.fileName}</p>
+                  <a
+                    href={`data:application/pdf;base64,${Buffer.from(archive.fileData).toString('base64')}`}
+                    download={archive.fileName}
+                    className="inline-block px-4 py-2 bg-pink text-cream font-impact rounded hover:bg-pink/90"
+                  >
+                    Download PDF
+                  </a>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Display main content */}
+          <div className="prose prose-invert max-w-none">
+            <p className="text-cream whitespace-pre-line leading-relaxed break-words overflow-hidden">{archive.content}</p>
+          </div>
+
+          {/* Show description if it exists and differs from content */}
+          {archive.description && archive.description !== archive.content && (
+            <div className="pt-6 border-t border-orange/20">
+              <h3 className="text-lg font-impact text-cream mb-2">About</h3>
+              <p className="text-cream leading-relaxed break-words overflow-hidden">{archive.description}</p>
+            </div>
+          )}
+
+
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
