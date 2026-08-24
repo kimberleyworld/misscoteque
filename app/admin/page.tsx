@@ -7,6 +7,9 @@ import {
 import { AdminPasswordPage } from "@/app/components/admin-password-page"
 import type { Archive } from "@prisma/client"
 
+export const dynamic = "force-dynamic"
+export const revalidate = 0
+
 export default async function AdminPage() {
   const [pendingNotices, approvedNotices, pendingArchive, approvedArchive] =
     await Promise.all([

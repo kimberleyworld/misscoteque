@@ -17,6 +17,8 @@ import { MailingListSection } from "./components/layout/mailing-list-section";
 import { ContactSection } from "./components/layout/contact-section";
 import { ArchiveDescription } from "./components/layout/archive-description";
 
+export const revalidate = 0
+
 export default async function Home() {
   const content = await getHomePageContent()
   const upcomingEvents = await getUpcomingEvents()
