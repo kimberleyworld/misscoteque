@@ -61,7 +61,6 @@ export default async function Home() {
                         </div>
                       </div>
                     )} 
-               
                 <AboutSection title={content.abouttitle} copy={content.aboutcopy} />
                 <div className="md:hidden w-full md:px-0">
                   <ArchiveDescription description={content.archivedescription} />
