@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
         description,
         link: link || null,
         contactDetails,
-        isApproved: false,
+        approvalStatus: "PENDING",
         isActive: true,
       },
     })

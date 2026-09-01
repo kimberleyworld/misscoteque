@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma"
 export async function getPendingNotices() {
   const notices = await prisma.communityNotice.findMany({
     where: {
-      isApproved: false,
+      approvalStatus: "PENDING",
     },
     orderBy: {
       createdAt: "desc",
@@ -16,7 +16,7 @@ export async function getPendingNotices() {
 export async function getApprovedNotices() {
   const notices = await prisma.communityNotice.findMany({
     where: {
-      isApproved: true,
+      approvalStatus: "APPROVED",
     },
     orderBy: {
       createdAt: "desc",
@@ -29,7 +29,7 @@ export async function getApprovedNotices() {
 export async function getPendingArchive() {
   const archives = await prisma.archive.findMany({
     where: {
-      isApproved: false,
+      approvalStatus: "PENDING",
     },
     orderBy: {
       createdAt: "desc",
@@ -42,7 +42,7 @@ export async function getPendingArchive() {
 export async function getApprovedArchive() {
   const archives = await prisma.archive.findMany({
     where: {
-      isApproved: true,
+      approvalStatus: "APPROVED",
     },
     orderBy: {
       createdAt: "desc",

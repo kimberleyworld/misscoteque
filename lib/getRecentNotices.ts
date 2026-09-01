@@ -8,7 +8,7 @@ export async function getRecentNotices() {
       createdAt: {
         gte: fourWeeksAgo,
       },
-      isApproved: true,
+      approvalStatus: "APPROVED",
       isActive: true,
     },
     orderBy: {

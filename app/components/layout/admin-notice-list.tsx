@@ -16,7 +16,7 @@ interface Notice {
   description: string
   contactDetails: string | null
   link: string | null
-  isApproved: boolean
+  approvalStatus: string
   isActive: boolean
   createdAt: Date
   updatedAt: Date

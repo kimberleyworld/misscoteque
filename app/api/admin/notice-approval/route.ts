@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
       if (approved) {
         updatedItem = await prisma.communityNotice.update({
           where: { id: itemId },
-          data: { isApproved: true },
+          data: { approvalStatus: "APPROVED" },
         })
       } else {
         // Delete rejected notices
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
       if (approved) {
         updatedItem = await prisma.archive.update({
           where: { id: itemId },
-          data: { isApproved: true },
+          data: { approvalStatus: "APPROVED" },
         })
       } else {
         // Delete rejected archives

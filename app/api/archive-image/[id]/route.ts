@@ -15,11 +15,11 @@ export async function GET(
         fileData: true,
         fileMimeType: true,
         isPublished: true,
-        isApproved: true,
+        approvalStatus: true,
       },
     });
 
-    if (!archive?.fileData || !archive?.fileMimeType?.startsWith('image/') || !archive.isPublished || !archive.isApproved) {
+    if (!archive?.fileData || !archive?.fileMimeType?.startsWith('image/') || !archive.isPublished || archive.approvalStatus !== 'APPROVED') {
       return NextResponse.json({ error: 'Image not found' }, { status: 404 });
     }
 

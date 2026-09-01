@@ -183,7 +183,7 @@ export async function POST(request: NextRequest) {
       eventDate: eventDateRaw ? new Date(eventDateRaw) : null,
       contributorName: contributorName || null,
       isPublished: true,
-      isApproved: false,
+      approvalStatus: "PENDING",
     }
 
     const archiveCreate = (prisma.archive as unknown as {

@@ -16,7 +16,6 @@ interface Notice {
   description: string | null
   contactDetails: string | null
   link: string | null
-  isApproved: boolean
   isActive: boolean
   createdAt: Date | string
   updatedAt: Date | string
@@ -30,7 +29,6 @@ interface ArchiveEntry {
   URL: string | null
   fileName: string | null
   contributorName: string | null
-  isApproved: boolean
   isPublished: boolean
   createdAt: Date | string
   updatedAt: Date | string

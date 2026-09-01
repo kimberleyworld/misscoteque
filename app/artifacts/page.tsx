@@ -9,26 +9,13 @@ export const dynamic = 'force-dynamic';
 
 export default async function ArchivePage() {
   const archives = await prisma.archive.findMany({
-    where: { isPublished: true, isApproved: true },
+    where: { isPublished: true, approvalStatus: "APPROVED" },
     orderBy: { eventDate: 'desc' },
-    select: {
-      id: true,
-      title: true,
-      slug: true,
-      description: true,
-      content: true,
-      URL: true,
-      fileName: true,
-      fileMimeType: true,
-      fileSize: true,
-      eventDate: true,
-      contributorName: true,
-      isPublished: true,
-      isApproved: true,
-      createdAt: true,
-      updatedAt: true,
-    },
   });
+  
+  // Remove fileData to avoid serialization issues
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const archivesWithoutFileData = archives.map(({ fileData, ...rest }) => rest);
 
   return (
     <div className="relative min-h-screen overflow-hidden flex flex-col items-center md:justify-center justify-start">
@@ -48,7 +35,7 @@ export default async function ArchivePage() {
           The Archive
         </h1>
 
-        <ArchiveClient initialArchives={archives} />
+        <ArchiveClient initialArchives={archivesWithoutFileData} />
       </div>
     </div>
   );
