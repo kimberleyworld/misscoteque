@@ -16,10 +16,10 @@ export default function Hero({ pageheading }: HeroProps) {
       <div className="absolute top-1 right-2 md:top-6 md:right-6 z-50 text-black flex flex-col items-end text-right">
         <div>Scroll to see:</div>
         <ul className="list-disc list-inside flex flex-col text-sm md:text-base font-bold">
-          <li>Upcoming Events</li>
-          <li>Community Notice Board</li>   
-          <li>Gay Crossword</li>
-          <li>Poster Gallery</li>
+          <li><a href="#upcoming-events" className="hover:underline">Upcoming Events</a></li>
+          <li><a href="#community-notice-board" className="hover:underline">Community Notice Board</a></li>   
+          <li><a href="#crossword" className="hover:underline">Gay Crossword</a></li>
+          <li><a href="#poster-gallery" className="hover:underline">Poster Gallery</a></li>
           ...and more
         </ul>
         <Link href="/artifacts">

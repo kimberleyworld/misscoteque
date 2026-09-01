@@ -36,7 +36,11 @@ const formSchema = z.object({
   description: z
     .string()
     .min(1, "Description must be at least 1 character.")
-    .max(500, "Description must be at most 500 characters."),
+    .max(500, "Description must be at most 500 characters.")
+    .refine(
+      (val) => val.replace(/\s/g, "").length <= 200,
+      "max 200 characters (excluding whitespace)"
+    ),
   link: z
     .string()
     .url("Please enter a valid URL.")
@@ -157,6 +161,9 @@ export function CommunityNoticeForm({ onSuccess }: { onSuccess?: () => void }) {
                 <Field data-invalid={fieldState.invalid}>
                   <FieldLabel htmlFor="notice-form-description" className="text-cream">
                     Description <span className="text-red">*</span>
+                    <span className="text-cream/60 text-sm font-normal ml-2">
+                      ({field.value.replace(/\s/g, "").length}/200)
+                    </span>
                   </FieldLabel>
                   <InputGroup className="border-orange/30">
                     <InputGroupTextarea

@@ -6,6 +6,12 @@ datasource db {
   provider = "postgresql"
 }
 
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model Archive {
   id          String   @id @default(cuid())
   title       String
@@ -20,7 +26,7 @@ model Archive {
   eventDate   DateTime?
   contributorName String?
   isPublished Boolean  @default(true)
-  isApproved  Boolean  @default(false)
+  approvalStatus ApprovalStatus @default(PENDING)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -35,7 +41,7 @@ model CommunityNotice {
   link          String?
   isPinned      Boolean  @default(false)
   isActive      Boolean  @default(true)
-  isApproved    Boolean  @default(false)
+  approvalStatus ApprovalStatus @default(PENDING)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 

@@ -4,8 +4,8 @@ import { Resend } from "resend"
 
 // In-memory rate limiting store (IP address -> array of submission timestamps)
 const submissionStore = new Map<string, number[]>()
-const RATE_LIMIT_WINDOW = 60 * 60 * 1000 // 1 hour in milliseconds
-const MAX_SUBMISSIONS_PER_WINDOW = 5 // Allow 5 submissions per hour
+const RATE_LIMIT_WINDOW = 24 * 60 * 60 * 1000 // 24 hours in milliseconds
+const MAX_SUBMISSIONS_PER_WINDOW = 100 // Allow 100 submissions per 24 hours
 
 // Sanitize input to prevent XSS attacks (remove HTML tags and scripts)
 function sanitizeInput(input: string): string {

@@ -123,7 +123,7 @@ export function PosterGrid({ posters: initialPosters }: PosterGridProps) {
   }
 
   return (
-    <div className="w-full px-4 sm:px-0 flex justify-center">
+    <div id="poster-gallery" className="w-full px-4 sm:px-0 flex justify-center">
       {/* Grid Layout for Mobile & Tablet */}
       <div className="w-full md:hidden">
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pb-8">
@@ -146,7 +146,8 @@ export function PosterGrid({ posters: initialPosters }: PosterGridProps) {
       </div>
 
       {/* Draggable Layout for Desktop */}
-      <div className="hidden md:flex md:justify-center w-full">
+      <div className="hidden md:flex md:justify-center w-full flex-col">
+        <p className="text-center text-sm text-black/60 mb-4">Click and drag to arrange posters</p>
         <div
           ref={containerRef}
           className="relative w-full select-none h-[70vh]"

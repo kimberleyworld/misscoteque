@@ -345,7 +345,7 @@ export default function CrossWord() {
         <div className="flex-1 flex flex-col gap-0 px-4 w-full mt-4 md:mt-0 ">
           <div>
             <h1>CROSSWORD</h1>
-            <p className="my-4 text-sm">Click on the clues to cross them out. Click them again to uncross.</p>
+            <p className="my-4 text-sm">Click clues to cross and uncross.</p>
             {/* Check Button */}
           <button
             onClick={handleDone}

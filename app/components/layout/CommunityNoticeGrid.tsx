@@ -23,7 +23,7 @@ interface CommunityNoticeGridProps {
 
 export function CommunityNoticeGrid({ notices, description, submitNoticeTitle, submitNoticeDescription }: CommunityNoticeGridProps) {
   return (
-    <div className="w-full flex flex-col gap-6  px-4 sm:px-0">
+    <div className="w-full flex flex-col gap-6 px-4 sm:px-0">
       <p>{description}</p>
 
       {/* Grid */}
@@ -31,7 +31,7 @@ export function CommunityNoticeGrid({ notices, description, submitNoticeTitle, s
         {notices.map((notice) => (
           <Card
             key={notice.id}
-            className="flex-1 bg-cream border-2 border-black rounded-none flex flex-col relative"
+            className="flex-1 bg-cream border-2 border-black rounded-none flex flex-col relative min-h-80"
           >
             {/* Corner stars */}
             <Image
@@ -62,26 +62,25 @@ export function CommunityNoticeGrid({ notices, description, submitNoticeTitle, s
               height={24}
               className="w-6 h-6 absolute bottom-2 right-2 object-cover sm:hidden"
             />
-            <CardContent className="flex flex-col h-full px-10">
+            <CardContent className="flex flex-col h-full px-4">
               <div className="flex-1">
                 
                 <h3 className="text-black font-bold text-lg mb-2">
                   {notice.title}
                 </h3>
-                <p className="text-black text-sm mb-3 line-clamp-3">
+                <p className="text-black text-sm">
                   {notice.description}
                 </p>
               </div>
 
-              <div className="text-black/70 text-xs mt-auto">
-                <p className="font-semibold truncate">Contact:</p>
+              <div className="text-black/70 text-xs mt-2">
                 <p className="line-clamp-2">{notice.contactDetails}</p>
                 {notice.link && (
                   <a
                     href={notice.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-red underline hover:text-pink text-xs block"
+                    className="text-red underline hover:text-pink text-xs block mt-2"
                   >
                     View link →
                   </a>

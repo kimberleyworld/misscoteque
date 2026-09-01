@@ -29,6 +29,7 @@ export default function VerticalNav({ description }: { description: string }) {
         px-4
         gap-1
         capitalize
+        mb-4
       "
     >
       <SpinningRecord />

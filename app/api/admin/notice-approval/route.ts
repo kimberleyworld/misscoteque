@@ -23,15 +23,31 @@ export async function POST(request: NextRequest) {
     let updatedItem
 
     if (itemType === "notice") {
-      updatedItem = await prisma.communityNotice.update({
-        where: { id: itemId },
-        data: { isApproved: approved },
-      })
+      if (approved) {
+        updatedItem = await prisma.communityNotice.update({
+          where: { id: itemId },
+          data: { isApproved: true },
+        })
+      } else {
+        // Delete rejected notices
+        await prisma.communityNotice.delete({
+          where: { id: itemId },
+        })
+        updatedItem = null
+      }
     } else if (itemType === "archive") {
-      updatedItem = await prisma.archive.update({
-        where: { id: itemId },
-        data: { isApproved: approved },
-      })
+      if (approved) {
+        updatedItem = await prisma.archive.update({
+          where: { id: itemId },
+          data: { isApproved: true },
+        })
+      } else {
+        // Delete rejected archives
+        await prisma.archive.delete({
+          where: { id: itemId },
+        })
+        updatedItem = null
+      }
     } else {
       return NextResponse.json(
         { error: "Invalid item type" },

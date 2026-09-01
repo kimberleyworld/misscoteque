@@ -56,17 +56,17 @@ export default async function Home() {
                     ) : (
                       <div className="w-full flex flex-col md:flex-row justify-between items-stretch gap-4 border-2 border-red">
                         <div className="flex-1">
-                          <h1 className="text-2xl font-bold px-4">next event</h1>
+                          <h1 className="text-2xl font-bold">next event</h1>
                           <p className="text-sm px-4">No future events</p>
                         </div>
                       </div>
-                    )}
+                    )} 
                
                 <AboutSection title={content.abouttitle} copy={content.aboutcopy} />
-                <div className="md:hidden w-full px-4 md:px-0">
+                <div className="md:hidden w-full md:px-0">
                   <ArchiveDescription description={content.archivedescription} />
                 </div>
-              <CrosswordSection/>
+              <CrosswordSection />        
                <div id="community-notice-board">
                 <SectionDivider heading="COMMUNITY NOTICE BOARD"/>
                 <CommunityNoticeGrid 
