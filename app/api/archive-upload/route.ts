@@ -5,7 +5,7 @@ import { Resend } from "resend"
 // In-memory rate limiting store (IP address -> array of submission timestamps)
 const submissionStore = new Map<string, number[]>()
 const RATE_LIMIT_WINDOW = 24 * 60 * 60 * 1000 // 24 hours in milliseconds
-const MAX_UPLOADS_PER_WINDOW = 5 // Allow 5 uploads per 24 hours
+const MAX_UPLOADS_PER_WINDOW = 100 // Allow 100 uploads per 24 hours
 
 // Sanitize input to prevent XSS attacks (remove HTML tags and scripts)
 function sanitizeInput(input: string): string {
@@ -118,8 +118,8 @@ export async function POST(request: NextRequest) {
     let fileSize: number | null = null
 
     if (file) {
-      const maxImageSize = 2 * 1024 * 1024
-      const maxAudioSize = 5 * 1024 * 1024
+      const maxImageSize = 10 * 1024 * 1024
+      const maxAudioSize = 10 * 1024 * 1024
       const maxPdfSize = 10 * 1024 * 1024
 
       const mimeType = file.type.toLowerCase()

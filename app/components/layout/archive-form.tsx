@@ -57,9 +57,34 @@ const formSchema = z.object({
     .or(z.literal("")),
 })
 
+const FILE_SIZE_LIMITS = {
+  images: 10 * 1024 * 1024, // 10 MB
+  audio: 10 * 1024 * 1024,  // 10 MB
+  pdf: 10 * 1024 * 1024,    // 10 MB
+}
+
+function getFileSizeLimit(file: File): number | null {
+  const mimeType = file.type.toLowerCase()
+  
+  if (mimeType.startsWith("image/")) {
+    return FILE_SIZE_LIMITS.images
+  } else if (mimeType.startsWith("audio/")) {
+    return FILE_SIZE_LIMITS.audio
+  } else if (mimeType === "application/pdf") {
+    return FILE_SIZE_LIMITS.pdf
+  }
+  
+  return null
+}
+
+function formatFileSize(bytes: number): string {
+  return (bytes / (1024 * 1024)).toFixed(2)
+}
+
 export function ArchiveForm({ onSuccess }: { onSuccess?: () => void }) {
   const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null)
+  const [fileError, setFileError] = React.useState<string | null>(null)
   const fileInputRef = React.useRef<HTMLInputElement>(null)
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -101,10 +126,7 @@ export function ArchiveForm({ onSuccess }: { onSuccess?: () => void }) {
         
         if (contentType.includes('application/json')) {
           const errorData = await response.json()
-          const message =
-            errorData.details
-              ? `${errorData.error || 'Failed to submit'}: ${errorData.details}`
-              : errorData.error || 'Failed to submit'
+          const message = errorData.error || 'Failed to submit'
           throw new Error(message)
         } else {
           // If we get HTML, it's likely a server error page
@@ -275,7 +297,27 @@ export function ArchiveForm({ onSuccess }: { onSuccess?: () => void }) {
                 disabled={isSubmitting}
                 onChange={(event) => {
                   const nextFile = event.target.files?.[0] ?? null
-                  setSelectedFile(nextFile)
+                  setFileError(null)
+                  
+                  if (nextFile) {
+                    const maxSize = getFileSizeLimit(nextFile)
+                    
+                    if (maxSize === null) {
+                      setFileError("Unsupported file type. Allowed: JPEG, PNG, GIF for images; MP3, WAV for audio; PDF documents.")
+                      setSelectedFile(null)
+                      event.target.value = ''
+                    } else if (nextFile.size > maxSize) {
+                      const maxSizeMB = formatFileSize(maxSize)
+                      const actualSizeMB = formatFileSize(nextFile.size)
+                      setFileError(`File too large. This file is ${actualSizeMB}MB but the limit for ${nextFile.type.startsWith("image/") ? "images" : nextFile.type.startsWith("audio/") ? "audio" : "PDFs"} is ${maxSizeMB}MB.`)
+                      setSelectedFile(null)
+                      event.target.value = ''
+                    } else {
+                      setSelectedFile(nextFile)
+                    }
+                  } else {
+                    setSelectedFile(null)
+                  }
                 }}
               />
               <Button
@@ -286,8 +328,11 @@ export function ArchiveForm({ onSuccess }: { onSuccess?: () => void }) {
               >
                 {selectedFile ? `Selected: ${selectedFile.name}` : "Choose File"}
               </Button>
+              {fileError && (
+                <FieldError errors={[{ message: fileError }]} />
+              )}
               <FieldDescription>
-                Max size: 2MB for images, 5MB for audio, 10MB for PDFs. Supported formats: JPEG, PNG, GIF for images; MP3, WAV for audio; PDF documents.
+                Max size: 10MB for images and audio, 10MB for PDFs. Supported formats: JPEG, PNG, GIF for images; MP3, WAV for audio; PDF documents.
               </FieldDescription>
             </Field>
 

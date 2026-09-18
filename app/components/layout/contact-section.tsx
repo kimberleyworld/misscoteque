@@ -16,6 +16,7 @@ export function ContactSection({ email, instagram }: ContactSectionProps) {
     <div className="w-full mb-12 px-4">
       <div className="bg-cream flex flex-col gap-4" id="contact">
         <p>We are open to collaborate on events and are always open to new ideas. For inquiries, please reach out to us via email or Instagram. Press: email us!</p>
+        <p className="text-xs italic text-black">This site was made by me, Kimberley Dobney (@__kimbo.net__), if you see anything on the site that looks broken or not functioning correctly, please email Misscoteque. </p>
         <div className="space-y-3 flex flex-col sm:flex-row justify-between ">
           {email && (
             <div className="flex items-center gap-3">
