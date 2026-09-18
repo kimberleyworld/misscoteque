@@ -54,7 +54,7 @@ export default async function Home() {
                         />
                       </div>
                     ) : (
-                      <div className="w-full flex flex-col md:flex-row justify-between items-stretch gap-4 border-2 border-red">
+                      <div className="flex flex-col md:flex-row justify-between items-stretch gap-4 border-2 border-red">
                         <div className="flex-1">
                           <h1 className="text-2xl font-bold">next event</h1>
                           <p className="text-sm px-4">No future events</p>

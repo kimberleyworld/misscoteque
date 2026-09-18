@@ -188,7 +188,12 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
           <select
             value={filters.contentType}
             onChange={(e) => handleFilterChange("contentType", e.target.value)}
-            className="px-3 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outlineDark-none focus:border-black"
+            className="pl-3 pr-8 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outlineDark-none focus:border-black appearance-none bg-no-repeat"
+            style={{
+              backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
+              backgroundPosition: 'right 10px center',
+              backgroundSize: '20px'
+            }}
           >
             <option value="">All Content Types</option>
             <option value="image">Images</option>
@@ -201,7 +206,12 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
           <select
             value={filters.date}
             onChange={(e) => handleFilterChange("date", e.target.value)}
-            className="px-3 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outlineDark-none focus:border-black"
+            className="pl-3 pr-8 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outlineDark-none focus:border-black appearance-none bg-no-repeat"
+            style={{
+              backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
+              backgroundPosition: 'right 10px center',
+              backgroundSize: '20px'
+            }}
           >
             <option value="">All Dates</option>
             {uniqueDates.map((date) => (
@@ -240,7 +250,12 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
               <select
                 value={filters.contentType}
                 onChange={(e) => handleFilterChange("contentType", e.target.value)}
-                className="w-full px-3 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outlineDark-none focus:border-black"
+                className="w-full pl-3 pr-8 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outlineDark-none focus:border-black appearance-none bg-no-repeat"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
+                  backgroundPosition: 'right 10px center',
+                  backgroundSize: '20px'
+                }}
               >
                 <option value="">All Content Types</option>
                 <option value="image">Images</option>
@@ -252,7 +267,12 @@ export default function ArchiveClient({ initialArchives }: ArchiveClientProps) {
               <select
                 value={filters.date}
                 onChange={(e) => handleFilterChange("date", e.target.value)}
-                className="w-full px-3 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outlineDark-none focus:border-black"
+                className="w-full pl-3 pr-8 py-2 border-2 border-black bg-cream/80 text-black rounded-none hover:border-black/50 focus:outlineDark-none focus:border-black appearance-none bg-no-repeat"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
+                  backgroundPosition: 'right 10px center',
+                  backgroundSize: '20px'
+                }}
               >
                 <option value="">All Dates</option>
                 {uniqueDates.map((date) => (

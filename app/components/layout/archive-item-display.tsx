@@ -58,20 +58,26 @@ export function ArchiveItemDisplay({
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 relative">
-      <div className="mb-6 relative z-10">
+    <div className="max-w-4xl mx-auto p-6 pb-32 relative">
+      <div className="mb-6 relative z-10 flex justify-between items-center gap-2">
         <Link href="/artifacts">
           <Button variant="outlineDark" className="flex items-center gap-2">
             <ArrowLeft className="h-4 w-4" />
             Back to Archive
           </Button>
         </Link>
+        <button
+          onClick={copyUrlToClipboard}
+          className="md:hidden p-2 hover:bg-cream/10 transition-colors z-20 border border-cream flex flex-col items-center gap-1"
+        >
+          <span className="text-xs text-cream">{copied ? "Copied!" : "Copy"}</span>
+        </button>
       </div>
 
       <Card className="border-orange/20 bg-cream/5 rounded-none relative z-10">
         <button
           onClick={copyUrlToClipboard}
-          className="absolute top-4 right-4 p-2 hover:bg-cream/10 transition-colors z-20 border border-cream flex flex-col items-center gap-1"
+          className="hidden md:flex absolute top-4 right-4 p-2 hover:bg-cream/10 transition-colors z-20 border border-cream flex-col items-center gap-1"
         >
           <LinkIcon className="h-4 w-4 text-cream" />
           <span className="text-xs text-cream">{copied ? "Copied!" : "Copy"}</span>
@@ -85,7 +91,7 @@ export function ArchiveItemDisplay({
             )}
           </div>
         </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 pb-10">
           {/* Display URL/video if available */}
           {videoData && videoData.provider === 'youtube' && (
             <div className="w-full aspect-video">

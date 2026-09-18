@@ -18,7 +18,7 @@ export default async function ArchivePage() {
   const archivesWithoutFileData = archives.map(({ fileData, ...rest }) => rest);
 
   return (
-    <div className="relative min-h-screen overflow-hidden flex flex-col items-center md:justify-center justify-start">
+    <div className="relative min-h-screen overflow-hidden flex flex-col items-center md:justify-center justify-start pb-32">
       <ArchiveBackground />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-12 py-8 border-black md:h-[85vh] overflow-y-auto scrollbar-hide [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]">
